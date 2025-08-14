@@ -1,7 +1,9 @@
+// "use client";
 import { FC, ReactNode, Suspense } from "react";
 import { createClient } from "@/lib/supabase/server";
 import { Watch, WatchMedia } from "@/lib/types";
 import dynamic from "next/dynamic";
+// import { Swiper, SwiperSlide } from "swiper/react";
 import {
   Phone,
   MessageCircle,
@@ -13,6 +15,7 @@ import {
   Check,
 } from "lucide-react";
 import Header from "@/components/public/Header";
+import Slide from "@/components/public/Slide";
 import Image from "next/image";
 
 // Dynamically import InventorySection as a Client Component
@@ -210,16 +213,45 @@ const HeroSection = () => (
 );
 
 const NewArrival = () => (
-  <section>
-    <div className="relative min-h-screen pt-[80px] flex flex-col justify-center items-start text-left overflow-hidden">
-      <div
-        className="absolute inset-0 bg-cover bg-center"
+  <section className="relative">
+    <div className="mt-[150px] relative min-h-screen pt-[100px] flex flex-col justify-center items-start text-left overflow-hidden">
+      {/* <div
+        className="inset-0 w-full"
         style={{
           backgroundImage:
             "url('/bg-newarrival.png')",
         }}
+      /> */}
+      <Image
+        src="/bg-newarrival.png"
+        alt="logo"
+        className="w-full"
+        fill
+        priority
       />
     </div>
+    <div className="w-full mx-auto top-0 ">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full">
+        <div className="max-w-[90%] mx-auto ">
+          <h2 className="font-olds text-2xl md:text-3xl lg:text-3xl font-light text-white mb-4 tracking-wide">
+            Luxury Redefined
+          </h2>
+          <h1 className="font-olds text-2xl md:text-3xl lg:text-8xl font-light text-[#E0D0B9] mb-4 tracking-wide">
+            New Arrivals
+          </h1>
+              <h1 style={{marginTop: '-20px'}} className="font-olds text-2xl md:text-3xl lg:text-8xl font-light text-white mb-4 tracking-wide">
+            Timeless Elegance
+          </h1>
+          <button className="primary-btn mt-2">Browse more new arrivals</button>
+        </div>
+        <div className="flex justify-end mt-10">
+          <Slide />
+        </div>
+      </div>
+    </div>
+    {/* <div className="max-w-7xl mx-auto py-0">
+ 
+    </div> */}
   </section>
 );
 
@@ -536,6 +568,7 @@ export default async function HomePage() {
       <Header watches={watches} />
       <HeroSection />
       <NewArrival />
+      
       <Suspense
         fallback={
           <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center">
