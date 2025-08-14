@@ -87,6 +87,14 @@
     box-shadow: 0 4px 24px 0 rgba(212, 175, 55, 0.15);
   }
 
+  .primary-btn-md {
+    @apply px-8 py-4  text-black hover:bg-[#EACD69] transition-colors duration-200 shadow-lg;
+    background: linear-gradient(to right,#E0D0B9,#B79B76);
+    color: #222;
+    box-shadow: 0 4px 24px 0 rgba(212, 175, 55, 0.15);
+    font-weight: 500;
+  }
+
     .primary-btn:hover {
 
     background: linear-gradient(to right,#c4b5a0,#937c5f);

@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import Header from "@/components/public/Header";
 import Slide from "@/components/public/Slide";
+import WatchProductPage from "@/components/public/WatchProductPage"
 import Image from "next/image";
 
 // Dynamically import InventorySection as a Client Component
@@ -568,8 +569,8 @@ export default async function HomePage() {
       <Header watches={watches} />
       <HeroSection />
       <NewArrival />
-      
-      <Suspense
+      <WatchProductPage />
+      {/* <Suspense
         fallback={
           <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center">
             <div className="text-center space-y-6">
@@ -585,7 +586,7 @@ export default async function HomePage() {
         }
       >
         <InventorySection initialWatches={watches} />
-      </Suspense>
+      </Suspense> */}
       <AboutSection />
       <TestimonialsSection />
       <ContactSection />
