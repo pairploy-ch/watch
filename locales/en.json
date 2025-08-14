@@ -1,0 +1,56 @@
+{
+  "Header": {
+    "home": "Home",
+    "inventory": "Inventory",
+    "about": "About Us",
+    "contact": "Contact",
+    "admin": "Admin"
+  },
+  "HeroSection": {
+    "title": "Timeless Elegance",
+    "subtitle": "Discover our curated collection of the world's finest pre-owned luxury watches."
+  },
+  "InventorySection": {
+    "title": "Our Collection",
+    "loading": "Loading collection...",
+    "noResults": "No watches match your criteria. Try adjusting the filters."
+  },
+  "AboutSection": {
+    "title": "About Us",
+    "p1": "At Luxe Watch, we believe a watch is not just a timepiece, but a legacy, a work of art, and a story on your wrist. Our mission is to curate exceptional pre-owned luxury watches with fascinating stories from around the world for you to own.",
+    "p2": "With expertise and passion, we meticulously inspect every watch to ensure you receive 100% quality and authenticity."
+  },
+  "TestimonialsSection": {
+    "title": "What Our Clients Say",
+    "t1_text": "Very professional and trustworthy. The watch was exactly as described. Highly recommended for international buyers.",
+    "t1_name": "- Mr. David",
+    "t1_watch": "Patek Philippe Nautilus"
+  },
+  "ContactSection": {
+    "title": "Get In Touch",
+    "c1_title": "Phone",
+    "c1_desc": "For inquiries and detailed discussions.",
+    "c2_title": "LINE / WhatsApp",
+    "c2_desc": "Send messages and images for appointments.",
+    "c3_title": "Visit Us",
+    "c3_desc": "By appointment only to view our collection.",
+    "c3_location": "Gaysorn Village, Bangkok"
+  },
+  "WatchCard": {
+    "inquiry": "Inquire Now"
+  },
+  "WatchDetailPage": {
+    "details": "Watch Details",
+    "ref": "Reference Number",
+    "brand": "Brand",
+    "year": "Year",
+    "condition": "Condition",
+    "set": "Box & Papers",
+    "status": "Status",
+    "notes": "Notes",
+    "fullSet": "Full Set",
+    "watchOnly": "Watch Only",
+    "priceOnRequest": "Price upon request",
+    "notAvailable": "N/A"
+  }
+}

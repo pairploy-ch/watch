@@ -1,0 +1,400 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    --radius: 0.5rem;
+    --OldStyle: 'OldStyle', serif;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .gold-text {
+    color: #B99E7A;
+  }
+
+  .gold-bg {
+    background-color: #B99E7A;
+  }
+
+  .gold-bg:hover {
+    background-color: #EACD69;
+  }
+
+  .gold-btn {
+    @apply px-8 py-3 rounded-full font-bold text-black hover:bg-[#EACD69] transition-colors duration-200 shadow-lg;
+    background-color: #B99E7A;
+    color: #222;
+    box-shadow: 0 4px 24px 0 rgba(212, 175, 55, 0.15);
+  }
+
+  .primary-btn {
+    @apply px-10 py-5  text-black hover:bg-[#EACD69] transition-colors duration-200 shadow-lg;
+    background: linear-gradient(to right,#E0D0B9,#B79B76);
+    color: #222;
+    box-shadow: 0 4px 24px 0 rgba(212, 175, 55, 0.15);
+  }
+
+    .primary-btn:hover {
+
+    background: linear-gradient(to right,#c4b5a0,#937c5f);
+
+  }
+
+  .section-bg {
+    @apply bg-gradient-to-b from-black to-[#181818] border-b border-gray-800;
+  }
+
+  .card {
+    @apply rounded-xl shadow-md border border-gray-800 bg-[#181818] p-4 md:p-5;
+  }
+
+  .section-title {
+    @apply text-4xl md:text-5xl font-extrabold text-center mb-6 md:mb-12 gold-text tracking-tight;
+  }
+
+  .section-subtitle {
+    @apply text-lg md:text-2xl text-gray-300 text-center mb-8 max-w-2xl mx-auto;
+  }
+
+  .lux-spacing {
+    @apply py-16 md:py-28 px-4 md:px-0;
+  }
+}
+
+/* Base styles */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: linear-gradient(135deg, #1f2937 0%, #000000 50%, #1f2937 100%);
+  color: #e5e7eb;
+  line-height: 1.6;
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* Animations */
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes glow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(251, 191, 36, 0.1);
+  }
+
+  50% {
+    box-shadow: 0 0 40px rgba(251, 191, 36, 0.3);
+  }
+}
+
+@keyframes pulse-gold {
+
+  0%,
+  100% {
+    background-color: rgba(251, 191, 36, 0.1);
+  }
+
+  50% {
+    background-color: rgba(251, 191, 36, 0.2);
+  }
+}
+
+/* Utility classes */
+.text-gradient-gold {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gold-gradient {
+  background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 50%, #f59e0b 100%);
+}
+
+.dark-gradient {
+  background: linear-gradient(135deg, #1f2937 0%, #000000 50%, #1f2937 100%);
+}
+
+.card-luxury {
+  background: linear-gradient(135deg, #1f2937 0%, #000000 50%, #1f2937 100%);
+  border: 1px solid rgba(156, 163, 175, 0.2);
+  border-radius: 1rem;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.card-luxury:hover {
+  border-color: rgba(251, 191, 36, 0.5);
+  box-shadow: 0 20px 40px rgba(251, 191, 36, 0.1);
+  transform: translateY(-4px);
+}
+
+.btn-luxury {
+  background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 50%, #f59e0b 100%);
+  color: #000000;
+  font-weight: 700;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(251, 191, 36, 0.2);
+}
+
+.btn-luxury:hover {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #fbbf24 100%);
+  box-shadow: 0 8px 25px rgba(251, 191, 36, 0.3);
+  transform: translateY(-2px);
+}
+
+.btn-luxury:active {
+  transform: translateY(0);
+}
+
+/* Special effects */
+.shimmer-effect {
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(251, 191, 36, 0.1),
+      transparent);
+  background-size: 200px 100%;
+  animation: shimmer 2s infinite;
+}
+
+.floating-element {
+  animation: float 6s ease-in-out infinite;
+}
+
+.glow-effect {
+  animation: glow 3s ease-in-out infinite alternate;
+}
+
+.pulse-gold {
+  animation: pulse-gold 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Custom focus styles */
+.focus-luxury:focus {
+  outline: 2px solid #f59e0b;
+  outline-offset: 2px;
+}
+
+/* Loading states */
+.skeleton-luxury {
+  background: linear-gradient(90deg,
+      #1f2937 25%,
+      #374151 50%,
+      #1f2937 75%);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* Responsive typography */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  h2 {
+    font-size: 2rem;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Dark mode enhancements */
+@media (prefers-color-scheme: dark) {
+  body {
+    color: #f3f4f6;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .card-luxury {
+    border-color: #fbbf24;
+  }
+
+  .text-gradient-gold {
+    color: #fbbf24;
+    -webkit-text-fill-color: #fbbf24;
+  }
+}
+
+/* Motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Print styles */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  .card-luxury {
+    border: 1px solid #000 !important;
+    background: white !important;
+  }
+
+  .text-gradient-gold {
+    color: #000 !important;
+    -webkit-text-fill-color: #000 !important;
+  }
+}
+
+html,
+body {
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+  box-sizing: border-box;
+}
+
+.safe-area {
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+}
+
+
+@font-face {
+  font-family: 'OldStyle';
+  font-style: normal;
+  font-weight: normal;
+  src: url('/font/bitstream-iowan-old-style-bt-586c36a8d7712.woff') format('woff');
+}
+
+
+/* @font-face {
+  font-family: 'Bitstream Iowan Old Style Italic BT';
+  font-style: normal;
+  font-weight: normal;
+  src: url('/font/bitstream-iowan-old-style-italic-bt-586c3740dc396.woff') format('woff');
+} */
+
+/* 
+@font-face {
+  font-family: 'Bitstream Iowan Old Style Bold BT';
+  font-style: normal;
+  font-weight: normal;
+  src: url('/font/bitstream-iowan-old-style-bold-bt-586c371d8d669.woff') format('woff');
+}
+
+
+@font-face {
+  font-family: 'Bitstream Iowan Old Style Bold Italic BT';
+  font-style: normal;
+  font-weight: normal;
+  src: url('/font/bitstream-iowan-old-style-bold-italic-bt-586c37701cb62.woff') format('woff');
+}
+
+
+@font-face {
+  font-family: 'Bitstream Iowan Old Style Black BT';
+  font-style: normal;
+  font-weight: normal;
+  src: url('/font/bitstream-iowan-old-style-black-bt-586c36e930225.woff') format('woff');
+}
+
+
+@font-face {
+  font-family: 'Bitstream Iowan Old Style Black Italic BT';
+  font-style: normal;
+  font-weight: normal;
+  src: url('/font/bitstream-iowan-old-style-black-italic-bt-586c378f12ca1.woff') format('woff');
+} */
