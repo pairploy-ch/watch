@@ -81,24 +81,40 @@
   }
 
   .primary-btn {
-    @apply px-10 py-5  text-black hover:bg-[#EACD69] transition-colors duration-200 shadow-lg;
-    background: linear-gradient(to right,#E0D0B9,#B79B76);
+    @apply px-10 py-5 text-black hover:bg-[#EACD69] transition-colors duration-200 shadow-lg;
+    background: linear-gradient(to right, #E0D0B9, #B79B76);
     color: #222;
     box-shadow: 0 4px 24px 0 rgba(212, 175, 55, 0.15);
   }
 
   .primary-btn-md {
-    @apply px-8 py-4  text-black hover:bg-[#EACD69] transition-colors duration-200 shadow-lg;
-    background: linear-gradient(to right,#E0D0B9,#B79B76);
+    @apply px-8 py-4 text-black hover:bg-[#EACD69] transition-colors duration-200 shadow-lg;
+    background: linear-gradient(to right, #E0D0B9, #B79B76);
     color: #222;
     box-shadow: 0 4px 24px 0 rgba(212, 175, 55, 0.15);
     font-weight: 500;
   }
 
-    .primary-btn:hover {
+  .primary-btn:hover {
 
-    background: linear-gradient(to right,#c4b5a0,#937c5f);
+    background: linear-gradient(to right, #c4b5a0, #937c5f);
 
+  }
+
+  .badge-gradient {
+    background: linear-gradient(to right, #E0D0B9, #B79B76);
+    border-radius: 2px;
+  }
+
+  .bg-gradient {
+    background: linear-gradient(to bottom, #2E2E35, #111216);
+  }
+
+  .select-custom {
+    border: none;
+    background: none;
+    border-bottom: 1px solid #fff;
+    border-radius: 0px;
   }
 
   .section-bg {

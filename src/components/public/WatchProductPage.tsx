@@ -23,8 +23,8 @@ const mockWatches: Watch[] = [
     description: 'Datejust 36 Mini Green Fluted Jubilee, Not Include',
     refNo: '126234',
     year: '2024',
-    price: 'B420,000',
-    image: '/api/placeholder/200/200',
+    price: '420,000',
+    image: '/newArrival/watch.png',
     isPremium: true
   },
   {
@@ -34,19 +34,19 @@ const mockWatches: Watch[] = [
     description: 'Datejust 36 Mini Green Fluted Jubilee, Not Include',
     refNo: '126234',
     year: '2024',
-    price: 'B420,000',
-    image: '/api/placeholder/200/200',
+    price: '420,000',
+    image: '/newArrival/watch.png',
     isPremium: true
   },
-  {
+    {
     id: '3',
     brand: 'ROLEX',
     model: 'Datejust 36',
     description: 'Datejust 36 Mini Green Fluted Jubilee, Not Include',
     refNo: '126234',
     year: '2024',
-    price: 'B420,000',
-    image: '/api/placeholder/200/200',
+    price: '420,000',
+    image: '/newArrival/watch.png',
     isPremium: true
   },
   {
@@ -56,19 +56,19 @@ const mockWatches: Watch[] = [
     description: 'Datejust 36 Mini Green Fluted Jubilee, Not Include',
     refNo: '126234',
     year: '2024',
-    price: 'B420,000',
-    image: '/api/placeholder/200/200',
+    price: '420,000',
+    image: '/newArrival/watch.png',
     isPremium: true
   },
-  {
+    {
     id: '5',
     brand: 'ROLEX',
     model: 'Datejust 36',
     description: 'Datejust 36 Mini Green Fluted Jubilee, Not Include',
     refNo: '126234',
     year: '2024',
-    price: 'B420,000',
-    image: '/api/placeholder/200/200',
+    price: '420,000',
+    image: '/newArrival/watch.png',
     isPremium: true
   },
   {
@@ -78,113 +78,116 @@ const mockWatches: Watch[] = [
     description: 'Datejust 36 Mini Green Fluted Jubilee, Not Include',
     refNo: '126234',
     year: '2024',
-    price: 'B420,000',
-    image: '/api/placeholder/200/200',
+    price: '420,000',
+    image: '/newArrival/watch.png',
     isPremium: true
   },
-  {
+    {
     id: '7',
     brand: 'ROLEX',
-    model: 'Submariner',
+    model: 'Datejust 36',
     description: 'Datejust 36 Mini Green Fluted Jubilee, Not Include',
     refNo: '126234',
     year: '2024',
-    price: 'B420,000',
-    image: '/api/placeholder/200/200',
+    price: '420,000',
+    image: '/newArrival/watch.png',
     isPremium: true
   },
   {
     id: '8',
     brand: 'ROLEX',
-    model: 'GMT Master',
+    model: 'Datejust 36',
     description: 'Datejust 36 Mini Green Fluted Jubilee, Not Include',
     refNo: '126234',
     year: '2024',
-    price: 'B420,000',
-    image: '/api/placeholder/200/200',
+    price: '420,000',
+    image: '/newArrival/watch.png',
     isPremium: true
   },
-  {
+    {
     id: '9',
     brand: 'ROLEX',
-    model: 'Daytona',
+    model: 'Datejust 36',
     description: 'Datejust 36 Mini Green Fluted Jubilee, Not Include',
     refNo: '126234',
     year: '2024',
-    price: 'B420,000',
-    image: '/api/placeholder/200/200',
+    price: '420,000',
+    image: '/newArrival/watch.png',
     isPremium: true
   },
   {
     id: '10',
     brand: 'ROLEX',
-    model: 'Explorer',
+    model: 'Datejust 36',
     description: 'Datejust 36 Mini Green Fluted Jubilee, Not Include',
     refNo: '126234',
     year: '2024',
-    price: 'B420,000',
-    image: '/api/placeholder/200/200',
+    price: '420,000',
+    image: '/newArrival/watch.png',
     isPremium: true
   },
-  {
+    {
     id: '11',
     brand: 'ROLEX',
-    model: 'Sea-Dweller',
+    model: 'Datejust 36',
     description: 'Datejust 36 Mini Green Fluted Jubilee, Not Include',
     refNo: '126234',
     year: '2024',
-    price: 'B420,000',
-    image: '/api/placeholder/200/200',
+    price: '420,000',
+    image: '/newArrival/watch.png',
     isPremium: true
   },
   {
     id: '12',
     brand: 'ROLEX',
-    model: 'Yacht-Master',
+    model: 'Datejust 36',
     description: 'Datejust 36 Mini Green Fluted Jubilee, Not Include',
     refNo: '126234',
     year: '2024',
-    price: 'B420,000',
-    image: '/api/placeholder/200/200',
+    price: '420,000',
+    image: '/newArrival/watch.png',
     isPremium: true
-  }
+  },
+
 ];
 
 const WatchCard: React.FC<{ watch: Watch }> = ({ watch }) => {
   return (
-    <div className="bg-gray-800 rounded-lg p-4 hover:bg-gray-750 transition-colors">
-      <div className="relative aspect-square bg-gray-700 rounded-lg mb-4 flex items-center justify-center overflow-hidden">
+    <div className="bg-gradient p-4 hover:bg-gray-750 transition-colors">
+      <div className="relative aspect-square mb-4 flex items-center justify-center overflow-hidden">
         {watch.isPremium && (
           <div className="absolute top-2 left-2 z-10">
-            <span className="bg-amber-500 text-black text-xs font-medium px-2 py-1 rounded">
+            <span className="badge-gradient text-black text-xs font-medium px-3 py-1">
               Premium
             </span>
           </div>
         )}
-        <div className="w-32 h-32 bg-gray-600 rounded-full flex items-center justify-center">
-          <div className="w-20 h-20 bg-gray-500 rounded-full"></div>
+        <div className="flex items-center justify-center">
+          <div>
+             <img src={watch.image} alt={watch.refNo} className="w-full" />
+          </div>
         </div>
       </div>
       
       <div className="space-y-2">
-        <h3 className="text-white font-semibold text-lg">{watch.brand}</h3>
-        <p className="text-gray-300 text-sm leading-relaxed">
+        <h3 className="text-[#B79B76] font-semibold text-xl font-olds">{watch.brand}</h3>
+        <p className="text-[#6E6E6E] text-sm leading-relaxed">
           {watch.description}
         </p>
         
-        <div className="grid grid-cols-2 gap-4 text-xs text-gray-400 mt-3">
+        <div className="grid grid-cols-2 gap-4 text-xs text-gray-400" style={{marginTop: '20px'}}>
           <div>
-            <span className="text-gray-500">Ref No.</span>
-            <div className="text-white">{watch.refNo}</div>
+            <span className="text-[#BFBFBF]" style={{fontWeight: 500, fontSize: '16px'}}>Ref No.</span>
+            <div className="text-[#BFBFBF] mt-2" style={{fontWeight: 500, fontSize: '16px'}}>Year</div>
           </div>
-          <div>
-            <span className="text-gray-500">Year</span>
-            <div className="text-white">{watch.year}</div>
+          <div style={{textAlign: 'right'}}>
+            <span className="text-[#BFBFBF]" style={{fontWeight: 500, fontSize: '16px'}}>{watch.refNo}</span>
+            <div className="text-[#BFBFBF] mt-2" style={{fontWeight: 500, fontSize: '16px'}}>{watch.year}</div>
           </div>
         </div>
         
-        <div className="pt-2">
-          <span className="text-white text-xl font-bold">{watch.price}</span>
+        <div className="pt-3 pb-2">
+          <span className="text-white text-3xl font-bold">฿{watch.price}</span>
         </div>
       </div>
     </div>
@@ -214,7 +217,7 @@ const FilterSidebar: React.FC = () => {
         <h3 className="text-[#E0D0B9] font-medium mb-3 font-olds">Brand</h3>
         <div className="space-y-3">
           {/* <div className="relative">
-            <select className="w-full bg-gray-800 text-white p-3 rounded border border-gray-700 appearance-none">
+            <select className="select-custom w-full  text-white p-3 appearance-none">
               <option>Select Brand</option>
             </select>
             <ChevronDown className="absolute right-3 top-4 w-4 h-4 text-gray-400 pointer-events-none" />
@@ -260,7 +263,7 @@ const FilterSidebar: React.FC = () => {
         <div>
           <h3 className="text-[#E0D0B9] font-medium mb-3 font-olds">Model</h3>
           <div className="relative">
-            <select className="w-full bg-gray-800 text-white p-3 rounded border border-gray-700 appearance-none">
+            <select className="select-custom w-full  text-white p-3 appearance-none">
               <option>Select Model</option>
             </select>
             <ChevronDown className="absolute right-3 top-4 w-4 h-4 text-gray-400 pointer-events-none" />
@@ -270,7 +273,7 @@ const FilterSidebar: React.FC = () => {
         <div>
           <h3 className="text-[#E0D0B9] font-medium mb-3 font-olds">Case Size</h3>
           <div className="relative">
-            <select className="w-full bg-gray-800 text-white p-3 rounded border border-gray-700 appearance-none">
+            <select className="select-custom w-full  text-white p-3 appearance-none">
               <option>40 mm</option>
             </select>
             <ChevronDown className="absolute right-3 top-4 w-4 h-4 text-gray-400 pointer-events-none" />
@@ -280,7 +283,7 @@ const FilterSidebar: React.FC = () => {
         <div>
           <h3 className="text-[#E0D0B9] font-medium mb-3 font-olds">Year</h3>
           <div className="relative">
-            <select className="w-full bg-gray-800 text-white p-3 rounded border border-gray-700 appearance-none">
+            <select className="select-custom w-full  text-white p-3 appearance-none">
               <option>2021</option>
             </select>
             <ChevronDown className="absolute right-3 top-4 w-4 h-4 text-gray-400 pointer-events-none" />
@@ -304,7 +307,8 @@ const Pagination: React.FC = () => {
   return (
     <div className="flex items-center justify-center space-x-2 mt-12 mb-8">
       <button 
-        className="p-3 rounded-full bg-gray-800 hover:bg-gray-700 text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        style={{border: '1px solid #fff'}}
+        className="p-3 rounded-full text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         disabled={currentPage === 1}
         onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
       >
@@ -316,8 +320,8 @@ const Pagination: React.FC = () => {
           key={page}
           className={`w-12 h-12 rounded-full font-medium transition-colors ${
             currentPage === page 
-              ? 'bg-amber-500 text-black' 
-              : 'bg-gray-800 text-white hover:bg-gray-700'
+              ? 'text-white' 
+              : 'text-[#686868] hover:bg-gray-700'
           }`}
           onClick={() => setCurrentPage(page)}
         >
@@ -326,7 +330,8 @@ const Pagination: React.FC = () => {
       ))}
       
       <button 
-        className="p-3 rounded-full bg-gray-800 hover:bg-gray-700 text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        style={{border: '1px solid #fff'}}
+        className="p-3 rounded-full text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         disabled={currentPage === totalPages}
         onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
       >
@@ -352,7 +357,7 @@ const WatchProductPage: React.FC = () => {
           <FilterSidebar />
 
           {/* Right Content - Products */}
-          <div className="flex-1">
+          <div className="flex-1 mt-11">
             {/* Product Grid - 3 columns, 4 rows = 12 products */}
             <div className="grid grid-cols-3 gap-6 mb-8">
               {mockWatches.map((watch, index) => (
