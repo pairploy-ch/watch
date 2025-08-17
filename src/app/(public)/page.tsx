@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import Header from "@/components/public/Header";
 import Slide from "@/components/public/Slide";
-import WatchProductPage from "@/components/public/WatchProductPage"
+import WatchProductPage from "@/components/public/WatchProductPage";
 import Image from "next/image";
 
 // Dynamically import InventorySection as a Client Component
@@ -92,15 +92,18 @@ const FeatureCard: FC<{
   title: string;
   description: string;
 }> = ({ icon, title, description }) => (
-  <div className="group relative bg-gradient-to-br from-gray-900 via-black to-gray-900 p-6 md:p-8 rounded-2xl border border-gray-800 hover:border-amber-500/50 transition-all duration-500 hover:shadow-2xl hover:shadow-amber-500/10">
+  <div className="group relative from-gray-900 via-black to-gray-900 p-6 md:p-8 rounded-2xl transition-all duration-500 hover:shadow-2xl hover:shadow-amber-500/10">
     <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-    <div className="relative z-10 text-center">
-      <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-amber-500 to-amber-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-        {icon}
+    <div className="relative z-10">
+      <div className="flex" style={{ alignItems: "center" }}>
+        <div className="w-16 h-16 mb-4 bg-gradient-to-br from-amber-500 to-amber-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+          {icon}
+        </div>
+        <h3 className="text-xl md:text-2xl font-bold text-amber-200 mb-3">
+          {title}
+        </h3>
       </div>
-      <h3 className="text-xl md:text-2xl font-bold text-amber-200 mb-3">
-        {title}
-      </h3>
+
       <p className="text-gray-400 leading-relaxed">{description}</p>
     </div>
   </div>
@@ -240,7 +243,10 @@ const NewArrival = () => (
           <h1 className="font-olds text-2xl md:text-3xl lg:text-8xl font-light text-[#E0D0B9] mb-4 tracking-wide">
             New Arrivals
           </h1>
-              <h1 style={{marginTop: '-20px'}} className="font-olds text-2xl md:text-3xl lg:text-8xl font-light text-white mb-4 tracking-wide">
+          <h1
+            style={{ marginTop: "-20px" }}
+            className="font-olds text-2xl md:text-3xl lg:text-8xl font-light text-white mb-4 tracking-wide"
+          >
             Timeless Elegance
           </h1>
           <button className="primary-btn mt-2">Browse more new arrivals</button>
@@ -257,50 +263,109 @@ const NewArrival = () => (
 );
 
 const AboutSection = () => (
-  <Section id="about" title="About Chronos Watch">
-    <div className="max-w-4xl mx-auto">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-        <div className="space-y-6">
-          <div className="bg-gradient-to-br from-gray-900 via-black to-gray-900 p-8 rounded-2xl border border-gray-800">
-            <p className="text-gray-300 text-lg leading-relaxed mb-6">
+  <section id="about" className="relative">
+    <div className="mt-[150px] relative min-h-screen pt-[100px] flex flex-col justify-center items-start text-left overflow-hidden">
+      {/*      
+      <Image
+        src="/bg-about.png"
+        alt="logo"
+        className="w-full"
+        fill
+        priority
+      /> */}
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.5)), url('/bg-about.png')",
+        }}
+      />
+    </div>
+    <div className="w-full mx-auto top-0 ">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full">
+        <div className="max-w-[90%] mx-auto ">
+          <h1
+            style={{ fontWeight: 500 }}
+            className="text-2xl md:text-3xl  lg:text-8xl font-light text-[#E0D0B9] mb-4 tracking-wide"
+          >
+            ABOUT
+          </h1>
+          <h1
+            style={{ marginTop: "-20px" }}
+            className="font-olds text-2xl md:text-3xl lg:text-8xl font-light text-[#B79B76] mb-4 tracking-wide"
+          >
+            CHRONOS WATCH
+          </h1>
+          {/* <div style={{ width: "50%" }} className="mt-10">
+            <p>
               At Chronos Watch, we believe a watch is not just a timepiece, but
               a legacy, a work of art, and a story on your wrist. Our mission is
               to curate exceptional pre-owned luxury watches with fascinating
               stories from around the world.
             </p>
-            <p className="text-gray-300 text-lg leading-relaxed">
+            <p className="mt-5">
               With expertise and passion, we meticulously inspect every watch to
               ensure you receive 100% quality and authenticity. Each piece is
               carefully selected and authenticated by our master watchmakers.
             </p>
+          </div> */}
+          <div className="mt-10 bg-about-gradient pb-10 flex">
+           
+            <FeatureCard
+              icon={<Shield className="w-8 h-8 text-black" />}
+              title="Authentic"
+              description="Every watch is thoroughly authenticated by certified experts"
+            />
+            
           </div>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <FeatureCard
-            icon={<Shield className="w-8 h-8 text-black" />}
-            title="Authentic"
-            description="Every watch is thoroughly authenticated by certified experts"
-          />
-          <FeatureCard
-            icon={<Award className="w-8 h-8 text-black" />}
-            title="Quality"
-            description="Rigorous inspection ensures premium condition and performance"
-          />
-          <FeatureCard
-            icon={<Star className="w-8 h-8 text-black" />}
-            title="Exclusive"
-            description="Rare and limited pieces from prestigious manufacturers"
-          />
-          <FeatureCard
-            icon={<Clock className="w-8 h-8 text-black" />}
-            title="Legacy"
-            description="Timeless pieces that retain and increase their value"
-          />
         </div>
       </div>
     </div>
-  </Section>
+  </section>
+  // <Section id="about" title="About Chronos Watch">
+  //   <div className="max-w-4xl mx-auto">
+  //     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+  //       <div className="space-y-6">
+  //         <div className="bg-gradient-to-br from-gray-900 via-black to-gray-900 p-8 rounded-2xl border border-gray-800">
+  //           <p className="text-gray-300 text-lg leading-relaxed mb-6">
+  //             At Chronos Watch, we believe a watch is not just a timepiece, but
+  //             a legacy, a work of art, and a story on your wrist. Our mission is
+  //             to curate exceptional pre-owned luxury watches with fascinating
+  //             stories from around the world.
+  //           </p>
+  //           <p className="text-gray-300 text-lg leading-relaxed">
+  //             With expertise and passion, we meticulously inspect every watch to
+  //             ensure you receive 100% quality and authenticity. Each piece is
+  //             carefully selected and authenticated by our master watchmakers.
+  //           </p>
+  //         </div>
+  //       </div>
+
+  //       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+  //         <FeatureCard
+  //           icon={<Shield className="w-8 h-8 text-black" />}
+  //           title="Authentic"
+  //           description="Every watch is thoroughly authenticated by certified experts"
+  //         />
+  //         <FeatureCard
+  //           icon={<Award className="w-8 h-8 text-black" />}
+  //           title="Quality"
+  //           description="Rigorous inspection ensures premium condition and performance"
+  //         />
+  //         <FeatureCard
+  //           icon={<Star className="w-8 h-8 text-black" />}
+  //           title="Exclusive"
+  //           description="Rare and limited pieces from prestigious manufacturers"
+  //         />
+  //         <FeatureCard
+  //           icon={<Clock className="w-8 h-8 text-black" />}
+  //           title="Legacy"
+  //           description="Timeless pieces that retain and increase their value"
+  //         />
+  //       </div>
+  //     </div>
+  //   </div>
+  // </Section>
 );
 
 const TestimonialsSection = () => (
