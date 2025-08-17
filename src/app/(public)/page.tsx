@@ -1,5 +1,5 @@
 // "use client";
-import { FC, ReactNode, Suspense } from "react";
+import { FC, ReactNode } from "react";
 import { createClient } from "@/lib/supabase/server";
 import { Watch, WatchMedia } from "@/lib/types";
 import dynamic from "next/dynamic";
@@ -21,27 +21,27 @@ import FAQSection from "@/components/public/FAQSection";
 import Image from "next/image";
 
 // Dynamically import InventorySection as a Client Component
-const InventorySection = dynamic(
-  () => import("@/components/public/InventorySection"),
-  {
-    loading: () => (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center">
-        <div className="text-center space-y-6">
-          <div className="relative">
-            <div className="w-16 h-16 mx-auto border-4 border-amber-200 border-t-transparent rounded-full animate-spin"></div>
-            <div className="absolute inset-0 w-16 h-16 mx-auto border-4 border-amber-500/30 rounded-full animate-pulse"></div>
-          </div>
-          <p className="text-amber-200 font-semibold text-xl tracking-wide">
-            Loading Exclusive Collection...
-          </p>
-          <p className="text-gray-400 text-sm">
-            Preparing timeless masterpieces
-          </p>
-        </div>
-      </div>
-    ),
-  }
-);
+// const InventorySection = dynamic(
+//   () => import("@/components/public/InventorySection"),
+//   {
+//     loading: () => (
+//       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center">
+//         <div className="text-center space-y-6">
+//           <div className="relative">
+//             <div className="w-16 h-16 mx-auto border-4 border-amber-200 border-t-transparent rounded-full animate-spin"></div>
+//             <div className="absolute inset-0 w-16 h-16 mx-auto border-4 border-amber-500/30 rounded-full animate-pulse"></div>
+//           </div>
+//           <p className="text-amber-200 font-semibold text-xl tracking-wide">
+//             Loading Exclusive Collection...
+//           </p>
+//           <p className="text-gray-400 text-sm">
+//             Preparing timeless masterpieces
+//           </p>
+//         </div>
+//       </div>
+//     ),
+//   }
+// );
 
 // Helper components
 const Section: FC<{

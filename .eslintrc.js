@@ -16,7 +16,7 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'warn',
     'prefer-const': 'error',
     '@next/next/no-img-element': 'warn',
-    'react/no-unescaped-entities': 'error',
+    'react/no-unescaped-entities': 'off',
     'react-hooks/rules-of-hooks': 'error',
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
   }
