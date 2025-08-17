@@ -17,6 +17,7 @@ import {
 import Header from "@/components/public/Header";
 import Slide from "@/components/public/Slide";
 import WatchProductPage from "@/components/public/WatchProductPage";
+import FAQSection from "@/components/public/FAQSection";
 import Image from "next/image";
 
 // Dynamically import InventorySection as a Client Component
@@ -63,25 +64,47 @@ const Section: FC<{
   </div>
 );
 
-const TestimonialCard: FC<{ name: string; text: string; watch: string }> = ({
+const TestimonialCard: FC<{ name: string; text: string; watch: string; image: string; }> = ({
   name,
   text,
   watch,
+  image
 }) => (
-  <div className="group relative bg-gradient-to-br from-gray-900 via-black to-gray-900 p-6 md:p-8 rounded-2xl border border-gray-800 h-full hover:border-amber-500/50 transition-all duration-500 hover:shadow-2xl hover:shadow-amber-500/10">
-    <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-    <div className="relative z-10">
-      <div className="flex items-center mb-4">
-        {[...Array(5)].map((_, i) => (
-          <Star key={i} className="w-4 h-4 text-amber-400 fill-current" />
-        ))}
+ <div className="overflow-hidden flex flex-col p-10 pb-0" style={{backgroundImage: "linear-gradient(to right, #2C2C33, #141519)",}}>
+    {/* Stars */}
+    <div className="flex items-center gap-1pt-6">
+      {[...Array(5)].map((_, i) => (
+        <Star key={i} className="w-4 h-4 text-[#B79B76] fill-current" />
+      ))}
+    </div>
+
+    {/* Review Text */}
+    <div className="py-4">
+   <p className="text-gray-200 italic text-base leading-relaxed line-clamp-3">
+  {text}
+</p>
+
+    </div>
+
+    {/* Image */}
+    <div className="w-full h-60 relative">
+      <Image
+        src={image}
+        alt={name}
+        fill
+        className="object-cover"
+      />
+    </div>
+
+    {/* Reviewer Info */}
+    <div className="flex items-center gap-3 py-4 mt-3" style={{marginBottom: '20px'}}>
+      {/* Avatar Placeholder */}
+      <div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center text-white text-sm">
+        {name.charAt(0)}
       </div>
-      <p className="text-gray-300 italic text-base md:text-lg leading-relaxed mb-6">
-        &quot;{text}&quot;
-      </p>
-      <div className="border-t border-gray-800 pt-4">
-        <p className="text-right font-bold text-amber-200 text-lg">{name}</p>
-        <p className="text-right text-sm text-gray-500">{watch}</p>
+      <div>
+        <p className="font-semibold text-white">{name}</p>
+        <p className="text-sm text-gray-400">{watch}</p>
       </div>
     </div>
   </div>
@@ -134,19 +157,19 @@ const HeroSection = () => (
       <div className="">
         {/* Main heading */}
         <div className="mb-8">
-          <h2 className="font-olds text-2xl md:text-3xl lg:text-6xl font-light text-white mb-4 tracking-wide">
+          <h2 className="font-olds text-2xl md:text-3xl lg:text-6xl font-light text-white mb-4 tracking-wide" style={{marginTop: '-300px'}}>
             Timeless
           </h2>
           <h1
-            style={{ marginTop: "-120px" }}
-            className="text-right text-6xl md:text-8xl lg:text-[20rem] font-olds font-light text-white mb-8 leading-none tracking-tight"
+            style={{ marginTop: "-180px" }}
+            className="text-right text-6xl md:text-8xl lg:text-[29rem] font-olds font-light text-white mb-8 leading-none tracking-tight"
           >
             elegance
           </h1>
         </div>
 
         {/* Description */}
-        <p className="mt-20 text-center font-olds text-lg md:text-xl text-white/90 font-light leading-relaxed mb-12">
+        <p className="mt-20 text-center font-olds text-xl md:text-xl lg:text-3xl text-white/90 font-light leading-relaxed mb-12" style={{marginTop: '150px'}}>
           Discover our curated collection of the world's finest
           <br />
           pre-owned luxury watches
@@ -158,12 +181,12 @@ const HeroSection = () => (
             (feature, i) => (
               <div key={i} className="flex items-center space-x-2">
                 <div
-                  className="w-3 h-3 bg-[#E0D0B9] rounded-full flex justify-center"
+                  className="w-5 h-5 bg-[#E0D0B9] rounded-full flex justify-center"
                   style={{ alignItems: "center" }}
                 >
-                  <Check className="w-2 h-2 text-black" />
+                  <Check className="w-3 h-3 text-black" />
                 </div>
-                <span className="text-sm font-medium tracking-wide">
+                <span className="text-xl font-medium tracking-wide">
                   {feature}
                 </span>
               </div>
@@ -187,7 +210,7 @@ const HeroSection = () => (
                 priority
               />
             </span>
-            <span className="ml-4 font-olds text-2xl">Buy Sell Trade</span>
+            <span className="ml-4 font-olds text-3xl">Buy Sell Trade</span>
           </div>
           <div className="flex " style={{ alignItems: "center" }}>
             <span>
@@ -199,7 +222,7 @@ const HeroSection = () => (
                 priority
               />
             </span>
-            <span className="ml-4 font-olds text-2xl">
+            <span className="ml-4 font-olds text-3xl">
               Polishing & Servicing
             </span>
           </div>
@@ -213,7 +236,7 @@ const HeroSection = () => (
                 priority
               />
             </span>
-            <span className="ml-4 font-olds text-2xl">Protection Film</span>
+            <span className="ml-4 font-olds text-3xl">Protection Film</span>
           </div>
         </div>
       </div>
@@ -290,7 +313,10 @@ const AboutSection = () => (
       />
     </div>
     <div className="w-full mx-auto top-0 ">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full" style={{paddingTop: '50px'}}>
+      <div
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-full"
+        style={{ paddingTop: "50px" }}
+      >
         <div className="max-w-[90%] mx-auto ">
           <h1
             style={{ fontWeight: 500 }}
@@ -317,7 +343,13 @@ const AboutSection = () => (
               carefully selected and authenticated by our master watchmakers.
             </p>
           </div>
-          <div className="mt-10 pb-8 pt-5 flex" style={{backgroundImage: "linear-gradient(to right, #2C2C33, #141519)", marginTop: '80px'}}>
+          <div
+            className="mt-10 pb-8 pt-5 flex"
+            style={{
+              backgroundImage: "linear-gradient(to right, #2C2C33, #141519)",
+              marginTop: "80px",
+            }}
+          >
             <FeatureCard
               icon={<Shield className="w-8 h-8 text-black" />}
               title="Authentic"
@@ -390,29 +422,33 @@ const AboutSection = () => (
 );
 
 const TestimonialsSection = () => (
-  <Section
-    id="testimonials"
-    title="What Our Collectors Say"
-    className="bg-gradient-to-br from-gray-900 via-black to-gray-900"
-  >
+  <section id="testimonials" className="font-olds pt-4 max-w-[90%] mx-auto pb-4">
+    <div className="text-left mb-12 ">
+      <h1 className="text-5xl font-light text-[#B79B76] mb-4 font-olds">
+        What Our Collectors Say
+      </h1>
+    </div>
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       <TestimonialCard
-        name="- คุณสมชาย"
-        text="บริการยอดเยี่ยมครับ ให้คำแนะนำดีมาก ได้นาฬิกาที่สภาพสวยเหมือนใหม่เลย ประทับใจมากครับ คุณภาพเกินคาด"
+        name="Somchai"
+        text="Excellent service. They gave me great advice and I got a watch in like-new condition. I'm truly impressed — the quality exceeded my expectations."
         watch="Rolex Submariner"
+        image="/review-mock-1.png"
       />
       <TestimonialCard
-        name="- Mr. David"
+        name="Mr. David"
         text="Absolutely exceptional service and authenticity. The watch exceeded my expectations. Professional, trustworthy, and highly knowledgeable team."
         watch="Patek Philippe Nautilus"
+         image="/review-mock-2.png"
       />
       <TestimonialCard
-        name="- คุณวิภา"
-        text="หาเรือนนี้มานานมากค่ะ ขอบคุณที่ช่วยจัดหาให้ สภาพสวยถูกใจมาก ไม่ผิดหวังเลยค่ะ บริการหลังการขายดีมากด้วย"
+        name="Wipa"
+        text="I’ve been looking for this watch for a long time. Thank you for sourcing it for me — the condition is beautiful and I couldn’t be happier. Truly not disappointed, and the after-sales service is excellent as well."
         watch="Audemars Piguet Royal Oak"
+        image="/review-mock-3.png"
       />
     </div>
-  </Section>
+  </section>
 );
 
 const ContactSection = () => (
@@ -471,6 +507,73 @@ const ContactSection = () => (
     </div>
   </Section>
 );
+
+const Service = () => {
+  const services = [
+    {
+      title: "Buy Sell Trade",
+      img: "/our-service1.png",
+    },
+    {
+      title: "Polishing & Servicing",
+      img: "/our-service2.png",
+    },
+    {
+      title: "Protection Film",
+      img: "/our-service3.png",
+    },
+  ];
+
+  return (
+    <div className="max-w-full mx-auto py-12 mt-10 mb-6">
+      {/* Header */}
+      <div className="text-center mb-12">
+        <h1 className="text-5xl font-light text-[#B79B76] mb-4 font-olds">
+          Our Service
+        </h1>
+      </div>
+
+      {/* Image Row */}
+      <div className="grid grid-cols-1 md:grid-cols-3">
+        {services.map((service, i) => (
+          <div key={i} className="relative group overflow-hidden shadow-lg">
+            {/* Background Image */}
+            <Image
+              style={{ aspectRatio: "1/1" }}
+              src={service.img}
+              alt={service.title}
+              width={500}
+              height={500}
+              className="w-full object-cover transition-transform duration-500 group-hover:scale-110"
+            />
+
+            {/* Overlay */}
+            <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition duration-500" />
+
+            {/* Text */}
+            <div
+              className="absolute inset-0 flex flex-col text-white text-xl font-light"
+              style={{ padding: "60px 40px" }}
+            >
+              <span className="text-2xl font-olds">{service.title}</span>
+              <span className="mt-2 flex items-center gap-2 opacity-80 group-hover:opacity-100 transition">
+                <span className="text-sm">
+                  <Image
+                    src="/arrow-right.png"
+                    alt="logo"
+                    width={80}
+                    height={20}
+                    priority
+                  />
+                </span>
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
 
 export default async function HomePage() {
   const supabase = await createClient();
@@ -674,8 +777,10 @@ export default async function HomePage() {
         <InventorySection initialWatches={watches} />
       </Suspense> */}
       <AboutSection />
+      <Service />
       <TestimonialsSection />
-      <ContactSection />
+      <FAQSection />
+      {/* <ContactSection /> */}
     </div>
   );
 }

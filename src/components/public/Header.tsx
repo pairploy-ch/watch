@@ -109,7 +109,7 @@ export default function Header({ watches }: HeaderProps) {
       transition={{ duration: 0.35, ease: "easeInOut" }}
       className="absolute top-0 left-0 w-full z-50"
     >
-      <nav className="container mx-auto px-6 py-6 flex justify-between items-center min-h-[80px]">
+      <nav className="container mx-auto px-6 py-6 flex justify-between items-center min-h-[80px] max-w-[90%]">
         {/* Logo */}
         <Link href="/" className="flex items-center">
           <Image
