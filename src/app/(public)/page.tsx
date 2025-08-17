@@ -2,7 +2,7 @@
 import { FC, ReactNode } from "react";
 import { createClient } from "@/lib/supabase/server";
 import { Watch, WatchMedia } from "@/lib/types";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 // import { Swiper, SwiperSlide } from "swiper/react";
 import {
   Phone,
@@ -170,7 +170,7 @@ const HeroSection = () => (
 
         {/* Description */}
         <p className="mt-20 text-center font-olds text-xl md:text-xl lg:text-3xl text-white/90 font-light leading-relaxed mb-12" style={{marginTop: '150px'}}>
-          Discover our curated collection of the world's finest
+          Discover our curated collection of the worlds finest
           <br />
           pre-owned luxury watches
         </p>
