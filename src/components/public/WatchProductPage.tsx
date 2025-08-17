@@ -377,7 +377,7 @@ const Pagination: React.FC = () => {
 const WatchProductPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-black text-white mt-12">
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="max-w-[90%] mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-5xl font-light text-[#B79B76] mb-4 font-olds">

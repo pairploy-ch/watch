@@ -92,19 +92,24 @@ const FeatureCard: FC<{
   title: string;
   description: string;
 }> = ({ icon, title, description }) => (
-  <div className="group relative from-gray-900 via-black to-gray-900 p-6 md:p-8 rounded-2xl transition-all duration-500 hover:shadow-2xl hover:shadow-amber-500/10">
+  <div className="group relative from-gray-900 via-black to-gray-900 p-6 md:p-8 rounded-2xl transition-all duration-500 ">
     <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
     <div className="relative z-10">
       <div className="flex" style={{ alignItems: "center" }}>
-        <div className="w-16 h-16 mb-4 bg-gradient-to-br from-amber-500 to-amber-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+        <div
+          style={{ color: "#fff !important" }}
+          className="w-16 h-16 mb-4 bg-[#3C3C3C]  rounded-[5px] flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
+        >
           {icon}
         </div>
-        <h3 className="text-xl md:text-2xl font-bold text-amber-200 mb-3">
+        <h3 className="text-xl md:text-4xl font-bold text-white mb-3 font-olds ml-5">
           {title}
         </h3>
       </div>
 
-      <p className="text-gray-400 leading-relaxed">{description}</p>
+      <p className="text-white leading-relaxed text-xl w-[100%] mt-4">
+        {description}
+      </p>
     </div>
   </div>
 );
@@ -123,7 +128,7 @@ const HeroSection = () => (
 
     {/* Content */}
     <div
-      className="relative z-10 max-w-7xl mx-auto"
+      className="relative z-10 max-w-[90%] mx-auto"
       style={{ marginTop: "-230px" }}
     >
       <div className="">
@@ -235,7 +240,10 @@ const NewArrival = () => (
       />
     </div>
     <div className="w-full mx-auto top-0 ">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full">
+      <div
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-full"
+        style={{ paddingTop: "100px" }}
+      >
         <div className="max-w-[90%] mx-auto ">
           <h2 className="font-olds text-2xl md:text-3xl lg:text-3xl font-light text-white mb-4 tracking-wide">
             Luxury Redefined
@@ -282,7 +290,7 @@ const AboutSection = () => (
       />
     </div>
     <div className="w-full mx-auto top-0 ">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full" style={{paddingTop: '50px'}}>
         <div className="max-w-[90%] mx-auto ">
           <h1
             style={{ fontWeight: 500 }}
@@ -296,27 +304,40 @@ const AboutSection = () => (
           >
             CHRONOS WATCH
           </h1>
-          {/* <div style={{ width: "50%" }} className="mt-10">
-            <p>
+          <div style={{ width: "50%" }} className="mt-10">
+            <p className="text-xl">
               At Chronos Watch, we believe a watch is not just a timepiece, but
               a legacy, a work of art, and a story on your wrist. Our mission is
               to curate exceptional pre-owned luxury watches with fascinating
               stories from around the world.
             </p>
-            <p className="mt-5">
+            <p className="mt-8 text-xl">
               With expertise and passion, we meticulously inspect every watch to
               ensure you receive 100% quality and authenticity. Each piece is
               carefully selected and authenticated by our master watchmakers.
             </p>
-          </div> */}
-          <div className="mt-10 bg-about-gradient pb-10 flex">
-           
+          </div>
+          <div className="mt-10 pb-8 pt-5 flex" style={{backgroundImage: "linear-gradient(to right, #2C2C33, #141519)", marginTop: '80px'}}>
             <FeatureCard
               icon={<Shield className="w-8 h-8 text-black" />}
               title="Authentic"
               description="Every watch is thoroughly authenticated by certified experts"
             />
-            
+            <FeatureCard
+              icon={<Award className="w-8 h-8 text-black" />}
+              title="Quality"
+              description="Rigorous inspection ensures premium condition and performance"
+            />
+            <FeatureCard
+              icon={<Star className="w-8 h-8 text-black" />}
+              title="Exclusive"
+              description="Rare and limited pieces from prestigious manufacturers"
+            />
+            <FeatureCard
+              icon={<Clock className="w-8 h-8 text-black" />}
+              title="Legacy"
+              description="Timeless pieces that retain and increase their value"
+            />
           </div>
         </div>
       </div>
@@ -396,7 +417,7 @@ const TestimonialsSection = () => (
 
 const ContactSection = () => (
   <Section id="contact" title="Connect With Us">
-    <div className="max-w-5xl mx-auto">
+    <div className="max-w-[90%] mx-auto">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div className="group relative bg-gradient-to-br from-gray-900 via-black to-gray-900 p-8 rounded-2xl border border-gray-800 hover:border-amber-500/50 transition-all duration-500 hover:shadow-2xl hover:shadow-amber-500/10">
           <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>

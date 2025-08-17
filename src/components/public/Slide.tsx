@@ -50,7 +50,7 @@ export default function WatchSlider() {
       >
         Premium
       </div>
-      <div className="max-w-2xl">
+      <div className="max-w-5xl">
         <Swiper
           modules={[Navigation]}
           spaceBetween={20}
