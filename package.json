@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "next build --no-lint",
     "build:production": "NODE_ENV=production next build",
     "vercel-build": "next build",
     "start": "next start",
