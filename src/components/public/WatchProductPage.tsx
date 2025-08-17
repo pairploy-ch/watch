@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
+import Image from "next/image";
 
 interface Watch {
   id: string;
@@ -163,7 +164,13 @@ const WatchCard: React.FC<{ watch: Watch }> = ({ watch }) => {
         )}
         <div className="flex items-center justify-center">
           <div>
-            <img src={watch.image} alt={watch.refNo} className="w-full" />
+            <img src={watch.image} alt={watch.refNo}  />
+            <Image
+              src={watch.image}
+              alt={watch.refNo} 
+              fill
+              className="w-full h-auto"
+            />
           </div>
         </div>
       </div>
@@ -220,7 +227,7 @@ const WatchCard: React.FC<{ watch: Watch }> = ({ watch }) => {
 
 const FilterSidebar: React.FC = () => {
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
-  const [priceRange, setPriceRange] = useState([50000, 2000000]);
+  // const [priceRange, setPriceRange] = useState([50000, 2000000]);
 
   const brands = [
     "Rolex",
