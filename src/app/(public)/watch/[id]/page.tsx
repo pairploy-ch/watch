@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Header from "@/components/public/Header";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface Watch {
   id: string;
@@ -205,12 +206,12 @@ const MockWatchDetailPage = () => {
         style={{ marginTop: "140px" }}
       >
         <div className="max-w-[90%] mx-auto">
-          <a
+          <Link
             href="/#product"
             className="text-white hover:text-white flex items-center gap-2 transition-colors text-sm"
           >
             ← BACK TO COLLECTION
-          </a>
+          </Link>
         </div>
       </div>
 

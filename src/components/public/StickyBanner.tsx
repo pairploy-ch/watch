@@ -1,6 +1,7 @@
 "use client";
-import React, { useState } from 'react';
-import { X } from 'lucide-react';
+import React, { useState } from "react";
+import { X } from "lucide-react";
+import Image from "next/image";
 
 const StickyBottomBar = () => {
   const [isVisible, setIsVisible] = useState(true);
@@ -10,24 +11,33 @@ const StickyBottomBar = () => {
   }
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-r from-gray-900 to-black text-white shadow-2xl z-50 animate-slide-up">
-      <div className="relative px-4 py-4 flex items-center justify-between max-w-7xl mx-auto">
+    <div className="h-[200px] fixed bottom-0 left-0 right-0 bg-gradient-to-r from-gray-900 to-black text-white shadow-2xl z-50 animate-slide-up">
+      <div className="relative  flex items-center justify-between  mx-auto">
         {/* Left Content */}
         <div className="flex items-center space-x-6">
           <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 bg-gradient-to-br from-amber-400 to-amber-600 rounded-full flex items-center justify-center">
-              <span className="text-black font-bold text-lg">⌚</span>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold text-amber-400">NEW LUXURY WATCH COLLECTION</h3>
-              <p className="text-gray-300 text-sm">Discover premium timepieces</p>
-            </div>
+            <Image
+              src="/sticky-banner.png"
+              alt="logo"
+            //   width={20}
+            //   height={20}
+            width={1000}
+            height={200}
+              className="object-cover object-center"
+             
+            />
           </div>
         </div>
 
         {/* Center Content */}
-        <div className="hidden md:flex items-center space-x-8">
-          <button className="bg-amber-500 hover:bg-amber-600 text-black font-semibold px-6 py-2 rounded-lg transition-colors duration-200 transform hover:scale-105">
+        <div className="hidden md:flex items-center space-x-8 max-w-[90%] mx-auto">
+            <div>
+                ddd
+            </div>
+            <div>
+                dd
+            </div>
+          {/* <button className="bg-amber-500 hover:bg-amber-600 text-black font-semibold px-6 py-2 rounded-lg transition-colors duration-200 transform hover:scale-105">
             SHOP NOW
           </button>
           <div className="text-center">
@@ -36,7 +46,7 @@ const StickyBottomBar = () => {
           </div>
           <button className="bg-transparent border border-amber-500 text-amber-400 hover:bg-amber-500 hover:text-black font-semibold px-6 py-2 rounded-lg transition-all duration-200">
             APPOINTMENT
-          </button>
+          </button> */}
         </div>
 
         {/* Mobile Content */}
@@ -58,9 +68,6 @@ const StickyBottomBar = () => {
           <X size={16} className="text-gray-400 group-hover:text-white" />
         </button>
       </div>
-
-      {/* Decorative border */}
-      <div className="h-1 bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600"></div>
     </div>
   );
 };
