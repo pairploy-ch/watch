@@ -72,8 +72,8 @@ export default function Footer() {
               </h3>
               <a href="https://line.me/R/ti/p/@939hmulm?ts=05061404&oat_content=url">
                 <button
-                  className=" primary-btn text-black px-6 py-3 text-sm font-semibold tracking-wide transition-colors duration-300"
-                  style={{ padding: "30px 100px" }}
+                  className="mt-4 primary-btn text-black px-6 py-3 text-sm font-semibold tracking-wide transition-colors duration-300"
+                  style={{ padding: "20px 100px" }}
                 >
                   CLICK FOR APPOINTMENT
                 </button>

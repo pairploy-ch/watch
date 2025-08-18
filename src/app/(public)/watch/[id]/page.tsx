@@ -2,8 +2,77 @@
 import React, { useState } from "react";
 import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
 import Header from "@/components/public/Header";
+import { useRouter } from "next/navigation";
 
-// Mock data
+interface Watch {
+  id: string;
+  brand: string;
+  model: string;
+  description: string;
+  refNo: string;
+  year: string;
+  price: number;
+  image: string;
+  isPremium: boolean;
+  caseSize: string;
+  isNewArrival: boolean;
+}
+
+const mockRelatedWatches: Watch[] = [
+  {
+    id: "1",
+    brand: "ROLEX",
+    model: "Datejust 36",
+    description: "Datejust 36 Mini Green Fluted Jubilee, Not Include",
+    refNo: "126234",
+    year: "2024",
+    price: 420000,
+    image: "/newArrival/watch.png",
+    isPremium: true,
+    caseSize: "36mm",
+    isNewArrival: true,
+  },
+  {
+    id: "2",
+    brand: "OMEGA",
+    model: "Speedmaster",
+    description: "Speedmaster Professional Moonwatch Co-Axial Master",
+    refNo: "310.30.42.50.01.001",
+    year: "2023",
+    price: 285000,
+    image: "/newArrival/watch.png",
+    isPremium: false,
+    caseSize: "42mm",
+    isNewArrival: false,
+  },
+  {
+    id: "3",
+    brand: "CARTIER",
+    model: "Tank Must",
+    description: "Tank Must Large Model Steel Case Solar Blue",
+    refNo: "WSTA0041",
+    year: "2022",
+    price: 178000,
+    image: "/newArrival/watch.png",
+    isPremium: true,
+    caseSize: "35mm",
+    isNewArrival: false,
+  },
+  {
+    id: "4",
+    brand: "RICHARD MILLE",
+    model: "RM 35-02",
+    description: "RM 35-02 Rafael Nadal NTPT Carbon Limited",
+    refNo: "RM35-02",
+    year: "2024",
+    price: 1850000,
+    image: "/newArrival/watch.png",
+    isPremium: true,
+    caseSize: "49mm",
+    isNewArrival: true,
+  },
+];
+
 const mockWatch = {
   id: "1",
   brand: "ROLEX",
@@ -21,6 +90,91 @@ const mockWatch = {
     "/product/product2.jpeg",
     "/product/product3.webp",
   ],
+};
+
+const WatchCard: React.FC<{ watch: Watch }> = ({ watch }) => {
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push(`/watch/1`);
+  };
+  return (
+    <div
+      className=" p-4 hover:bg-gray-750 transition-colors cursor-pointer"
+      onClick={handleClick}
+    >
+      <div className=" bg-gradient relative aspect-square mb-4 flex items-center justify-center overflow-hidden p-2">
+        {watch.isPremium && (
+          <div className="absolute top-2 left-2 z-10">
+            <span className="badge-gradient text-black text-xs font-medium px-3 py-1">
+              Premium
+            </span>
+          </div>
+        )}
+        {watch.isNewArrival && (
+          <div className="absolute top-2 right-2 z-10">
+            <span className="text-white text-lg font-medium px-3 py-1 font-olds">
+              New
+            </span>
+          </div>
+        )}
+        <div className="flex items-center justify-center">
+          <div>
+            <img src={watch.image} alt={watch.refNo} />
+          </div>
+        </div>
+      </div>
+
+      <div className="space-y-2">
+        <h3 className="text-[#B79B76] font-semibold text-xl font-olds">
+          {watch.brand}
+        </h3>
+        <p className="text-[#6E6E6E] text-sm leading-relaxed">
+          {watch.description}
+        </p>
+
+        <div
+          className="grid grid-cols-2 gap-4 text-xs text-gray-400"
+          style={{ marginTop: "20px" }}
+        >
+          <div>
+            <span
+              className="text-[#BFBFBF]"
+              style={{ fontWeight: 500, fontSize: "14px" }}
+            >
+              Ref No.
+            </span>
+            <div
+              className="text-[#BFBFBF] mt-2"
+              style={{ fontWeight: 500, fontSize: "14px" }}
+            >
+              Year
+            </div>
+          </div>
+          <div style={{ textAlign: "right" }}>
+            <span
+              className="text-[#BFBFBF]"
+              style={{ fontWeight: 500, fontSize: "14px" }}
+            >
+              {watch.refNo}
+            </span>
+            <div
+              className="text-[#BFBFBF] mt-2"
+              style={{ fontWeight: 500, fontSize: "14px" }}
+            >
+              {watch.year}
+            </div>
+          </div>
+        </div>
+
+        <div className="pt-3 pb-2">
+          <span className="text-white text-3xl font-bold">
+            ฿{watch.price.toLocaleString()}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 const MockWatchDetailPage = () => {
@@ -43,7 +197,7 @@ const MockWatchDetailPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white mx-auto ">
+    <div className="bg-black text-white mx-auto pb-3">
       {/* Back to Collection */}
       <Header watches={[]} />
       <div
@@ -185,6 +339,20 @@ const MockWatchDetailPage = () => {
               </button>
             </a>
           </div>
+        </div>
+      </div>
+
+      {/* Related Product */}
+      <div className="max-w-[90%] mx-auto">
+        <div className="text-left mb-12">
+          <h1 className="text-5xl font-light text-[#B79B76] mb-4 font-olds">
+            Related Product
+          </h1>
+        </div>
+        <div className="grid grid-cols-4 gap-6 mb-8">
+          {mockRelatedWatches.map((watch, index) => (
+            <WatchCard key={`${watch.id}-${index}`} watch={watch} />
+          ))}
         </div>
       </div>
     </div>

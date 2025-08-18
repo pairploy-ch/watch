@@ -115,8 +115,8 @@ export default function Header({ watches }: HeaderProps) {
           <Image
             src="/logo-bg.png"
             alt="logo"
-            width={200}
-            height={200}
+            width={150}
+            height={150}
             priority
           />
         </Link>

@@ -223,13 +223,13 @@ const WatchCard: React.FC<{ watch: Watch }> = ({ watch }) => {
           <div>
             <span
               className="text-[#BFBFBF]"
-              style={{ fontWeight: 500, fontSize: "16px" }}
+              style={{ fontWeight: 500, fontSize: "14px" }}
             >
               Ref No.
             </span>
             <div
               className="text-[#BFBFBF] mt-2"
-              style={{ fontWeight: 500, fontSize: "16px" }}
+              style={{ fontWeight: 500, fontSize: "14px" }}
             >
               Year
             </div>
@@ -237,13 +237,13 @@ const WatchCard: React.FC<{ watch: Watch }> = ({ watch }) => {
           <div style={{ textAlign: "right" }}>
             <span
               className="text-[#BFBFBF]"
-              style={{ fontWeight: 500, fontSize: "16px" }}
+              style={{ fontWeight: 500, fontSize: "14px" }}
             >
               {watch.refNo}
             </span>
             <div
               className="text-[#BFBFBF] mt-2"
-              style={{ fontWeight: 500, fontSize: "16px" }}
+              style={{ fontWeight: 500, fontSize: "14px" }}
             >
               {watch.year}
             </div>
