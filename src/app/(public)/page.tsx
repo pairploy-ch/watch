@@ -22,6 +22,7 @@ import Image from "next/image";
 // import Link from "next/link";
 import BrowseButton from "@/components/public/BrowseNewArrival";
 import BrandFilter from "@/components/public/BrandFilter";
+import StickyBanner from "@/components/public/StickyBanner";
 
 // Dynamically import InventorySection as a Client Component
 // const InventorySection = dynamic(
@@ -797,6 +798,7 @@ export default async function HomePage() {
       <Service />
       <TestimonialsSection />
       <FAQSection />
+      <StickyBanner />
       {/* <ContactSection /> */}
     </div>
   );
