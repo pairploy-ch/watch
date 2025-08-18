@@ -1,6 +1,7 @@
 "use client";
-import React, { useState } from 'react';
-import { ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react';
+import React, { useState } from "react";
+import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
+import Header from "@/components/public/Header";
 
 // Mock data
 const mockWatch = {
@@ -15,24 +16,24 @@ const mockWatch = {
   remark: "Perpetual 36 Mint Green Fluted Jubilee, hot model.",
   images: [
     // ใช้ placeholder images แทน
-    "/newArrival/watch.png",
-    "/newArrival/watch.png",
-    "/newArrival/watch.png",
-    "/newArrival/watch.png",
-  ]
+    "/product/product.png",
+    "/product/product1.webp",
+    "/product/product2.jpeg",
+    "/product/product3.webp",
+  ],
 };
 
 const MockWatchDetailPage = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const nextImage = () => {
-    setCurrentImageIndex((prev) => 
+    setCurrentImageIndex((prev) =>
       prev === mockWatch.images.length - 1 ? 0 : prev + 1
     );
   };
 
   const prevImage = () => {
-    setCurrentImageIndex((prev) => 
+    setCurrentImageIndex((prev) =>
       prev === 0 ? mockWatch.images.length - 1 : prev - 1
     );
   };
@@ -42,35 +43,40 @@ const MockWatchDetailPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white mx-auto max-w-[90%]">
+    <div className="min-h-screen bg-black text-white mx-auto ">
       {/* Back to Collection */}
-      <div className="px-6 py-4">
-        <button 
-          onClick={() => window.history.back()}
-          className="text-gray-400 hover:text-white flex items-center gap-2 transition-colors text-sm"
-        >
-          ← BACK TO COLLECTION
-        </button>
+      <Header watches={[]} />
+      <div
+        className="px-6 py-4 w-full bg-[#141519]"
+        style={{ marginTop: "140px" }}
+      >
+        <div className="max-w-[90%] mx-auto">
+          <a
+            href="/#product"
+            className="text-white hover:text-white flex items-center gap-2 transition-colors text-sm"
+          >
+            ← BACK TO COLLECTION
+          </a>
+        </div>
       </div>
 
       {/* Main Content */}
-      <div className="grid grid-cols-[60%_40%] gap-0 h-screen">
+      <div className="grid grid-cols-[60%_40%] gap-0  max-w-[90%] mx-auto py-5">
         {/* Left Side - Image Gallery */}
         <div className="bg-black flex items-center justify-center relative h-full">
           {/* Main Image */}
-          <div className="relative mx-auto">
+          <div className="relative mx-auto max-w-[70%]">
             <img
+              style={{ aspectRatio: "1/1" }}
               src={mockWatch.images[currentImageIndex]}
               alt={`${mockWatch.brand} ${mockWatch.ref}`}
-              className="w-full h-auto max-h-96 object-contain"
+              className="w-full h-auto object-cover"
               onError={(e) => {
-                // แทนที่ด้วย fallback placeholder ที่ง่ายกว่า
                 const target = e.target as HTMLImageElement;
                 target.src = `https://via.placeholder.com/400x300/1a1a1a/666666?text=Watch+Image`;
               }}
             />
-            
-            
+
             {/* Navigation Arrows */}
             <button
               onClick={prevImage}
@@ -78,7 +84,7 @@ const MockWatchDetailPage = () => {
             >
               <ChevronLeft className="w-6 h-6 text-white" />
             </button>
-            
+
             <button
               onClick={nextImage}
               className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center transition-colors"
@@ -94,9 +100,9 @@ const MockWatchDetailPage = () => {
                 key={index}
                 onClick={() => selectImage(index)}
                 className={`w-16 h-16 border-2 rounded overflow-hidden transition-all ${
-                  index === currentImageIndex 
-                    ? 'border-[#B79B76]' 
-                    : 'border-gray-600 hover:border-gray-400'
+                  index === currentImageIndex
+                    ? "border-[#B79B76]"
+                    : "border-gray-600 hover:border-gray-400"
                 }`}
               >
                 <img
@@ -113,52 +119,52 @@ const MockWatchDetailPage = () => {
         <div className="bg-black px-8 py-12 flex flex-col justify-center h-full">
           <div className="max-w-md">
             {/* Brand */}
-            <h2 className="text-[#B79B76] text-lg font-medium tracking-wider mb-2">
+            <h2 className="text-[#B79B76] text-lg font-medium tracking-wider mb-2 font-olds">
               {mockWatch.brand}
             </h2>
 
             {/* Model */}
-            <h1 className="text-white text-5xl font-bold mb-6">
+            <h1 className="text-white text-4xl font-bold mb-6">
               {mockWatch.ref}
             </h1>
 
             {/* Price */}
-            <div className="text-white text-3xl font-bold mb-8">
+            <div className="text-white text-2xl mb-8 border-b pb-5 border-[#808080]">
               ฿{mockWatch.price.toLocaleString()}
             </div>
 
             {/* Details Section */}
-            <div className="mb-8">
+            <div className="mb-8 border-b pb-5 border-[#808080]">
               <h3 className="text-white text-lg font-medium mb-4">Detail</h3>
-              
+
               <div className="space-y-3 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Brand</span>
+                  <span className="text-[#BFBFBF] font-bold">Brand</span>
                   <span className="text-white">{mockWatch.brand}</span>
                 </div>
-                
+
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Ref No.</span>
+                  <span className="text-[#BFBFBF]  font-bold">Ref No.</span>
                   <span className="text-white">{mockWatch.ref}</span>
                 </div>
-                
+
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Year</span>
+                  <span className="text-[#BFBFBF]  font-bold">Year</span>
                   <span className="text-white">{mockWatch.watch_year}</span>
                 </div>
-                
+
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Type</span>
+                  <span className="text-[#BFBFBF]  font-bold">Type</span>
                   <span className="text-white">{mockWatch.product_type}</span>
                 </div>
-                
+
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Equipment</span>
+                  <span className="text-[#BFBFBF]  font-bold">Equipment</span>
                   <span className="text-white">{mockWatch.equipment}</span>
                 </div>
-                
+
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Status</span>
+                  <span className="text-[#BFBFBF]  font-bold">Status</span>
                   <span className="text-white">{mockWatch.status}</span>
                 </div>
               </div>
@@ -173,9 +179,11 @@ const MockWatchDetailPage = () => {
             </div>
 
             {/* Get More Details Button */}
-            <button className="w-full bg-[#B79B76] hover:bg-[#D4AF37] text-black font-medium py-3 px-6 transition-colors">
-              GET MORE DETAILS
-            </button>
+            <a href="https://line.me/R/ti/p/@939hmulm?ts=05061404&oat_content=url">
+              <button className="w-full primary-btn text-black font-medium py-3 px-6 transition-colors">
+                GET MORE DETAILS
+              </button>
+            </a>
           </div>
         </div>
       </div>
