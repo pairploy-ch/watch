@@ -401,7 +401,7 @@ const FilterSidebar: React.FC<{
 
         {/* Brand Filter */}
         <div className="mb-6">
-          <h3 className="text-[#E0D0B9] font-medium mb-3 font-olds">Brand</h3>
+          <h3 className="text-[#E0D0B9] font-medium mb-3 font-olds text-left">Brand</h3>
           <div className="space-y-3">
             <div className="space-y-2">
               {brands.map((brand) => (
@@ -424,7 +424,7 @@ const FilterSidebar: React.FC<{
 
         {/* Price Filter */}
         <div className="mb-6">
-          <h3 className="text-[#E0D0B9] font-medium mb-3 font-olds">Max Price</h3>
+          <h3 className="text-[#E0D0B9] font-medium mb-3 font-olds text-left">Max Price</h3>
           <div className="px-2">
             <div className="mb-3">
               <input
@@ -448,7 +448,7 @@ const FilterSidebar: React.FC<{
 
         {/* Model Filter */}
         <div className="mb-6">
-          <h3 className="text-[#E0D0B9] font-medium mb-3 font-olds">Model</h3>
+          <h3 className="text-[#E0D0B9] font-medium mb-3 font-olds text-left">Model</h3>
           <div className="space-y-2 max-h-32 overflow-y-auto">
             {models.map((model) => (
               <label
@@ -469,7 +469,7 @@ const FilterSidebar: React.FC<{
 
         {/* Case Size Filter */}
         <div className="mb-6">
-          <h3 className="text-[#E0D0B9] font-medium mb-3 font-olds">
+          <h3 className="text-[#E0D0B9] font-medium mb-3 font-olds text-left">
             Case Size
           </h3>
           <div className="space-y-2 max-h-32 overflow-y-auto">
@@ -492,7 +492,7 @@ const FilterSidebar: React.FC<{
 
         {/* Year Filter */}
         <div className="mb-6">
-          <h3 className="text-[#E0D0B9] font-medium mb-3 font-olds">Year</h3>
+          <h3 className="text-[#E0D0B9] font-medium mb-3 font-olds text-left">Year</h3>
           <div className="space-y-2">
             {years.map((year) => (
               <label
@@ -818,25 +818,25 @@ const WatchProductPage: React.FC = () => {
           </h1>
           
           {/* Mobile Search Bar */}
-          <div className="sm:hidden mb-6">
-            <div className="relative">
+          <div className="sm:hidden mb-6 flex justify-between">
+            <div className="relative w-full">
               <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input
                 type="text"
                 placeholder="Search..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full bg-gray-900 border border-gray-600 rounded-lg py-3 pl-12 pr-4 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                className="w-full bg-black border border-white rounded-sm py-3 pl-12 pr-4 text-white placeholder-white focus:outline-none "
               />
             </div>
             
             {/* Mobile Filter Button */}
             <button
               onClick={() => setIsFilterOpen(true)}
-              className="mt-4 flex items-center justify-center space-x-2 bg-gray-800 hover:bg-gray-700 text-white px-6 py-3 rounded-lg transition-colors w-full"
+              className="ml-3"
             >
               <Filter className="w-5 h-5" />
-              <span>Filters</span>
+              {/* <span>Filters</span> */}
             </button>
           </div>
         </div>
