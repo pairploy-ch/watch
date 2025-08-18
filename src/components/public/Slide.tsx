@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules"; // ต้อง import module นี้
 import "swiper/css";
@@ -7,6 +8,7 @@ import "swiper/css/navigation";
 import { ChevronRight, ChevronLeft } from "lucide-react";
 
 export default function WatchSlider() {
+    const router = useRouter();
   const watches = [
     { img: "/newArrival/watch.png", name: "Rolex Green" },
     { img: "/newArrival/watch.png", name: "Rolex Rose Gold" },
@@ -63,7 +65,7 @@ export default function WatchSlider() {
         >
           {watches.map((watch, index) => (
             <SwiperSlide key={index}>
-              <div className="bg-[#141519] text-white rounded-sm overflow-hidden">
+              <div className="bg-[#141519] text-white rounded-sm overflow-hidden cursor-pointer" onClick={() => router.push("/watch/1")}>
                 <img src={watch.img} alt={watch.name} className="w-full" />
               </div>
             </SwiperSlide>

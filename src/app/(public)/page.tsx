@@ -1,5 +1,6 @@
 // "use client";
 import { FC, ReactNode } from "react";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { Watch, WatchMedia } from "@/lib/types";
 // import dynamic from "next/dynamic";
