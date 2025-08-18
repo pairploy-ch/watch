@@ -180,12 +180,12 @@ const NewArrival = () => (
           <h2 className="font-olds text-2xl md:text-3xl lg:text-3xl font-light text-white mb-4 tracking-wide">
             Luxury Redefined
           </h2>
-          <h1 className="font-olds text-2xl md:text-6xl lg:text-8xl font-light text-[#E0D0B9] mb-4 tracking-wide">
+          <h1 className="font-olds sm:text-6xl md:text-6xl lg:text-8xl font-light text-[#E0D0B9] mb-4 tracking-wide">
             New Arrivals
           </h1>
           <h1
             style={{ marginTop: "-20px" }}
-            className="font-olds text-2xl md:text-6xl lg:text-8xl font-light text-white mb-4 tracking-wide"
+            className="font-olds sm:text-6xl md:text-6xl lg:text-8xl font-light text-white mb-4 tracking-wide"
           >
             Timeless Elegance
           </h1>
@@ -201,7 +201,7 @@ const NewArrival = () => (
           </a> */}
           <BrowseButton />
         </div>
-        <div className="flex md:justify-center  lg:justify-center xl:justify-end mt-10 w-full">
+        <div className="flex sm:justify-center md:justify-center  lg:justify-center xl:justify-end mt-10 w-full">
           <div className="xl:max-w-[100%]">
             <Slide />
           </div>

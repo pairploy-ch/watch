@@ -74,11 +74,16 @@ export default function WatchSlider() {
           <h2 className="text-white text-3xl md:text-4xl font-light">Premium</h2>
         </div>
         
-        <div className="max-w-4xl mx-auto px-4">
+        <div className="max-w-sm sm:max-w-xl mx-auto px-4">
           <Swiper
             modules={[Navigation]}
             spaceBetween={20}
-            slidesPerView={2}
+            slidesPerView={1} // sm ลงไป แสดง 1 การ์ด
+            breakpoints={{
+              640: { // md ขึ้นไป แสดง 2 การ์ด
+                slidesPerView: 2,
+              },
+            }}
             loop={false}
             navigation={{
               prevEl: ".swiper-button-prev-mobile",

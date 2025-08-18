@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Search, Filter } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useLanguage } from "../../../context/LanguageContext";
 
@@ -277,6 +277,8 @@ const FilterSidebar: React.FC<{
   setPriceRange: (range: [number, number]) => void;
   isNewArrivalOnly: boolean;
   setIsNewArrivalOnly: (value: boolean) => void;
+  isOpen: boolean;
+  onClose: () => void;
 }> = ({
   selectedBrands,
   setSelectedBrands,
@@ -290,6 +292,8 @@ const FilterSidebar: React.FC<{
   setPriceRange,
   isNewArrivalOnly,
   setIsNewArrivalOnly,
+  isOpen,
+  onClose,
 }) => {
   const brands = [
     "Rolex",
@@ -361,11 +365,40 @@ const FilterSidebar: React.FC<{
   };
 
   return (
-    <div>
-      <h2 className="text-white text-xl mb-4" style={{ fontWeight: "400" }}>
-        Search Filters
-      </h2>
-      <div className="w-72 bg-[#141519] p-6 h-fit sticky top-4">
+    <>
+      {/* Mobile Backdrop */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 sm:hidden"
+          onClick={onClose}
+        />
+      )}
+         <h2 className="text-white text-xl mb-4 hidden md:block" style={{ fontWeight: "400" }}>
+          Search Filters
+        </h2>
+      {/* Sidebar */}
+      <div className={`
+        fixed sm:sticky top-0 left-0 h-full sm:h-fit z-50 sm:z-auto
+        w-80 sm:w-72 bg-[#141519] p-6 
+        transform transition-transform duration-300 ease-in-out
+        ${isOpen ? 'translate-x-0' : '-translate-x-full'} 
+        sm:translate-x-0 sm:block
+        overflow-y-auto
+      `}>
+        <div className="flex justify-between items-center sm:hidden mb-4">
+          <h2 className="text-white text-xl font-medium">Search Filters</h2>
+          <button 
+            onClick={onClose}
+            className="text-white text-2xl"
+          >
+            ×
+          </button>
+        </div>
+        
+        {/* <h2 className="text-white text-xl mb-4 hidden sm:block" style={{ fontWeight: "400" }}>
+          Search Filters
+        </h2> */}
+
         {/* Brand Filter */}
         <div className="mb-6">
           <h3 className="text-[#E0D0B9] font-medium mb-3 font-olds">Brand</h3>
@@ -394,26 +427,6 @@ const FilterSidebar: React.FC<{
           <h3 className="text-[#E0D0B9] font-medium mb-3 font-olds">Max Price</h3>
           <div className="px-2">
             <div className="mb-3">
-              {/* <label className="text-xs text-gray-400 mb-1 block">
-                Min Price
-              </label>
-              <input
-                type="range"
-                min="50000"
-                max="3500000"
-                step="10000"
-                value={priceRange[0]}
-                onChange={(e) =>
-                  setPriceRange([parseInt(e.target.value), priceRange[1]])
-                }
-                className="w-full h-2 bg-white rounded-lg appearance-none cursor-pointer slider"
-                style={{ height: "1px" }}
-              /> */}
-            </div>
-            <div className="mb-3">
-              {/* <label className="text-xs text-gray-400 mb-1 block">
-                Max Price
-              </label> */}
               <input
                 type="range"
                 min="50000"
@@ -428,7 +441,6 @@ const FilterSidebar: React.FC<{
               />
             </div>
             <div className="flex justify-between text-xs text-white mt-2">
-              {/* <span>฿{(priceRange[0] / 1000).toLocaleString()}K</span> */}
               <span>฿{(priceRange[1] / 1000).toLocaleString()}K</span>
             </div>
           </div>
@@ -516,7 +528,7 @@ const FilterSidebar: React.FC<{
 
         <button className="w-full primary-btn-md mt-7">APPLY FILTER</button>
       </div>
-    </div>
+    </>
   );
 };
 
@@ -573,6 +585,8 @@ const WatchProductPage: React.FC = () => {
   ]);
   const [isNewArrivalOnly, setIsNewArrivalOnly] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   // Check URL parameters for new arrival filter
   React.useEffect(() => {
@@ -728,6 +742,18 @@ const WatchProductPage: React.FC = () => {
 
   const filteredWatches = useMemo(() => {
     return mockWatches.filter((watch) => {
+      // Search term filter
+      if (searchTerm) {
+        const searchLower = searchTerm.toLowerCase();
+        const matchesSearch = 
+          watch.brand.toLowerCase().includes(searchLower) ||
+          watch.model.toLowerCase().includes(searchLower) ||
+          watch.description.toLowerCase().includes(searchLower) ||
+          watch.refNo.toLowerCase().includes(searchLower);
+        
+        if (!matchesSearch) return false;
+      }
+
       // Brand filter - case insensitive comparison
       if (
         selectedBrands.length > 0 &&
@@ -775,6 +801,7 @@ const WatchProductPage: React.FC = () => {
     selectedYears,
     priceRange,
     isNewArrivalOnly,
+    searchTerm,
   ]);
 
   const totalPages = Math.ceil(filteredWatches.length / 12);
@@ -785,33 +812,80 @@ const WatchProductPage: React.FC = () => {
     <div className="min-h-screen bg-black text-white mt-12" id="product">
       <div className="max-w-[90%] mx-auto px-4 py-8">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-5xl font-light text-[#B79B76] mb-4 font-olds">
-             {t("CollectionSection.title")}
+        <div className="text-center mb-8">
+          <h1 className="text-3xl sm:text-5xl font-light text-[#B79B76] mb-6 font-olds">
+            {t("CollectionSection.title")}
           </h1>
+          
+          {/* Mobile Search Bar */}
+          <div className="sm:hidden mb-6">
+            <div className="relative">
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <input
+                type="text"
+                placeholder="Search..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full bg-gray-900 border border-gray-600 rounded-lg py-3 pl-12 pr-4 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500"
+              />
+            </div>
+            
+            {/* Mobile Filter Button */}
+            <button
+              onClick={() => setIsFilterOpen(true)}
+              className="mt-4 flex items-center justify-center space-x-2 bg-gray-800 hover:bg-gray-700 text-white px-6 py-3 rounded-lg transition-colors w-full"
+            >
+              <Filter className="w-5 h-5" />
+              <span>Filters</span>
+            </button>
+          </div>
         </div>
 
-        <div className="flex gap-8">
-          {/* Left Sidebar - Filters */}
-          <FilterSidebar
-            selectedBrands={selectedBrands}
-            setSelectedBrands={setSelectedBrands}
-            selectedModels={selectedModels}
-            setSelectedModels={setSelectedModels}
-            selectedCaseSizes={selectedCaseSizes}
-            setSelectedCaseSizes={setSelectedCaseSizes}
-            selectedYears={selectedYears}
-            setSelectedYears={setSelectedYears}
-            priceRange={priceRange}
-            setPriceRange={setPriceRange}
-            isNewArrivalOnly={isNewArrivalOnly}
-            setIsNewArrivalOnly={setIsNewArrivalOnly}
-          />
+        <div className="flex sm:gap-0 md:gap-8">
+          {/* Left Sidebar - Filters (Hidden on mobile) */}
+          <div className="hidden sm:block">
+            <FilterSidebar
+              selectedBrands={selectedBrands}
+              setSelectedBrands={setSelectedBrands}
+              selectedModels={selectedModels}
+              setSelectedModels={setSelectedModels}
+              selectedCaseSizes={selectedCaseSizes}
+              setSelectedCaseSizes={setSelectedCaseSizes}
+              selectedYears={selectedYears}
+              setSelectedYears={setSelectedYears}
+              priceRange={priceRange}
+              setPriceRange={setPriceRange}
+              isNewArrivalOnly={isNewArrivalOnly}
+              setIsNewArrivalOnly={setIsNewArrivalOnly}
+              isOpen={isFilterOpen}
+              onClose={() => setIsFilterOpen(false)}
+            />
+          </div>
+
+          {/* Mobile Filter Sidebar */}
+          <div className="sm:hidden">
+            <FilterSidebar
+              selectedBrands={selectedBrands}
+              setSelectedBrands={setSelectedBrands}
+              selectedModels={selectedModels}
+              setSelectedModels={setSelectedModels}
+              selectedCaseSizes={selectedCaseSizes}
+              setSelectedCaseSizes={setSelectedCaseSizes}
+              selectedYears={selectedYears}
+              setSelectedYears={setSelectedYears}
+              priceRange={priceRange}
+              setPriceRange={setPriceRange}
+              isNewArrivalOnly={isNewArrivalOnly}
+              setIsNewArrivalOnly={setIsNewArrivalOnly}
+              isOpen={isFilterOpen}
+              onClose={() => setIsFilterOpen(false)}
+            />
+          </div>
 
           {/* Right Content - Products */}
-          <div className="flex-1 mt-11">
-            {/* Product Grid - Responsive: 3 columns on xl+, 2 columns on lg and below */}
-            <div className="grid grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
+          <div className="flex-1 sm:mt-11">
+            {/* Product Grid - Mobile: 1 column on sm, 2 columns on md+, 3 columns on xl+ */}
+            <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 mb-8">
               {displayedWatches.map((watch, index) => (
                 <WatchCard key={`${watch.id}-${index}`} watch={watch} />
               ))}

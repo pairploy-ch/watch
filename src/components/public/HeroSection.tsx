@@ -38,7 +38,7 @@ const HeroSection = () => {
           {/* Description */}
           <p
             className="whitespace-pre-line mt-20 text-center font-olds text-xl md:text-xl lg:text-3xl text-white/90 font-light leading-relaxed mb-12
-             lg:mt-[0px] xl:mt-[0px] 2xl:mt-[120px]"
+           sm:-mt-[100px] md:mt-[0px] lg:mt-[0px] xl:mt-[0px] 2xl:mt-[120px]"
             // style={{ marginTop: "120px" }}
           >
             {t("HeroSection.description")}
@@ -50,7 +50,7 @@ const HeroSection = () => {
               <div className="w-5 h-5 bg-[#E0D0B9] rounded-full flex items-center justify-center">
                 <Check className="w-3 h-3 text-black" />
               </div>
-              <span className="text-xl font-medium tracking-wide">
+              <span className=" text-xl font-medium tracking-wide">
                 {t("HeroSection.list1")}
               </span>
             </div>
@@ -92,7 +92,7 @@ const HeroSection = () => {
                   priority
                 />
               </span>
-              <span className="ml-4 font-olds text-3xl">
+              <span className="ml-4 font-olds text-3xl sm:text-xl">
                 {t("HeroSection.service1")}
               </span>
             </div>
@@ -106,7 +106,7 @@ const HeroSection = () => {
                   priority
                 />
               </span>
-              <span className="ml-4 font-olds text-3xl">
+              <span className="ml-4 font-olds text-3xl sm:text-xl">
                 {t("HeroSection.service2")}
               </span>
             </div>
@@ -120,7 +120,7 @@ const HeroSection = () => {
                   priority
                 />
               </span>
-              <span className="ml-4 font-olds text-3xl">
+              <span className="ml-4 font-olds text-3xl sm:text-xl">
                 {t("HeroSection.service3")}
               </span>
             </div>
