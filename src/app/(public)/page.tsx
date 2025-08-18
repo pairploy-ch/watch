@@ -6,12 +6,7 @@ import { Watch, WatchMedia } from "@/lib/types";
 
 // import dynamic from "next/dynamic";
 // import { Swiper, SwiperSlide } from "swiper/react";
-import {
-  Phone,
-  MessageCircle,
-  MapPin,
-  Star,
-} from "lucide-react";
+import { Phone, MessageCircle, MapPin, Star } from "lucide-react";
 import Header from "@/components/public/Header";
 import Slide from "@/components/public/Slide";
 import WatchProductPage from "@/components/public/WatchProductPage";
@@ -24,7 +19,6 @@ import StickyBanner from "@/components/public/StickyBanner";
 import HeroSection from "@/components/public/HeroSection";
 import AboutSection from "@/components/public/AboutSection";
 import Service from "@/components/public/ServiceSection";
-
 
 // Dynamically import InventorySection as a Client Component
 // const InventorySection = dynamic(
@@ -48,7 +42,6 @@ import Service from "@/components/public/ServiceSection";
 //     ),
 //   }
 // );
-
 
 // Helper components
 const Section: FC<{
@@ -78,11 +71,11 @@ const TestimonialCard: FC<{
   image: string;
 }> = ({ name, text, watch, image }) => (
   <div
-    className="overflow-hidden flex flex-col p-10 pb-0"
+    className="overflow-hidden flex flex-col p-10 pb-0 lg:min-w-[350px] lg:flex-shrink-0"
     style={{ backgroundImage: "linear-gradient(to right, #2C2C33, #141519)" }}
   >
     {/* Stars */}
-    <div className="flex items-center gap-1pt-6">
+    <div className="flex items-center gap-1 pt-6">
       {[...Array(5)].map((_, i) => (
         <Star key={i} className="w-4 h-4 text-[#B79B76] fill-current" />
       ))}
@@ -117,6 +110,29 @@ const TestimonialCard: FC<{
   </div>
 );
 
+// Container component สำหรับใช้งาน
+const TestimonialContainer: FC<{ testimonials: Array<{name: string, text: string, watch: string, image: string}> }> = ({ testimonials }) => (
+  <div className="w-full">
+    {/* Desktop: Grid layout */}
+    <div className="hidden lg:block">
+      <div className="overflow-x-auto">
+        <div className="flex gap-6 pb-4" style={{ width: 'max-content' }}>
+          {testimonials.map((testimonial, index) => (
+            <TestimonialCard key={index} {...testimonial} />
+          ))}
+        </div>
+      </div>
+    </div>
+    
+    {/* Mobile/Tablet: Stack layout */}
+    <div className="lg:hidden grid gap-6">
+      {testimonials.map((testimonial, index) => (
+        <TestimonialCard key={index} {...testimonial} />
+      ))}
+    </div>
+  </div>
+);
+
 // const FeatureCard: FC<{
 //   icon: ReactNode;
 //   title: string;
@@ -144,8 +160,6 @@ const TestimonialCard: FC<{
 //   </div>
 // );
 
-
-
 const NewArrival = () => (
   <section className="relative" style={{ maxHeight: "1000px" }}>
     <div className="relative w-full h-[900px] mt-[150px] pt-[100px] overflow-hidden">
@@ -159,19 +173,19 @@ const NewArrival = () => (
     </div>
     <div className="w-full mx-auto top-0 ">
       <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-full"
-        style={{ paddingTop: "100px" }}
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-full lg:pt-0 xl:pt-[100px]"
+        // style={{ paddingTop: "100px" }}
       >
         <div className="max-w-[90%] mx-auto ">
           <h2 className="font-olds text-2xl md:text-3xl lg:text-3xl font-light text-white mb-4 tracking-wide">
             Luxury Redefined
           </h2>
-          <h1 className="font-olds text-2xl md:text-3xl lg:text-8xl font-light text-[#E0D0B9] mb-4 tracking-wide">
+          <h1 className="font-olds text-2xl md:text-6xl lg:text-8xl font-light text-[#E0D0B9] mb-4 tracking-wide">
             New Arrivals
           </h1>
           <h1
             style={{ marginTop: "-20px" }}
-            className="font-olds text-2xl md:text-3xl lg:text-8xl font-light text-white mb-4 tracking-wide"
+            className="font-olds text-2xl md:text-6xl lg:text-8xl font-light text-white mb-4 tracking-wide"
           >
             Timeless Elegance
           </h1>
@@ -187,8 +201,10 @@ const NewArrival = () => (
           </a> */}
           <BrowseButton />
         </div>
-        <div className="flex justify-end mt-10">
-          <Slide />
+        <div className="flex md:justify-center  lg:justify-center xl:justify-end mt-10 w-full">
+          <div className="xl:max-w-[100%]">
+            <Slide />
+          </div>
         </div>
       </div>
     </div>
@@ -198,7 +214,7 @@ const NewArrival = () => (
 // const AboutSection = () => (
 //   <section id="about" className="relative" style={{ maxHeight: "1000px" }}>
 //     <div className="mt-[150px] h-[900px] relative  pt-[100px] flex flex-col justify-center items-start text-left overflow-hidden">
-//       {/*      
+//       {/*
 //       <Image
 //         src="/bg-about.png"
 //         alt="logo"
@@ -328,12 +344,12 @@ const TestimonialsSection = () => (
     id="testimonials"
     className="font-olds pt-4 max-w-[90%] mx-auto pb-4"
   >
-    <div className="text-left mb-12 ">
+    <div className="text-left mb-12">
       <h1 className="text-5xl font-light text-[#B79B76] mb-4 font-olds">
         What Our Collectors Say
       </h1>
     </div>
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       <TestimonialCard
         name="Somchai"
         text="Excellent service. They gave me great advice and I got a watch in like-new condition. I'm truly impressed — the quality exceeded my expectations."
@@ -348,7 +364,7 @@ const TestimonialsSection = () => (
       />
       <TestimonialCard
         name="Wipa"
-        text="I’ve been looking for this watch for a long time. Thank you for sourcing it for me — the condition is beautiful and I couldn’t be happier. Truly not disappointed, and the after-sales service is excellent as well."
+        text="I've been looking for this watch for a long time. Thank you for sourcing it for me — the condition is beautiful and I couldn't be happier. Truly not disappointed, and the after-sales service is excellent as well."
         watch="Audemars Piguet Royal Oak"
         image="/review-mock-3.png"
       />
@@ -413,10 +429,7 @@ const ContactSection = () => (
   </Section>
 );
 
-
-
 export default async function HomePage() {
-  
   const supabase = await createClient();
 
   // วิธีที่แน่นอนที่สุด - bypass type checking ทั้งหมด
@@ -601,7 +614,7 @@ export default async function HomePage() {
       <NewArrival />
       <BrandFilter />
       <WatchProductPage />
-      
+
       {/* <Suspense
         fallback={
           <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center">

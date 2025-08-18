@@ -65,15 +65,15 @@ export default function Footer() {
           <div className="lg:col-span-1">
             <div className="text-right">
               <h3
-                className="whitespace-pre-line  text-white text-4xl mb-4 leading-tight font-olds"
+                className="whitespace-pre-line  text-white md:text-2xl lg:text-3xl xl:text-4xl mb-4 leading-tight font-olds"
                 style={{ fontWeight: 300 }}
               >
                 {t("ContactSection.title")}
               </h3>
               <a href="https://line.me/R/ti/p/@939hmulm?ts=05061404&oat_content=url">
                 <button
-                  className="mt-4 primary-btn text-black px-6 py-3 text-sm font-semibold tracking-wide transition-colors duration-300"
-                  style={{ padding: "20px 100px" }}
+                  className="mt-4 primary-btn text-black px-6 py-3 text-sm font-semibold tracking-wide transition-colors duration-300 lg:p-[20px 50px]"
+                  // style={{ padding: "20px 100px" }}
                 >
                    {t("ContactSection.button")}
                 </button>

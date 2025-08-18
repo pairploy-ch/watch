@@ -68,17 +68,17 @@ const AboutSection = () => {
           <div className="max-w-[90%] mx-auto ">
             <h1
               style={{ fontWeight: 500 }}
-              className="text-2xl md:text-3xl  lg:text-8xl font-light text-[#E0D0B9] mb-4 tracking-wide"
+              className="text-2xl md:text-5xl  lg:text-8xl font-light text-[#E0D0B9] mb-4 tracking-wide"
             >
               ABOUT
             </h1>
             <h1
               style={{ marginTop: "-20px" }}
-              className="font-olds text-2xl md:text-3xl lg:text-8xl font-light text-[#B79B76] mb-4 tracking-wide"
+              className="font-olds text-2xl md:text-5xl lg:text-8xl font-light text-[#B79B76] mb-4 tracking-wide"
             >
               CHRONOS WATCH
             </h1>
-            <div style={{ width: "50%" }} className="mt-10">
+            <div  className="mt-10 md:w-[70%] lg:w-[60%] xl:w-[50%]">
               <p className="text-xl">
                  {t("AboutSection.p1")}
               </p>
@@ -86,34 +86,34 @@ const AboutSection = () => {
                  {t("AboutSection.p2")}
               </p>
             </div>
-            <div
-              className="mt-10 pb-8 pt-5 flex pl-3"
-              style={{
-                backgroundImage: "linear-gradient(to right, #2C2C33, #141519)",
-                marginTop: "80px",
-              }}
-            >
-              <FeatureCard
-                icon={<Shield className="w-8 h-8 text-white" />}
-                title="Authentic"
-                description={t("AboutSection.feature1")}
-              />
-              <FeatureCard
-                icon={<Award className="w-8 h-8 text-white" />}
-                title="Quality"
-                description={t("AboutSection.feature2")}
-              />
-              <FeatureCard
-                icon={<Star className="w-8 h-8 text-white" />}
-                title="Exclusive"
-                description={t("AboutSection.feature3")}
-              />
-              <FeatureCard
-                icon={<Clock className="w-8 h-8 text-white" />}
-                title="Legacy"
-                description={t("AboutSection.feature4")}
-              />
-            </div>
+          <div
+  className="mt-10 pb-8 pt-5 px-3 grid grid-cols-2 lg:grid-cols-4 gap-4"
+  style={{
+    backgroundImage: "linear-gradient(to right, #2C2C33, #141519)",
+    marginTop: "80px",
+  }}
+>
+  <FeatureCard
+    icon={<Shield className="w-8 h-8 text-white" />}
+    title="Authentic"
+    description={t("AboutSection.feature1")}
+  />
+  <FeatureCard
+    icon={<Award className="w-8 h-8 text-white" />}
+    title="Quality"
+    description={t("AboutSection.feature2")}
+  />
+  <FeatureCard
+    icon={<Star className="w-8 h-8 text-white" />}
+    title="Exclusive"
+    description={t("AboutSection.feature3")}
+  />
+  <FeatureCard
+    icon={<Clock className="w-8 h-8 text-white" />}
+    title="Legacy"
+    description={t("AboutSection.feature4")}
+  />
+</div>
           </div>
         </div>
       </div>

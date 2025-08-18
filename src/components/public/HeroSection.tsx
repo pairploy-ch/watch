@@ -21,29 +21,25 @@ const HeroSection = () => {
       {/* Content */}
       <div
         className="relative z-10 max-w-[90%] mx-auto"
-        style={{ marginTop: "-230px" }}
+        style={{ marginTop: "-300px" }}
       >
         <div className="">
           {/* Main heading */}
-          <div className="mb-8">
-            <h2
-              className="font-olds text-2xl md:text-3xl lg:text-6xl font-light text-white mb-4 tracking-wide"
-              style={{ marginTop: "-300px" }}
-            >
-              {t("HeroSection.title")}
-            </h2>
-            <h1
-              style={{ marginTop: "-180px" }}
-              className="text-right text-6xl md:text-8xl lg:text-[29rem] font-olds font-light text-white mb-8 leading-none tracking-tight"
-            >
-              {t("HeroSection.subtitle")}
-            </h1>
+          <div className="relative w-full h-[450px]">
+            <Image
+              src="/title-cover.png"
+              alt="Watch"
+              width={1000}
+              height={500}
+              className="w-full h-auto object-cover"
+            />
           </div>
 
           {/* Description */}
           <p
-            className="whitespace-pre-line mt-20 text-center font-olds text-xl md:text-xl lg:text-3xl text-white/90 font-light leading-relaxed mb-12"
-            style={{ marginTop: "150px" }}
+            className="whitespace-pre-line mt-20 text-center font-olds text-xl md:text-xl lg:text-3xl text-white/90 font-light leading-relaxed mb-12
+             lg:mt-[0px] xl:mt-[0px] 2xl:mt-[120px]"
+            // style={{ marginTop: "120px" }}
           >
             {t("HeroSection.description")}
           </p>
@@ -73,7 +69,7 @@ const HeroSection = () => {
                 <Check className="w-3 h-3 text-black" />
               </div>
               <span className="text-xl font-medium tracking-wide">
-               {t("HeroSection.list3")}
+                {t("HeroSection.list3")}
               </span>
             </div>
           </div>
@@ -81,9 +77,7 @@ const HeroSection = () => {
           {/* CTA Button */}
           <div className="text-center">
             <a href="#product">
-              <button className="primary-btn">
-                {t("HeroSection.button")}
-              </button>
+              <button className="primary-btn">{t("HeroSection.button")}</button>
             </a>
           </div>
 
@@ -98,7 +92,9 @@ const HeroSection = () => {
                   priority
                 />
               </span>
-              <span className="ml-4 font-olds text-3xl">{t("HeroSection.service1")}</span>
+              <span className="ml-4 font-olds text-3xl">
+                {t("HeroSection.service1")}
+              </span>
             </div>
             <div className="flex " style={{ alignItems: "center" }}>
               <span>
@@ -124,7 +120,9 @@ const HeroSection = () => {
                   priority
                 />
               </span>
-              <span className="ml-4 font-olds text-3xl">{t("HeroSection.service3")}</span>
+              <span className="ml-4 font-olds text-3xl">
+                {t("HeroSection.service3")}
+              </span>
             </div>
           </div>
         </div>

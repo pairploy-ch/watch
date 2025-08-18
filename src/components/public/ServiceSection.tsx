@@ -22,7 +22,7 @@ const ServiceSection = () => {
   ];
 
   return (
-    <div className="max-w-full mx-auto py-12 mt-10 mb-6 cursor-pointer">
+    <div className="max-w-full mx-auto py-12 mt-10 mb-6 cursor-pointer md:pt-[200px] lg:pt-[100px]">
       {/* Header */}
       <div className="text-center mb-12">
         <h1 className="text-5xl font-light text-[#B79B76] mb-4 font-olds">

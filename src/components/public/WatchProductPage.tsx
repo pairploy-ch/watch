@@ -180,10 +180,11 @@ const mockWatches: Watch[] = [
 
 const WatchCard: React.FC<{ watch: Watch }> = ({ watch }) => {
   const router = useRouter();
-
+  
   const handleClick = () => {
     router.push(`/watch/1`);
   };
+
   return (
     <div
       className="bg-gradient p-4 hover:bg-gray-750 transition-colors cursor-pointer"
@@ -192,30 +193,30 @@ const WatchCard: React.FC<{ watch: Watch }> = ({ watch }) => {
       <div className="relative aspect-square mb-4 flex items-center justify-center overflow-hidden">
         {watch.isPremium && (
           <div className="absolute top-2 left-2 z-10">
-            <span className="badge-gradient text-black text-xs font-medium px-3 py-1">
+            <span className="badge-gradient text-black text-xs font-medium px-3 py-1 truncate">
               Premium
             </span>
           </div>
         )}
         {watch.isNewArrival && (
           <div className="absolute top-2 right-2 z-10">
-            <span className="text-white text-lg font-medium px-3 py-1 font-olds">
+            <span className="text-white text-lg font-medium px-3 py-1 font-olds truncate">
               New
             </span>
           </div>
         )}
         <div className="flex items-center justify-center">
           <div>
-            <img src={watch.image} alt={watch.refNo} />
+            <img src={watch.image} alt={watch.refNo} className="max-w-full max-h-full object-contain" />
           </div>
         </div>
       </div>
 
       <div className="space-y-2">
-        <h3 className="text-[#B79B76] font-semibold text-xl font-olds">
+        <h3 className="text-[#B79B76] font-semibold text-xl font-olds truncate">
           {watch.brand}
         </h3>
-        <p className="text-[#6E6E6E] text-sm leading-relaxed">
+        <p className="text-[#6E6E6E] text-sm leading-relaxed line-clamp-3">
           {watch.description}
         </p>
 
@@ -225,13 +226,13 @@ const WatchCard: React.FC<{ watch: Watch }> = ({ watch }) => {
         >
           <div>
             <span
-              className="text-[#BFBFBF]"
+              className="text-[#BFBFBF] block truncate"
               style={{ fontWeight: 500, fontSize: "14px" }}
             >
               Ref No.
             </span>
             <div
-              className="text-[#BFBFBF] mt-2"
+              className="text-[#BFBFBF] mt-2 truncate"
               style={{ fontWeight: 500, fontSize: "14px" }}
             >
               Year
@@ -239,13 +240,13 @@ const WatchCard: React.FC<{ watch: Watch }> = ({ watch }) => {
           </div>
           <div style={{ textAlign: "right" }}>
             <span
-              className="text-[#BFBFBF]"
+              className="text-[#BFBFBF] block truncate"
               style={{ fontWeight: 500, fontSize: "14px" }}
             >
               {watch.refNo}
             </span>
             <div
-              className="text-[#BFBFBF] mt-2"
+              className="text-[#BFBFBF] mt-2 truncate"
               style={{ fontWeight: 500, fontSize: "14px" }}
             >
               {watch.year}
@@ -254,7 +255,7 @@ const WatchCard: React.FC<{ watch: Watch }> = ({ watch }) => {
         </div>
 
         <div className="pt-3 pb-2">
-          <span className="text-white text-3xl font-bold">
+          <span className="text-white md:text-xl lg:text-2xl xl:text-3xl font-bold block truncate">
             ฿{watch.price.toLocaleString()}
           </span>
         </div>
@@ -809,8 +810,8 @@ const WatchProductPage: React.FC = () => {
 
           {/* Right Content - Products */}
           <div className="flex-1 mt-11">
-            {/* Product Grid - 3 columns, 4 rows = 12 products */}
-            <div className="grid grid-cols-3 gap-6 mb-8">
+            {/* Product Grid - Responsive: 3 columns on xl+, 2 columns on lg and below */}
+            <div className="grid grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
               {displayedWatches.map((watch, index) => (
                 <WatchCard key={`${watch.id}-${index}`} watch={watch} />
               ))}
