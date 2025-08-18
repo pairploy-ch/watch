@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import Image from 'next/image';
+import Link from "next/link";
+import Image from "next/image";
 
 const Logo = () => (
   <Link href="/" className="group inline-block">
@@ -19,55 +19,65 @@ const Logo = () => (
 
 export default function Footer() {
   return (
-    <footer id='footer' className="" style={{ backgroundImage: "linear-gradient(to right, #292930, #16171B, #16171B)",}}>
+    <footer
+      id="footer"
+      className=""
+      style={{
+        backgroundImage: "linear-gradient(to right, #292930, #16171B, #16171B)",
+      }}
+    >
       <div className="container mx-auto py-10 max-w-[90%]">
         {/* Main Footer Content */}
         <div className="flex justify-between">
           <div>
-     {/* Logo */}
-          <div className="lg:col-span-1">
-            <Logo />
-          </div>
-
-          {/* Contact Information */}
-          <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
-            {/* Showroom */}
-            <div>
-              <h3 className="text-white font-medium mb-3 font-olds">Showroom</h3>
-              <p className="text-white text-sm">
-                Gaysorn Village, Bangkok
-              </p>
+            {/* Logo */}
+            <div className="lg:col-span-1">
+              <Logo />
             </div>
 
-            {/* Phone */}
-            <div>
-              <h3 className="text-white font-medium mb-3 font-olds">Phone</h3>
-              <p className="text-white text-sm">
-                +66 8x-xxx-xxxx
-              </p>
-            </div>
+            {/* Contact Information */}
+            <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
+              {/* Showroom */}
+              <div>
+                <h3 className="text-white font-medium mb-3 font-olds">
+                  Showroom
+                </h3>
+                <p className="text-white text-sm">Gaysorn Village, Bangkok</p>
+              </div>
 
-            {/* Line */}
-            <div>
-              <h3 className="text-white font-medium mb-3 font-olds">Line</h3>
-              <p className="text-white text-sm">
-                @chronoswatch
-              </p>
+              {/* Phone */}
+              <div>
+                <h3 className="text-white font-medium mb-3 font-olds">Phone</h3>
+                <p className="text-white text-sm">+66 8x-xxx-xxxx</p>
+              </div>
+
+              {/* Line */}
+              <div>
+                <h3 className="text-white font-medium mb-3 font-olds">Line</h3>
+                <p className="text-white text-sm">@chronoswatch</p>
+              </div>
             </div>
           </div>
-          </div>
-     
 
           {/* Appointment Section */}
           <div className="lg:col-span-1">
             <div className="text-right">
-              <h3 className="text-white text-4xl mb-4 leading-tight font-olds" style={{fontWeight: 300}}>
-                Make an appointment to<br />
+              <h3
+                className="text-white text-4xl mb-4 leading-tight font-olds"
+                style={{ fontWeight: 300 }}
+              >
+                Make an appointment to
+                <br />
                 view the product
               </h3>
-              <button className="primary-btn text-black px-6 py-3 text-sm font-semibold tracking-wide transition-colors duration-300" style={{padding: '30px 100px'}}>
-                CLICK FOR APPOINTMENT
-              </button>
+              <a href="https://line.me/R/ti/p/@939hmulm?ts=05061404&oat_content=url">
+                <button
+                  className=" primary-btn text-black px-6 py-3 text-sm font-semibold tracking-wide transition-colors duration-300"
+                  style={{ padding: "30px 100px" }}
+                >
+                  CLICK FOR APPOINTMENT
+                </button>
+              </a>
             </div>
           </div>
         </div>
@@ -81,17 +91,26 @@ export default function Footer() {
               </p>
               <span className="text-[#B79B76] font-olds">Premium Dealer</span>
             </div>
-            
+
             <div className="flex items-center space-x-6 text-sm">
-              <Link href="/privacy" className="text-gray-400 hover:text-white transition-colors">
+              <Link
+                href="/privacy"
+                className="text-gray-400 hover:text-white transition-colors"
+              >
                 Privacy Policy
               </Link>
               <span className="text-gray-600">|</span>
-              <Link href="/terms" className="text-gray-400 hover:text-white transition-colors">
+              <Link
+                href="/terms"
+                className="text-gray-400 hover:text-white transition-colors"
+              >
                 Terms & Conditions
               </Link>
               <span className="text-gray-600">|</span>
-              <Link href="/warranty" className="text-gray-400 hover:text-white transition-colors">
+              <Link
+                href="/warranty"
+                className="text-gray-400 hover:text-white transition-colors"
+              >
                 Warranty
               </Link>
             </div>

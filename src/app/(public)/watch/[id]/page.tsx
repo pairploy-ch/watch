@@ -1,139 +1,186 @@
-import { createClient } from "@/lib/supabase/server";
-import { notFound } from "next/navigation";
-import { Watch, WatchMedia } from "@/lib/types";
-import Link from 'next/link';
-import WatchDetailClient from "@/components/public/WatchDetailClient";
-export const dynamic = 'force-dynamic';
+"use client";
+import React, { useState } from 'react';
+import { ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react';
 
-async function getWatchDetails(id: string): Promise<Watch | null> {
-    const supabase = await createClient();
-    const watchId = parseInt(id, 10);
-    if (isNaN(watchId)) return null;
-    supabase.rpc('increment_view_count', { watch_id_to_inc: watchId }).then(({ error }) => {
-        if (error) {
-            // Silently handle error without console.log
-        }
-    });
-    const { data, error } = await supabase
-        .from('watches')
-        .select('*, watch_media(*), images_url, video_url')
-        .eq('id', watchId)
-        .eq('is_public', true)
-        .single();
-    if (error || !data) {
-        return null;
-    }
-    const watchData = data as Record<string, unknown>;
-    const newMedia = Array.isArray(watchData?.watch_media) ? [...(watchData.watch_media as WatchMedia[])].sort((a, b) => (a.position ?? 0) - (b.position ?? 0)) : [];
-    
-    const legacyMedia: WatchMedia[] = [];
-    
-    if (watchData.images_url && Array.isArray(watchData.images_url)) {
-        (watchData.images_url as string[]).forEach((url: string, index: number) => {
-            legacyMedia.push({
-                id: index,
-                watch_id: typeof watchData.id === 'number' ? watchData.id : 0,
-                url: url,
-                type: 'image',
-                position: index,
-                created_at: typeof watchData.created_at === 'string' ? watchData.created_at : '',
-            });
-        });
-    }
-    
-    if (watchData.video_url && typeof watchData.video_url === 'string') {
-        legacyMedia.push({
-            id: (Array.isArray(watchData.images_url) ? watchData.images_url.length : 0),
-            watch_id: typeof watchData.id === 'number' ? watchData.id : 0,
-            url: watchData.video_url,
-            type: 'video',
-            position: legacyMedia.length,
-            created_at: typeof watchData.created_at === 'string' ? watchData.created_at : '',
-        });
-    }
-    
-    const combinedMedia = [...newMedia, ...legacyMedia];
-    
-    return {
-        ...(watchData as Watch),
-        media: combinedMedia,
-    };
-}
-
-type Props = {
-  params: Promise<{ id: string }>;
+// Mock data
+const mockWatch = {
+  id: "1",
+  brand: "ROLEX",
+  ref: "126234",
+  price: 420000,
+  watch_year: "2024",
+  product_type: "Datejust",
+  equipment: "Watch only",
+  status: "Available",
+  remark: "Perpetual 36 Mint Green Fluted Jubilee, hot model.",
+  images: [
+    // ใช้ placeholder images แทน
+    "/newArrival/watch.png",
+    "/newArrival/watch.png",
+    "/newArrival/watch.png",
+    "/newArrival/watch.png",
+  ]
 };
 
-export default async function WatchDetailPage({ params }: Props) {
-    const { id } = await params;
-    const watch = await getWatchDetails(id);
-    if (!watch) {
-        notFound();
-    }
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black">
-        {/* Navigation Header */}
-        <div className="sticky top-0 z-40 bg-black/95 backdrop-blur-sm border-b border-gray-800/50">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between h-16 lg:h-20">
-              <Link 
-                href="/#inventory" 
-                className="group flex items-center space-x-2 sm:space-x-3 text-gray-300 hover:text-[#E6C36A] transition-all duration-300"
-              >
-                <div className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gray-800/50 group-hover:bg-[#E6C36A]/10 transition-all duration-300">
-                  <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                  </svg>
-                </div>
-                <span className="font-medium text-sm sm:text-base">กลับไปที่คอลเลกชัน</span>
-              </Link>
-              
-              {/* Premium Badge */}
-              <div className="hidden sm:flex items-center space-x-2 text-[#E6C36A]">
-                <div className="w-2 h-2 bg-[#E6C36A] rounded-full animate-pulse"></div>
-                <span className="text-sm font-medium">Premium Collection</span>
-              </div>
-            </div>
-          </div>
-        </div>
+const MockWatchDetailPage = () => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-        {/* Main Content */}
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
-          {/* Luxury Frame */}
-          <div className="relative">
-            {/* Decorative Border */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#E6C36A]/20 via-gray-500/20 to-[#E6C36A]/20 rounded-3xl blur-sm"></div>
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-transparent rounded-3xl"></div>
-            
-            {/* Content Container */}
-            <div className="relative bg-black/80 backdrop-blur-xl rounded-3xl border border-gray-800/50 overflow-hidden">
-              {/* Golden Accent Line */}
-              <div className="h-1 bg-gradient-to-r from-transparent via-[#E6C36A] to-transparent"></div>
-              
-              {/* Watch Detail Component */}
-              <div className="p-6 sm:p-8 lg:p-12">
-                <WatchDetailClient watch={watch} />
-              </div>
-            </div>
-          </div>
-
-          {/* Bottom Decorative Elements */}
-          <div className="mt-12 flex justify-center">
-            <div className="flex items-center space-x-4">
-              <div className="w-12 h-px bg-gradient-to-r from-transparent to-[#E6C36A]"></div>
-              <div className="w-3 h-3 border-2 border-[#E6C36A] rounded-full bg-black"></div>
-              <div className="w-12 h-px bg-gradient-to-l from-transparent to-[#E6C36A]"></div>
-            </div>
-          </div>
-        </div>
-
-        {/* Background Pattern */}
-        <div className="fixed inset-0 -z-10 overflow-hidden">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#E6C36A]/5 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gray-500/5 rounded-full blur-3xl"></div>
-        </div>
-
-
-      </div>
+  const nextImage = () => {
+    setCurrentImageIndex((prev) => 
+      prev === mockWatch.images.length - 1 ? 0 : prev + 1
     );
-}
+  };
+
+  const prevImage = () => {
+    setCurrentImageIndex((prev) => 
+      prev === 0 ? mockWatch.images.length - 1 : prev - 1
+    );
+  };
+
+  const selectImage = (index: number) => {
+    setCurrentImageIndex(index);
+  };
+
+  return (
+    <div className="min-h-screen bg-black text-white mx-auto max-w-[90%]">
+      {/* Back to Collection */}
+      <div className="px-6 py-4">
+        <button 
+          onClick={() => window.history.back()}
+          className="text-gray-400 hover:text-white flex items-center gap-2 transition-colors text-sm"
+        >
+          ← BACK TO COLLECTION
+        </button>
+      </div>
+
+      {/* Main Content */}
+      <div className="grid grid-cols-[60%_40%] gap-0 h-screen">
+        {/* Left Side - Image Gallery */}
+        <div className="bg-black flex items-center justify-center relative h-full">
+          {/* Main Image */}
+          <div className="relative mx-auto">
+            <img
+              src={mockWatch.images[currentImageIndex]}
+              alt={`${mockWatch.brand} ${mockWatch.ref}`}
+              className="w-full h-auto max-h-96 object-contain"
+              onError={(e) => {
+                // แทนที่ด้วย fallback placeholder ที่ง่ายกว่า
+                const target = e.target as HTMLImageElement;
+                target.src = `https://via.placeholder.com/400x300/1a1a1a/666666?text=Watch+Image`;
+              }}
+            />
+            
+            
+            {/* Navigation Arrows */}
+            <button
+              onClick={prevImage}
+              className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center transition-colors"
+            >
+              <ChevronLeft className="w-6 h-6 text-white" />
+            </button>
+            
+            <button
+              onClick={nextImage}
+              className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center transition-colors"
+            >
+              <ChevronRight className="w-6 h-6 text-white" />
+            </button>
+          </div>
+
+          {/* Thumbnail Gallery */}
+          <div className="absolute left-6 top-1/2 -translate-y-1/2 flex flex-col space-y-3">
+            {mockWatch.images.map((image, index) => (
+              <button
+                key={index}
+                onClick={() => selectImage(index)}
+                className={`w-16 h-16 border-2 rounded overflow-hidden transition-all ${
+                  index === currentImageIndex 
+                    ? 'border-[#B79B76]' 
+                    : 'border-gray-600 hover:border-gray-400'
+                }`}
+              >
+                <img
+                  src={image}
+                  alt={`Thumbnail ${index + 1}`}
+                  className="w-full h-full object-cover"
+                />
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Right Side - Details */}
+        <div className="bg-black px-8 py-12 flex flex-col justify-center h-full">
+          <div className="max-w-md">
+            {/* Brand */}
+            <h2 className="text-[#B79B76] text-lg font-medium tracking-wider mb-2">
+              {mockWatch.brand}
+            </h2>
+
+            {/* Model */}
+            <h1 className="text-white text-5xl font-bold mb-6">
+              {mockWatch.ref}
+            </h1>
+
+            {/* Price */}
+            <div className="text-white text-3xl font-bold mb-8">
+              ฿{mockWatch.price.toLocaleString()}
+            </div>
+
+            {/* Details Section */}
+            <div className="mb-8">
+              <h3 className="text-white text-lg font-medium mb-4">Detail</h3>
+              
+              <div className="space-y-3 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Brand</span>
+                  <span className="text-white">{mockWatch.brand}</span>
+                </div>
+                
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Ref No.</span>
+                  <span className="text-white">{mockWatch.ref}</span>
+                </div>
+                
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Year</span>
+                  <span className="text-white">{mockWatch.watch_year}</span>
+                </div>
+                
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Type</span>
+                  <span className="text-white">{mockWatch.product_type}</span>
+                </div>
+                
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Equipment</span>
+                  <span className="text-white">{mockWatch.equipment}</span>
+                </div>
+                
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Status</span>
+                  <span className="text-white">{mockWatch.status}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Remark */}
+            <div className="mb-8">
+              <h3 className="text-white text-lg font-medium mb-3">Remark</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                {mockWatch.remark}
+              </p>
+            </div>
+
+            {/* Get More Details Button */}
+            <button className="w-full bg-[#B79B76] hover:bg-[#D4AF37] text-black font-medium py-3 px-6 transition-colors">
+              GET MORE DETAILS
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default MockWatchDetailPage;

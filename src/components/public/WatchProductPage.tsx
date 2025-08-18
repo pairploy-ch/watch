@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo } from "react";
 import { ChevronDown, ChevronLeft, ChevronRight, X } from "lucide-react";
+import { useRouter } from 'next/navigation';
 
 
 interface Watch {
@@ -73,7 +74,7 @@ const mockWatches: Watch[] = [
   },
   {
     id: "5",
-    brand: "TUDOR",
+    brand: "FRANCK MULLER",
     model: "Black Bay 58",
     description: "Black Bay 58 Bronze Brown Dial Fabric Strap",
     refNo: "79012M",
@@ -138,7 +139,7 @@ const mockWatches: Watch[] = [
   },
   {
     id: "10",
-    brand: "TUDOR",
+    brand: "FRANCK MULLER",
     model: "Pelagos 39",
     description: "Pelagos 39 Titanium Blue Dial Rubber Strap",
     refNo: "25407N",
@@ -178,8 +179,13 @@ const mockWatches: Watch[] = [
 ];
 
 const WatchCard: React.FC<{ watch: Watch }> = ({ watch }) => {
+   const router = useRouter();
+
+  const handleClick = () => {
+    router.push(`/watch/1`);
+  };
   return (
-    <div className="bg-gradient p-4 hover:bg-gray-750 transition-colors">
+    <div className="bg-gradient p-4 hover:bg-gray-750 transition-colors cursor-pointer"  onClick={handleClick}>
       <div className="relative aspect-square mb-4 flex items-center justify-center overflow-hidden">
         {watch.isPremium && (
           <div className="absolute top-2 left-2 z-10">
@@ -279,7 +285,7 @@ const FilterSidebar: React.FC<{
   isNewArrivalOnly,
   setIsNewArrivalOnly,
 }) => {
-  const brands = ["Rolex", "Omega", "Cartier", "Richard Mille", "Tudor", "Patek"];
+  const brands = ["Rolex", "Omega", "Cartier", "Richard Mille", "franck muller", "Patek", "Audemars Piguet"];
   const models = ["Datejust 36", "Speedmaster", "Tank Must", "RM 35-02", "Black Bay 58", "Nautilus", "Submariner", "Seamaster", "Santos", "Pelagos 39", "Calatrava", "RM 11-03"];
   const caseSizes = ["35mm", "36mm", "37mm", "39mm", "40mm", "41mm", "42mm", "43mm", "49mm", "50mm"];
   const years = ["2021", "2022", "2023", "2024"];
@@ -506,9 +512,26 @@ const WatchProductPage: React.FC = () => {
     const checkUrlParams = () => {
       if (typeof window !== 'undefined') {
         const urlParams = new URLSearchParams(window.location.search);
+        
+        // Check for newArrivals parameter
         if (urlParams.get('newArrivals') === 'true') {
           setIsNewArrivalOnly(true);
           setCurrentPage(1);
+        }
+        
+        // Check for brand parameter
+        const brandParam = urlParams.get('brand');
+        if (brandParam) {
+          // Find matching brand (case insensitive)
+          const brands = ["Rolex", "Omega", "Cartier", "Richard Mille", "franck muller", "Patek", "Audemars Piguet"];
+          const matchingBrand = brands.find(brand => 
+            brand.toLowerCase() === brandParam.toLowerCase()
+          );
+          
+          if (matchingBrand && !selectedBrands.includes(matchingBrand)) {
+            setSelectedBrands([matchingBrand]);
+            setCurrentPage(1);
+          }
         }
       }
     };
@@ -575,7 +598,7 @@ const WatchProductPage: React.FC = () => {
       clearTimeout(timeoutId2);
       clearTimeout(timeoutId3);
     };
-  }, []);
+  }, [selectedBrands]);
 
   // Update URL when isNewArrivalOnly changes
   React.useEffect(() => {

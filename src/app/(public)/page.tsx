@@ -21,6 +21,7 @@ import FAQSection from "@/components/public/FAQSection";
 import Image from "next/image";
 // import Link from "next/link";
 import BrowseButton from "@/components/public/BrowseNewArrival";
+import BrandFilter from "@/components/public/BrandFilter";
 
 // Dynamically import InventorySection as a Client Component
 // const InventorySection = dynamic(
@@ -118,7 +119,7 @@ const FeatureCard: FC<{
   description: string;
 }> = ({ icon, title, description }) => (
   <div className="group relative from-gray-900 via-black to-gray-900 p-6 md:p-8 rounded-2xl transition-all duration-500 ">
-    <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+    <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent rounded-2xl opacity-0  transition-opacity duration-500"></div>
     <div className="relative z-10">
       <div className="flex" style={{ alignItems: "center" }}>
         <div
@@ -127,12 +128,12 @@ const FeatureCard: FC<{
         >
           {icon}
         </div>
-        <h3 className="text-xl md:text-4xl font-bold text-white mb-3 font-olds ml-5">
+        <h3 className="text-xl md:text-3xl font-bold text-white mb-3 font-olds ml-5">
           {title}
         </h3>
       </div>
 
-      <p className="text-white leading-relaxed text-xl w-[100%] mt-4">
+      <p className="text-white leading-relaxed text-lg w-[100%] mt-4">
         {description}
       </p>
     </div>
@@ -304,8 +305,8 @@ const NewArrival = () => (
 );
 
 const AboutSection = () => (
-  <section id="about" className="relative">
-    <div className="mt-[150px] relative min-h-screen pt-[100px] flex flex-col justify-center items-start text-left overflow-hidden">
+  <section id="about" className="relative" style={{ maxHeight: "1000px" }}>
+    <div className="mt-[150px] h-[900px] relative  pt-[100px] flex flex-col justify-center items-start text-left overflow-hidden">
       {/*      
       <Image
         src="/bg-about.png"
@@ -354,29 +355,29 @@ const AboutSection = () => (
             </p>
           </div>
           <div
-            className="mt-10 pb-8 pt-5 flex"
+            className="mt-10 pb-8 pt-5 flex pl-3"
             style={{
               backgroundImage: "linear-gradient(to right, #2C2C33, #141519)",
               marginTop: "80px",
             }}
           >
             <FeatureCard
-              icon={<Shield className="w-8 h-8 text-black" />}
+              icon={<Shield className="w-8 h-8 text-white" />}
               title="Authentic"
               description="Every watch is thoroughly authenticated by certified experts"
             />
             <FeatureCard
-              icon={<Award className="w-8 h-8 text-black" />}
+              icon={<Award className="w-8 h-8 text-white" />}
               title="Quality"
               description="Rigorous inspection ensures premium condition and performance"
             />
             <FeatureCard
-              icon={<Star className="w-8 h-8 text-black" />}
+              icon={<Star className="w-8 h-8 text-white" />}
               title="Exclusive"
               description="Rare and limited pieces from prestigious manufacturers"
             />
             <FeatureCard
-              icon={<Clock className="w-8 h-8 text-black" />}
+              icon={<Clock className="w-8 h-8 text-white" />}
               title="Legacy"
               description="Timeless pieces that retain and increase their value"
             />
@@ -538,7 +539,7 @@ const Service = () => {
   ];
 
   return (
-    <div className="max-w-full mx-auto py-12 mt-10 mb-6">
+    <div className="max-w-full mx-auto py-12 mt-10 mb-6 cursor-pointer">
       {/* Header */}
       <div className="text-center mb-12">
         <h1 className="text-5xl font-light text-[#B79B76] mb-4 font-olds">
@@ -549,7 +550,8 @@ const Service = () => {
       {/* Image Row */}
       <div className="grid grid-cols-1 md:grid-cols-3">
         {services.map((service, i) => (
-          <div key={i} className="relative group overflow-hidden shadow-lg">
+          
+          <a href="https://line.me/R/ti/p/@939hmulm?ts=05061404&oat_content=url" key={i} className="relative group overflow-hidden shadow-lg" >
             {/* Background Image */}
             <Image
               style={{ aspectRatio: "1/1" }}
@@ -581,7 +583,7 @@ const Service = () => {
                 </span>
               </span>
             </div>
-          </div>
+          </a>
         ))}
       </div>
     </div>
@@ -771,7 +773,9 @@ export default async function HomePage() {
       <Header watches={watches} />
       <HeroSection />
       <NewArrival />
+      <BrandFilter />
       <WatchProductPage />
+      
       {/* <Suspense
         fallback={
           <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center">

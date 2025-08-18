@@ -2,29 +2,68 @@
 
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
+import Image from "next/image";
 
-export default function BrowseButton() {
+interface Brand {
+  name: string;
+  image: string;
+  alt: string;
+}
+
+const brands: Brand[] = [
+  { name: "Cartier", image: "/brands/brand1.png", alt: "Cartier logo" },
+  { name: "Rolex", image: "/brands/brand2.png", alt: "Rolex logo" },
+  { name: "Patek", image: "/brands/brand3.png", alt: "Patek Philippe logo" },
+  {
+    name: "Richard Mille",
+    image: "/brands/brand4.png",
+    alt: "Richard Mille logo",
+  },
+  {
+    name: "Audemars Piguet",
+    image: "/brands/brand5.png",
+    alt: "Audemars Piguet logo",
+  },
+    { name: "franck muller", image: "/brands/brand6.png", alt: "franck muller logo" },
+
+    { name: "Omega", image: "/brands/brand7.png", alt: "Omega logo" },
+];
+
+export default function BrandLogos() {
   const router = useRouter();
 
-  const handleClick = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const handleBrandClick = useCallback(
+    (brandName: string) => {
+      // Navigate to product page with brand filter
+      router.push(`?brand=${brandName.toLowerCase()}`, { scroll: false });
 
-    // 1) update query string แบบ client-side (ไม่ reload)
-    router.push("?newArrivals=true", { scroll: false });
-
-    // 2) scroll ไปที่ element ที่มี id="product"
-    const el = document.getElementById("product");
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [router]);
+      // Scroll to product section
+      const productSection = document.getElementById("product");
+      if (productSection) {
+        productSection.scrollIntoView({ behavior: "smooth" });
+      }
+    },
+    [router]
+  );
 
   return (
-    <button
-      className="primary-btn mt-2"
-      onClick={handleClick}
-    >
-      Browse more new arrivals
-    </button>
+    <div className="flex flex-wrap justify-between items-center gap-8 py-10 max-w-[90%] mx-auto mt-10">
+      {brands.map((brand, index) => (
+        <div
+          key={brand.name}
+          className="cursor-pointer hover:opacity-80 transition-opacity"
+          onClick={() => handleBrandClick(brand.name)}
+        >
+          <Image
+            src={brand.image}
+            alt={brand.alt}
+            width={140}
+            height={60}
+            priority={index < 3} 
+            className="object-cover"
+          />
+        </div>
+      ))}
+    </div>
   );
 }
