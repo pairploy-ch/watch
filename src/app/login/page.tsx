@@ -8,7 +8,7 @@ import { createClient } from '@/lib/supabase/client'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Eye, EyeOff, Mail, Lock, Shield, AlertCircle } from 'lucide-react'
+import { Eye, EyeOff,  Shield, AlertCircle } from 'lucide-react'
 
 const ParticlesBackground = dynamic(() => import('@/components/ui/ParticlesBackground').then(mod => mod.ParticlesBackground), { 
   ssr: false,
@@ -25,6 +25,8 @@ export default function LoginPage() {
   const [passwordFocused, setPasswordFocused] = useState(false)
   const router = useRouter()
   const supabase = createClient()
+
+  console.log(passwordFocused);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()

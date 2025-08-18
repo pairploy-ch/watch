@@ -111,27 +111,27 @@ const TestimonialCard: FC<{
 );
 
 // Container component สำหรับใช้งาน
-const TestimonialContainer: FC<{ testimonials: Array<{name: string, text: string, watch: string, image: string}> }> = ({ testimonials }) => (
-  <div className="w-full">
-    {/* Desktop: Grid layout */}
-    <div className="hidden lg:block">
-      <div className="overflow-x-auto">
-        <div className="flex gap-6 pb-4" style={{ width: 'max-content' }}>
-          {testimonials.map((testimonial, index) => (
-            <TestimonialCard key={index} {...testimonial} />
-          ))}
-        </div>
-      </div>
-    </div>
+// const TestimonialContainer: FC<{ testimonials: Array<{name: string, text: string, watch: string, image: string}> }> = ({ testimonials }) => (
+//   <div className="w-full">
+//     {/* Desktop: Grid layout */}
+//     <div className="hidden lg:block">
+//       <div className="overflow-x-auto">
+//         <div className="flex gap-6 pb-4" style={{ width: 'max-content' }}>
+//           {testimonials.map((testimonial, index) => (
+//             <TestimonialCard key={index} {...testimonial} />
+//           ))}
+//         </div>
+//       </div>
+//     </div>
     
-    {/* Mobile/Tablet: Stack layout */}
-    <div className="lg:hidden grid gap-6">
-      {testimonials.map((testimonial, index) => (
-        <TestimonialCard key={index} {...testimonial} />
-      ))}
-    </div>
-  </div>
-);
+//     {/* Mobile/Tablet: Stack layout */}
+//     <div className="lg:hidden grid gap-6">
+//       {testimonials.map((testimonial, index) => (
+//         <TestimonialCard key={index} {...testimonial} />
+//       ))}
+//     </div>
+//   </div>
+// );
 
 // const FeatureCard: FC<{
 //   icon: ReactNode;
