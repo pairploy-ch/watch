@@ -1,10 +1,10 @@
 {
   "Header": {
-    "home": "Home",
-    "inventory": "Inventory",
-    "about": "About Us",
-    "contact": "Contact",
-    "admin": "Admin"
+    "home": "HOME",
+    "collection": "COLLECTION",
+    "about": "ABOUT",
+    "contact": "CONTACT"
+   
   },
   "HeroSection": {
     "title": "Timeless Elegance",

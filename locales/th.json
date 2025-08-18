@@ -1,10 +1,9 @@
 {
   "Header": {
     "home": "หน้าแรก",
-    "inventory": "สินค้า",
+    "collection": "สินค้า",
     "about": "เกี่ยวกับเรา",
-    "contact": "ติดต่อเรา",
-    "admin": "แอดมิน"
+    "contact": "ติดต่อเรา"
   },
   "HeroSection": {
     "title": "ความสง่างามเหนือกาลเวลา",

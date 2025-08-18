@@ -3,6 +3,7 @@ import { FC, ReactNode } from "react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { Watch, WatchMedia } from "@/lib/types";
+import { useLanguage } from "../../../context/LanguageContext";
 // import dynamic from "next/dynamic";
 // import { Swiper, SwiperSlide } from "swiper/react";
 import {
@@ -24,6 +25,7 @@ import Image from "next/image";
 import BrowseButton from "@/components/public/BrowseNewArrival";
 import BrandFilter from "@/components/public/BrandFilter";
 import StickyBanner from "@/components/public/StickyBanner";
+
 
 // Dynamically import InventorySection as a Client Component
 // const InventorySection = dynamic(
@@ -47,6 +49,7 @@ import StickyBanner from "@/components/public/StickyBanner";
 //     ),
 //   }
 // );
+
 
 // Helper components
 const Section: FC<{
@@ -593,6 +596,7 @@ const Service = () => {
 };
 
 export default async function HomePage() {
+  
   const supabase = await createClient();
 
   // วิธีที่แน่นอนที่สุด - bypass type checking ทั้งหมด

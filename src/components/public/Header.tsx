@@ -7,6 +7,7 @@ import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { Watch } from "@/lib/types";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useLanguage } from "../../../context/LanguageContext";
 
 interface HeaderProps {
   watches: Watch[];
@@ -21,6 +22,7 @@ export default function Header({ watches }: HeaderProps) {
   const [selectedLanguage, setSelectedLanguage] = useState("ENG");
   const searchRef = useRef<HTMLInputElement>(null);
   const languageRef = useRef<HTMLDivElement>(null);
+  const { t, locale, setLocale } = useLanguage();
 
   const router = useRouter();
 
@@ -93,10 +95,10 @@ export default function Header({ watches }: HeaderProps) {
   }, []);
 
   const navLinks = [
-    { href: "/", label: "HOME" },
-    { href: "/#product", label: "COLLECTION" },
-    { href: "/#about", label: "ABOUT" },
-    { href: "/#footer", label: "CONTACT" },
+    { href: "/", label: t("Header.home") },
+    { href: "/#product", label: t("Header.collection") },
+    { href: "/#about", label: t("Header.about") },
+    { href: "/#footer", label: t("Header.contact") },
   ];
 
   return (
@@ -111,6 +113,7 @@ export default function Header({ watches }: HeaderProps) {
     >
       <nav className="container mx-auto px-6 py-6 flex justify-between items-center min-h-[80px] max-w-[90%]">
         {/* Logo */}
+        {/* <li>{t("Header.home")}</li> */}
         <Link href="/" className="flex items-center">
           <Image
             src="/logo-bg.png"
@@ -165,6 +168,7 @@ export default function Header({ watches }: HeaderProps) {
             </button>
 
             {/* Language Dropdown */}
+
             {showLanguageDropdown && (
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
@@ -176,11 +180,11 @@ export default function Header({ watches }: HeaderProps) {
                 <div className="py-1">
                   <button
                     onClick={() => {
-                      setSelectedLanguage("ENG");
+                      setLocale("en"); // ✅ เปลี่ยน locale เป็นอังกฤษ
                       setShowLanguageDropdown(false);
                     }}
                     className={`block w-full text-left px-3 py-2 text-sm transition-colors duration-200 ${
-                      selectedLanguage === "ENG"
+                      locale === "en"
                         ? "bg-white/20 text-white"
                         : "text-gray-300 hover:bg-white/10 hover:text-white"
                     }`}
@@ -189,11 +193,11 @@ export default function Header({ watches }: HeaderProps) {
                   </button>
                   <button
                     onClick={() => {
-                      setSelectedLanguage("THAI");
+                      setLocale("th"); // ✅ เปลี่ยน locale เป็นไทย
                       setShowLanguageDropdown(false);
                     }}
                     className={`block w-full text-left px-3 py-2 text-sm transition-colors duration-200 ${
-                      selectedLanguage === "THAI"
+                      locale === "th"
                         ? "bg-white/20 text-white"
                         : "text-gray-300 hover:bg-white/10 hover:text-white"
                     }`}

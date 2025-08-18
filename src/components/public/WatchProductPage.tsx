@@ -604,18 +604,76 @@ const WatchProductPage: React.FC = () => {
             setSelectedBrands([matchingBrand]);
             setCurrentPage(1);
           }
-        } else {
-          // If no brand parameter, clear selected brands
-          if (selectedBrands.length > 0) {
-            setSelectedBrands([]);
-          }
         }
       }
     };
 
-    // Only check URL params on initial load
+    // Check immediately
     checkUrlParams();
-  }, []); // Remove selectedBrands dependency
+
+    // Check when page becomes visible
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        checkUrlParams();
+      }
+    };
+
+    // Check when user focuses on window
+    const handleFocus = () => {
+      checkUrlParams();
+    };
+
+    // Check when scrolling to this section
+    const handleScroll = () => {
+      const productSection = document.getElementById("product");
+      if (productSection) {
+        const rect = productSection.getBoundingClientRect();
+        const isVisible = rect.top >= 0 && rect.top <= window.innerHeight;
+        if (isVisible) {
+          checkUrlParams();
+        }
+      }
+    };
+
+    // Set up Intersection Observer for when section becomes visible
+    const productSection = document.getElementById("product");
+    let observer: IntersectionObserver | null = null;
+
+    if (productSection) {
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              checkUrlParams();
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      observer.observe(productSection);
+    }
+
+    // Add event listeners
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("focus", handleFocus);
+    window.addEventListener("scroll", handleScroll);
+
+    // Check with delays to ensure URL is updated
+    const timeoutId1 = setTimeout(checkUrlParams, 100);
+    const timeoutId2 = setTimeout(checkUrlParams, 500);
+    const timeoutId3 = setTimeout(checkUrlParams, 1000);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("focus", handleFocus);
+      window.removeEventListener("scroll", handleScroll);
+      if (observer) observer.disconnect();
+      clearTimeout(timeoutId1);
+      clearTimeout(timeoutId2);
+      clearTimeout(timeoutId3);
+    };
+  }, [selectedBrands]);
 
   // Update URL when isNewArrivalOnly changes
   React.useEffect(() => {
