@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useLanguage } from "../../../context/LanguageContext";
 
 const StickyBottomBar = () => {
-  const { t, locale, setLocale } = useLanguage();
+  const { t } = useLanguage();
   const [isVisible, setIsVisible] = useState(true);
 
   if (!isVisible) {

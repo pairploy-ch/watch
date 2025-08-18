@@ -180,7 +180,7 @@ const WatchCard: React.FC<{ watch: Watch }> = ({ watch }) => {
 };
 
 const MockWatchDetailPage = () => {
-  const { t, locale, setLocale } = useLanguage();
+  const { t } = useLanguage();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const nextImage = () => {

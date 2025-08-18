@@ -19,7 +19,7 @@ const Logo = () => (
 );
 
 export default function Footer() {
-  const { t, locale, setLocale } = useLanguage();
+  const { t } = useLanguage();
   return (
     <footer
       id="footer"

@@ -1,6 +1,6 @@
 // "use client";
 import { FC, ReactNode } from "react";
-import Link from "next/link";
+
 import { createClient } from "@/lib/supabase/server";
 import { Watch, WatchMedia } from "@/lib/types";
 
@@ -11,10 +11,6 @@ import {
   MessageCircle,
   MapPin,
   Star,
-  Shield,
-  Award,
-  Clock,
-  Check,
 } from "lucide-react";
 import Header from "@/components/public/Header";
 import Slide from "@/components/public/Slide";

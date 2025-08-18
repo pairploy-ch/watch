@@ -5,7 +5,7 @@ import { Check } from "lucide-react";
 import { useLanguage } from "../../../context/LanguageContext";
 
 const HeroSection = () => {
-  const { t, locale, setLocale } = useLanguage();
+  const { t } = useLanguage();
   return (
     <section>
       <div className="relative min-h-screen pt-[80px] flex flex-col justify-center items-start text-left overflow-hidden">

@@ -6,7 +6,7 @@ import { Plus, Minus } from "lucide-react";
 import { useLanguage } from "../../../context/LanguageContext";
 
 export default function FAQSection() {
-  const { t, locale, setLocale } = useLanguage();
+  const { t } = useLanguage();
 
   const faqs = [
     {

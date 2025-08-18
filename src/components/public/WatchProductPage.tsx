@@ -562,7 +562,7 @@ const Pagination: React.FC<{
 };
 
 const WatchProductPage: React.FC = () => {
-  const { t, locale, setLocale } = useLanguage();
+  const { t } = useLanguage();
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [selectedModels, setSelectedModels] = useState<string[]>([]);
   const [selectedCaseSizes, setSelectedCaseSizes] = useState<string[]>([]);

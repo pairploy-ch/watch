@@ -1,11 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { Check } from "lucide-react";
+
 import { useLanguage } from "../../../context/LanguageContext";
 
 const ServiceSection = () => {
-    const { t, locale, setLocale } = useLanguage();
+    const { t } = useLanguage();
   const services = [
     {
       title: t("ServiceSection.service1"),

@@ -40,7 +40,7 @@ const FeatureCard: FC<{
 );
 
 const AboutSection = () => {
-    const { t, locale, setLocale } = useLanguage();
+    const { t } = useLanguage();
   return (
     <section id="about" className="relative" style={{ maxHeight: "1000px" }}>
       <div className="mt-[150px] h-[900px] relative  pt-[100px] flex flex-col justify-center items-start text-left overflow-hidden">
