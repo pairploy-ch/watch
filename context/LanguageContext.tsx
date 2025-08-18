@@ -23,7 +23,7 @@ const LanguageContext = createContext<LanguageContextProps | undefined>(
 );
 
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
-  const [locale, setLocale] = useState<Locale>("th");
+  const [locale, setLocale] = useState<Locale>("en");
 
   const t = (key: string): string => {
     const parts = key.split(".");

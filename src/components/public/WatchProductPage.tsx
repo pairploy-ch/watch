@@ -3,6 +3,7 @@
 import React, { useState, useMemo } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useLanguage } from "../../../context/LanguageContext";
 
 interface Watch {
   id: string;
@@ -561,6 +562,7 @@ const Pagination: React.FC<{
 };
 
 const WatchProductPage: React.FC = () => {
+  const { t, locale, setLocale } = useLanguage();
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [selectedModels, setSelectedModels] = useState<string[]>([]);
   const [selectedCaseSizes, setSelectedCaseSizes] = useState<string[]>([]);
@@ -784,7 +786,7 @@ const WatchProductPage: React.FC = () => {
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-5xl font-light text-[#B79B76] mb-4 font-olds">
-            Our Product
+             {t("CollectionSection.title")}
           </h1>
         </div>
 

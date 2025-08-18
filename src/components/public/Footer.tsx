@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { useLanguage } from "../../../context/LanguageContext";
 
 const Logo = () => (
   <Link href="/" className="group inline-block">
@@ -18,6 +19,7 @@ const Logo = () => (
 );
 
 export default function Footer() {
+  const { t, locale, setLocale } = useLanguage();
   return (
     <footer
       id="footer"
@@ -63,19 +65,17 @@ export default function Footer() {
           <div className="lg:col-span-1">
             <div className="text-right">
               <h3
-                className="text-white text-4xl mb-4 leading-tight font-olds"
+                className="whitespace-pre-line  text-white text-4xl mb-4 leading-tight font-olds"
                 style={{ fontWeight: 300 }}
               >
-                Make an appointment to
-                <br />
-                view the product
+                {t("ContactSection.title")}
               </h3>
               <a href="https://line.me/R/ti/p/@939hmulm?ts=05061404&oat_content=url">
                 <button
                   className="mt-4 primary-btn text-black px-6 py-3 text-sm font-semibold tracking-wide transition-colors duration-300"
                   style={{ padding: "20px 100px" }}
                 >
-                  CLICK FOR APPOINTMENT
+                   {t("ContactSection.button")}
                 </button>
               </a>
             </div>

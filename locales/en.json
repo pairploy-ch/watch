@@ -7,50 +7,57 @@
    
   },
   "HeroSection": {
-    "title": "Timeless Elegance",
-    "subtitle": "Discover our curated collection of the world's finest pre-owned luxury watches."
+    "title": "Timeless",
+    "subtitle": "elegance",
+    "description": "Discover our curated collection of the worlds finest\npre-owned luxury watches",
+    "list1": "100% Authentic",
+    "list2": "Certified Quality",
+    "list3": "Lifetime Support",
+    "button": "BROWSE EXCLUSIVE COLLECTION",
+    "service1": "Buy Sell Trade",
+    "service2": "Polishing & Servicing",
+    "service3": "Protection Film"
   },
-  "InventorySection": {
-    "title": "Our Collection",
-    "loading": "Loading collection...",
+  "CollectionSection": {
+    "title": "Our Product",
     "noResults": "No watches match your criteria. Try adjusting the filters."
   },
   "AboutSection": {
-    "title": "About Us",
-    "p1": "At Luxe Watch, we believe a watch is not just a timepiece, but a legacy, a work of art, and a story on your wrist. Our mission is to curate exceptional pre-owned luxury watches with fascinating stories from around the world for you to own.",
-    "p2": "With expertise and passion, we meticulously inspect every watch to ensure you receive 100% quality and authenticity."
+    "p1": "At Chronos Watch, we believe a watch is not just a timepiece, but a legacy, a work of art, and a story on your wrist. Our mission is to curate exceptional pre-owned luxury watches with fascinating stories from around the world.",
+    "p2": "With expertise and passion, we meticulously inspect every watch to ensure you receive 100% quality and authenticity. Each piece is carefully selected and authenticated by our master watchmakers.",
+    "feature1": "Every watch is thoroughly authenticated by certified experts",
+    "feature2": "Rigorous inspection ensures premium condition and performance",
+    "feature3": "Rare and limited pieces from prestigious manufacturers",
+    "feature4": "Timeless pieces that retain and increase their value"
   },
-  "TestimonialsSection": {
-    "title": "What Our Clients Say",
-    "t1_text": "Very professional and trustworthy. The watch was exactly as described. Highly recommended for international buyers.",
-    "t1_name": "- Mr. David",
-    "t1_watch": "Patek Philippe Nautilus"
+  "ServiceSection": {
+    "title": "Our Service",
+    "service1": "Buy Sell Trade",
+    "service2": "Polishing & Servicing",
+    "service3": "Protection Film"
+  },
+  "FAQSection": {
+    "q1": "Are the watches sold on your website authentic?",
+    "a1": "Yes, all watches listed on our website are 100% authentic. Each timepiece undergoes a thorough verification process by our experts to ensure its authenticity and quality.",
+    "q2": "Do your watches come with a warranty? What does it cover?",
+    "a2": "Absolutely. All purchases include a manufacturer or authorized dealer warranty, covering mechanical issues and defects for a specified period. Please refer to each product page for specific warranty details.",
+    "q3": "Can I return or exchange a watch if I’m not satisfied?",
+    "a3": "Yes, we offer a return or exchange policy within a set period after purchase. The watch must be in its original condition and packaging. For details on the process, please visit our Returns & Exchanges page.",
+    "q4": "How can I track my order and shipping status?",
+    "a4": "Once your order is confirmed and shipped, you will receive a tracking number via email. You can use this number to monitor the delivery status through our shipping partner’s website."  
   },
   "ContactSection": {
-    "title": "Get In Touch",
-    "c1_title": "Phone",
-    "c1_desc": "For inquiries and detailed discussions.",
-    "c2_title": "LINE / WhatsApp",
-    "c2_desc": "Send messages and images for appointments.",
-    "c3_title": "Visit Us",
-    "c3_desc": "By appointment only to view our collection.",
-    "c3_location": "Gaysorn Village, Bangkok"
+    "title": "Make an appointment to\nview the product",
+    "button": "CLICK FOR APPOINTMENT"
   },
-  "WatchCard": {
-    "inquiry": "Inquire Now"
+  "StickyBanner": {
+    "buy": "NEW LUXURY\nWATCH COLLECTION",
+    "sell": "CONSIGNMENT/SELL\nA WATCH"
   },
   "WatchDetailPage": {
-    "details": "Watch Details",
-    "ref": "Reference Number",
-    "brand": "Brand",
-    "year": "Year",
-    "condition": "Condition",
-    "set": "Box & Papers",
-    "status": "Status",
-    "notes": "Notes",
-    "fullSet": "Full Set",
-    "watchOnly": "Watch Only",
-    "priceOnRequest": "Price upon request",
-    "notAvailable": "N/A"
+    "btn-back": "BACK TO COLLECTION",
+    "button": "GET MORE DETAILS",
+    "related-title": "Related Product"
   }
+
 }

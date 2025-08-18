@@ -3,7 +3,7 @@ import { FC, ReactNode } from "react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { Watch, WatchMedia } from "@/lib/types";
-import { useLanguage } from "../../../context/LanguageContext";
+
 // import dynamic from "next/dynamic";
 // import { Swiper, SwiperSlide } from "swiper/react";
 import {
@@ -25,6 +25,9 @@ import Image from "next/image";
 import BrowseButton from "@/components/public/BrowseNewArrival";
 import BrandFilter from "@/components/public/BrandFilter";
 import StickyBanner from "@/components/public/StickyBanner";
+import HeroSection from "@/components/public/HeroSection";
+import AboutSection from "@/components/public/AboutSection";
+import Service from "@/components/public/ServiceSection";
 
 
 // Dynamically import InventorySection as a Client Component
@@ -118,147 +121,34 @@ const TestimonialCard: FC<{
   </div>
 );
 
-const FeatureCard: FC<{
-  icon: ReactNode;
-  title: string;
-  description: string;
-}> = ({ icon, title, description }) => (
-  <div className="group relative from-gray-900 via-black to-gray-900 p-6 md:p-8 rounded-2xl transition-all duration-500 ">
-    <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent rounded-2xl opacity-0  transition-opacity duration-500"></div>
-    <div className="relative z-10">
-      <div className="flex" style={{ alignItems: "center" }}>
-        <div
-          style={{ color: "#fff !important" }}
-          className="w-16 h-16 mb-4 bg-[#3C3C3C]  rounded-[5px] flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
-        >
-          {icon}
-        </div>
-        <h3 className="text-xl md:text-3xl font-bold text-white mb-3 font-olds ml-5">
-          {title}
-        </h3>
-      </div>
+// const FeatureCard: FC<{
+//   icon: ReactNode;
+//   title: string;
+//   description: string;
+// }> = ({ icon, title, description }) => (
+//   <div className="group relative from-gray-900 via-black to-gray-900 p-6 md:p-8 rounded-2xl transition-all duration-500 ">
+//     <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent rounded-2xl opacity-0  transition-opacity duration-500"></div>
+//     <div className="relative z-10">
+//       <div className="flex" style={{ alignItems: "center" }}>
+//         <div
+//           style={{ color: "#fff !important" }}
+//           className="w-16 h-16 mb-4 bg-[#3C3C3C]  rounded-[5px] flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
+//         >
+//           {icon}
+//         </div>
+//         <h3 className="text-xl md:text-3xl font-bold text-white mb-3 font-olds ml-5">
+//           {title}
+//         </h3>
+//       </div>
 
-      <p className="text-white leading-relaxed text-lg w-[100%] mt-4">
-        {description}
-      </p>
-    </div>
-  </div>
-);
+//       <p className="text-white leading-relaxed text-lg w-[100%] mt-4">
+//         {description}
+//       </p>
+//     </div>
+//   </div>
+// );
 
-const HeroSection = () => (
-  <section>
-    <div className="relative min-h-screen pt-[80px] flex flex-col justify-center items-start text-left overflow-hidden">
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{
-          backgroundImage:
-            "linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.5)), url('/cover.jpg')",
-        }}
-      />
-    </div>
 
-    {/* Content */}
-    <div
-      className="relative z-10 max-w-[90%] mx-auto"
-      style={{ marginTop: "-230px" }}
-    >
-      <div className="">
-        {/* Main heading */}
-        <div className="mb-8">
-          <h2
-            className="font-olds text-2xl md:text-3xl lg:text-6xl font-light text-white mb-4 tracking-wide"
-            style={{ marginTop: "-300px" }}
-          >
-            Timeless
-          </h2>
-          <h1
-            style={{ marginTop: "-180px" }}
-            className="text-right text-6xl md:text-8xl lg:text-[29rem] font-olds font-light text-white mb-8 leading-none tracking-tight"
-          >
-            elegance
-          </h1>
-        </div>
-
-        {/* Description */}
-        <p
-          className="mt-20 text-center font-olds text-xl md:text-xl lg:text-3xl text-white/90 font-light leading-relaxed mb-12"
-          style={{ marginTop: "150px" }}
-        >
-          Discover our curated collection of the worlds finest
-          <br />
-          pre-owned luxury watches
-        </p>
-
-        {/* Features */}
-        <div className="flex flex-wrap items-center justify-center gap-8 mb-12 text-white/80">
-          {["100% Authentic", "Certified Quality", "Lifetime Support"].map(
-            (feature, i) => (
-              <div key={i} className="flex items-center space-x-2">
-                <div
-                  className="w-5 h-5 bg-[#E0D0B9] rounded-full flex justify-center"
-                  style={{ alignItems: "center" }}
-                >
-                  <Check className="w-3 h-3 text-black" />
-                </div>
-                <span className="text-xl font-medium tracking-wide">
-                  {feature}
-                </span>
-              </div>
-            )
-          )}
-        </div>
-
-        {/* CTA Button */}
-        <div className="text-center">
-          <a href="#product">
-            <button className="primary-btn">BROWSE EXCLUSIVE COLLECTION</button>
-          </a>
-        </div>
-
-        <div className="text-center mt-20 flex justify-between">
-          <div className="flex " style={{ alignItems: "center" }}>
-            <span>
-              <Image
-                src="/icon/icon-time.png"
-                alt="logo"
-                width={20}
-                height={20}
-                priority
-              />
-            </span>
-            <span className="ml-4 font-olds text-3xl">Buy Sell Trade</span>
-          </div>
-          <div className="flex " style={{ alignItems: "center" }}>
-            <span>
-              <Image
-                src="/icon/icon-polish.png"
-                alt="logo"
-                width={30}
-                height={30}
-                priority
-              />
-            </span>
-            <span className="ml-4 font-olds text-3xl">
-              Polishing & Servicing
-            </span>
-          </div>
-          <div className="flex " style={{ alignItems: "center" }}>
-            <span>
-              <Image
-                src="/icon/icon-film.png"
-                alt="logo"
-                width={20}
-                height={20}
-                priority
-              />
-            </span>
-            <span className="ml-4 font-olds text-3xl">Protection Film</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-);
 
 const NewArrival = () => (
   <section className="relative" style={{ maxHeight: "1000px" }}>
@@ -309,133 +199,133 @@ const NewArrival = () => (
   </section>
 );
 
-const AboutSection = () => (
-  <section id="about" className="relative" style={{ maxHeight: "1000px" }}>
-    <div className="mt-[150px] h-[900px] relative  pt-[100px] flex flex-col justify-center items-start text-left overflow-hidden">
-      {/*      
-      <Image
-        src="/bg-about.png"
-        alt="logo"
-        className="w-full"
-        fill
-        priority
-      /> */}
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{
-          backgroundImage:
-            "linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.5)), url('/bg-about.png')",
-        }}
-      />
-    </div>
-    <div className="w-full mx-auto top-0 ">
-      <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-full"
-        style={{ paddingTop: "50px" }}
-      >
-        <div className="max-w-[90%] mx-auto ">
-          <h1
-            style={{ fontWeight: 500 }}
-            className="text-2xl md:text-3xl  lg:text-8xl font-light text-[#E0D0B9] mb-4 tracking-wide"
-          >
-            ABOUT
-          </h1>
-          <h1
-            style={{ marginTop: "-20px" }}
-            className="font-olds text-2xl md:text-3xl lg:text-8xl font-light text-[#B79B76] mb-4 tracking-wide"
-          >
-            CHRONOS WATCH
-          </h1>
-          <div style={{ width: "50%" }} className="mt-10">
-            <p className="text-xl">
-              At Chronos Watch, we believe a watch is not just a timepiece, but
-              a legacy, a work of art, and a story on your wrist. Our mission is
-              to curate exceptional pre-owned luxury watches with fascinating
-              stories from around the world.
-            </p>
-            <p className="mt-8 text-xl">
-              With expertise and passion, we meticulously inspect every watch to
-              ensure you receive 100% quality and authenticity. Each piece is
-              carefully selected and authenticated by our master watchmakers.
-            </p>
-          </div>
-          <div
-            className="mt-10 pb-8 pt-5 flex pl-3"
-            style={{
-              backgroundImage: "linear-gradient(to right, #2C2C33, #141519)",
-              marginTop: "80px",
-            }}
-          >
-            <FeatureCard
-              icon={<Shield className="w-8 h-8 text-white" />}
-              title="Authentic"
-              description="Every watch is thoroughly authenticated by certified experts"
-            />
-            <FeatureCard
-              icon={<Award className="w-8 h-8 text-white" />}
-              title="Quality"
-              description="Rigorous inspection ensures premium condition and performance"
-            />
-            <FeatureCard
-              icon={<Star className="w-8 h-8 text-white" />}
-              title="Exclusive"
-              description="Rare and limited pieces from prestigious manufacturers"
-            />
-            <FeatureCard
-              icon={<Clock className="w-8 h-8 text-white" />}
-              title="Legacy"
-              description="Timeless pieces that retain and increase their value"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  // <Section id="about" title="About Chronos Watch">
-  //   <div className="max-w-4xl mx-auto">
-  //     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-  //       <div className="space-y-6">
-  //         <div className="bg-gradient-to-br from-gray-900 via-black to-gray-900 p-8 rounded-2xl border border-gray-800">
-  //           <p className="text-gray-300 text-lg leading-relaxed mb-6">
-  //             At Chronos Watch, we believe a watch is not just a timepiece, but
-  //             a legacy, a work of art, and a story on your wrist. Our mission is
-  //             to curate exceptional pre-owned luxury watches with fascinating
-  //             stories from around the world.
-  //           </p>
-  //           <p className="text-gray-300 text-lg leading-relaxed">
-  //             With expertise and passion, we meticulously inspect every watch to
-  //             ensure you receive 100% quality and authenticity. Each piece is
-  //             carefully selected and authenticated by our master watchmakers.
-  //           </p>
-  //         </div>
-  //       </div>
+// const AboutSection = () => (
+//   <section id="about" className="relative" style={{ maxHeight: "1000px" }}>
+//     <div className="mt-[150px] h-[900px] relative  pt-[100px] flex flex-col justify-center items-start text-left overflow-hidden">
+//       {/*      
+//       <Image
+//         src="/bg-about.png"
+//         alt="logo"
+//         className="w-full"
+//         fill
+//         priority
+//       /> */}
+//       <div
+//         className="absolute inset-0 bg-cover bg-center"
+//         style={{
+//           backgroundImage:
+//             "linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.5)), url('/bg-about.png')",
+//         }}
+//       />
+//     </div>
+//     <div className="w-full mx-auto top-0 ">
+//       <div
+//         className="absolute top-0 left-1/2 -translate-x-1/2 w-full"
+//         style={{ paddingTop: "50px" }}
+//       >
+//         <div className="max-w-[90%] mx-auto ">
+//           <h1
+//             style={{ fontWeight: 500 }}
+//             className="text-2xl md:text-3xl  lg:text-8xl font-light text-[#E0D0B9] mb-4 tracking-wide"
+//           >
+//             ABOUT
+//           </h1>
+//           <h1
+//             style={{ marginTop: "-20px" }}
+//             className="font-olds text-2xl md:text-3xl lg:text-8xl font-light text-[#B79B76] mb-4 tracking-wide"
+//           >
+//             CHRONOS WATCH
+//           </h1>
+//           <div style={{ width: "50%" }} className="mt-10">
+//             <p className="text-xl">
+//               At Chronos Watch, we believe a watch is not just a timepiece, but
+//               a legacy, a work of art, and a story on your wrist. Our mission is
+//               to curate exceptional pre-owned luxury watches with fascinating
+//               stories from around the world.
+//             </p>
+//             <p className="mt-8 text-xl">
+//               With expertise and passion, we meticulously inspect every watch to
+//               ensure you receive 100% quality and authenticity. Each piece is
+//               carefully selected and authenticated by our master watchmakers.
+//             </p>
+//           </div>
+//           <div
+//             className="mt-10 pb-8 pt-5 flex pl-3"
+//             style={{
+//               backgroundImage: "linear-gradient(to right, #2C2C33, #141519)",
+//               marginTop: "80px",
+//             }}
+//           >
+//             <FeatureCard
+//               icon={<Shield className="w-8 h-8 text-white" />}
+//               title="Authentic"
+//               description="Every watch is thoroughly authenticated by certified experts"
+//             />
+//             <FeatureCard
+//               icon={<Award className="w-8 h-8 text-white" />}
+//               title="Quality"
+//               description="Rigorous inspection ensures premium condition and performance"
+//             />
+//             <FeatureCard
+//               icon={<Star className="w-8 h-8 text-white" />}
+//               title="Exclusive"
+//               description="Rare and limited pieces from prestigious manufacturers"
+//             />
+//             <FeatureCard
+//               icon={<Clock className="w-8 h-8 text-white" />}
+//               title="Legacy"
+//               description="Timeless pieces that retain and increase their value"
+//             />
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   </section>
+//   // <Section id="about" title="About Chronos Watch">
+//   //   <div className="max-w-4xl mx-auto">
+//   //     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+//   //       <div className="space-y-6">
+//   //         <div className="bg-gradient-to-br from-gray-900 via-black to-gray-900 p-8 rounded-2xl border border-gray-800">
+//   //           <p className="text-gray-300 text-lg leading-relaxed mb-6">
+//   //             At Chronos Watch, we believe a watch is not just a timepiece, but
+//   //             a legacy, a work of art, and a story on your wrist. Our mission is
+//   //             to curate exceptional pre-owned luxury watches with fascinating
+//   //             stories from around the world.
+//   //           </p>
+//   //           <p className="text-gray-300 text-lg leading-relaxed">
+//   //             With expertise and passion, we meticulously inspect every watch to
+//   //             ensure you receive 100% quality and authenticity. Each piece is
+//   //             carefully selected and authenticated by our master watchmakers.
+//   //           </p>
+//   //         </div>
+//   //       </div>
 
-  //       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-  //         <FeatureCard
-  //           icon={<Shield className="w-8 h-8 text-black" />}
-  //           title="Authentic"
-  //           description="Every watch is thoroughly authenticated by certified experts"
-  //         />
-  //         <FeatureCard
-  //           icon={<Award className="w-8 h-8 text-black" />}
-  //           title="Quality"
-  //           description="Rigorous inspection ensures premium condition and performance"
-  //         />
-  //         <FeatureCard
-  //           icon={<Star className="w-8 h-8 text-black" />}
-  //           title="Exclusive"
-  //           description="Rare and limited pieces from prestigious manufacturers"
-  //         />
-  //         <FeatureCard
-  //           icon={<Clock className="w-8 h-8 text-black" />}
-  //           title="Legacy"
-  //           description="Timeless pieces that retain and increase their value"
-  //         />
-  //       </div>
-  //     </div>
-  //   </div>
-  // </Section>
-);
+//   //       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+//   //         <FeatureCard
+//   //           icon={<Shield className="w-8 h-8 text-black" />}
+//   //           title="Authentic"
+//   //           description="Every watch is thoroughly authenticated by certified experts"
+//   //         />
+//   //         <FeatureCard
+//   //           icon={<Award className="w-8 h-8 text-black" />}
+//   //           title="Quality"
+//   //           description="Rigorous inspection ensures premium condition and performance"
+//   //         />
+//   //         <FeatureCard
+//   //           icon={<Star className="w-8 h-8 text-black" />}
+//   //           title="Exclusive"
+//   //           description="Rare and limited pieces from prestigious manufacturers"
+//   //         />
+//   //         <FeatureCard
+//   //           icon={<Clock className="w-8 h-8 text-black" />}
+//   //           title="Legacy"
+//   //           description="Timeless pieces that retain and increase their value"
+//   //         />
+//   //       </div>
+//   //     </div>
+//   //   </div>
+//   // </Section>
+// );
 
 const TestimonialsSection = () => (
   <section
@@ -527,73 +417,7 @@ const ContactSection = () => (
   </Section>
 );
 
-const Service = () => {
-  const services = [
-    {
-      title: "Buy Sell Trade",
-      img: "/our-service1.png",
-    },
-    {
-      title: "Polishing & Servicing",
-      img: "/our-service2.png",
-    },
-    {
-      title: "Protection Film",
-      img: "/our-service3.png",
-    },
-  ];
 
-  return (
-    <div className="max-w-full mx-auto py-12 mt-10 mb-6 cursor-pointer">
-      {/* Header */}
-      <div className="text-center mb-12">
-        <h1 className="text-5xl font-light text-[#B79B76] mb-4 font-olds">
-          Our Service
-        </h1>
-      </div>
-
-      {/* Image Row */}
-      <div className="grid grid-cols-1 md:grid-cols-3">
-        {services.map((service, i) => (
-          
-          <a href="https://line.me/R/ti/p/@939hmulm?ts=05061404&oat_content=url" key={i} className="relative group overflow-hidden shadow-lg" >
-            {/* Background Image */}
-            <Image
-              style={{ aspectRatio: "1/1" }}
-              src={service.img}
-              alt={service.title}
-              width={500}
-              height={500}
-              className="w-full object-cover transition-transform duration-500 group-hover:scale-110"
-            />
-
-            {/* Overlay */}
-            <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition duration-500" />
-
-            {/* Text */}
-            <div
-              className="absolute inset-0 flex flex-col text-white text-xl font-light"
-              style={{ padding: "60px 40px" }}
-            >
-              <span className="text-2xl font-olds">{service.title}</span>
-              <span className="mt-2 flex items-center gap-2 opacity-80 group-hover:opacity-100 transition">
-                <span className="text-sm">
-                  <Image
-                    src="/arrow-right.png"
-                    alt="logo"
-                    width={80}
-                    height={20}
-                    priority
-                  />
-                </span>
-              </span>
-            </div>
-          </a>
-        ))}
-      </div>
-    </div>
-  );
-};
 
 export default async function HomePage() {
   

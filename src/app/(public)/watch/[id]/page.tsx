@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import Header from "@/components/public/Header";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useLanguage } from "../../../../../context/LanguageContext";
 
 interface Watch {
   id: string;
@@ -179,6 +180,7 @@ const WatchCard: React.FC<{ watch: Watch }> = ({ watch }) => {
 };
 
 const MockWatchDetailPage = () => {
+  const { t, locale, setLocale } = useLanguage();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const nextImage = () => {
@@ -210,7 +212,7 @@ const MockWatchDetailPage = () => {
             href="/#product"
             className="text-white hover:text-white flex items-center gap-2 transition-colors text-sm"
           >
-            ← BACK TO COLLECTION
+            ←  {t("WatchDetailPage.btn-back")}
           </Link>
         </div>
       </div>
@@ -336,7 +338,7 @@ const MockWatchDetailPage = () => {
             {/* Get More Details Button */}
             <a href="https://line.me/R/ti/p/@939hmulm?ts=05061404&oat_content=url">
               <button className="w-full primary-btn text-black font-medium py-3 px-6 transition-colors">
-                GET MORE DETAILS
+                {t("WatchDetailPage.button")}
               </button>
             </a>
           </div>
@@ -347,7 +349,7 @@ const MockWatchDetailPage = () => {
       <div className="max-w-[90%] mx-auto">
         <div className="text-left mb-12">
           <h1 className="text-5xl font-light text-[#B79B76] mb-4 font-olds">
-            Related Product
+            {t("WatchDetailPage.related-title")}
           </h1>
         </div>
         <div className="grid grid-cols-4 gap-6 mb-8">

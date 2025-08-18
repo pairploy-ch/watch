@@ -2,8 +2,10 @@
 import React, { useState } from "react";
 import { X } from "lucide-react";
 import Image from "next/image";
+import { useLanguage } from "../../../context/LanguageContext";
 
 const StickyBottomBar = () => {
+  const { t, locale, setLocale } = useLanguage();
   const [isVisible, setIsVisible] = useState(true);
 
   if (!isVisible) {
@@ -32,12 +34,11 @@ const StickyBottomBar = () => {
               className="text-xl font-light text-white mb-2 font-olds"
               style={{ lineHeight: 1.3 }}
             >
-              NEW LUXURY <br />
-              WATCH COLLECTION
+              {t("StickyBanner.buy")}
             </h1>
             <a href="https://line.me/R/ti/p/@939hmulm?ts=05061404&oat_content=url">
               <button
-                className="primary-btn text-black px-6 py-3 text-sm font-semibold tracking-wide transition-colors duration-300"
+                className="whitespace-pre-line primary-btn text-black px-6 py-3 text-sm font-semibold tracking-wide transition-colors duration-300"
                 style={{ padding: "10px 60px" }}
               >
                 SHOP NOW
@@ -48,10 +49,10 @@ const StickyBottomBar = () => {
           {/* Right 50% of center content */}
           <div>
             <h1
-              className="text-xl font-light text-white mb-2 font-olds"
+              className="whitespace-pre-line  text-xl font-light text-white mb-2 font-olds"
               style={{ lineHeight: 1.3 }}
             >
-              CONSIGNMENT/SELL <br />A WATCH
+               {t("StickyBanner.sell")}
             </h1>
             <a href="https://line.me/R/ti/p/@939hmulm?ts=05061404&oat_content=url">
               <button
