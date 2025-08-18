@@ -30,10 +30,10 @@ export default function Footer() {
     >
       <div className="container mx-auto py-10 max-w-[90%]">
         {/* Main Footer Content */}
-        <div className="flex justify-between">
+        <div className="flex flex-col md:flex-row justify-center md:justify-between">
           <div>
             {/* Logo */}
-            <div className="lg:col-span-1">
+            <div className="text-center md:text-left lg:col-span-1">
               <Logo />
             </div>
 
@@ -41,29 +41,29 @@ export default function Footer() {
             <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
               {/* Showroom */}
               <div>
-                <h3 className="text-white font-medium mb-3 font-olds">
+                <h3 className="text-center md:text-left text-white font-medium mb-3 font-olds">
                   Showroom
                 </h3>
-                <p className="text-white text-sm">Gaysorn Village, Bangkok</p>
+                <p className=" text-center md:text-left text-white text-sm">Gaysorn Village, Bangkok</p>
               </div>
 
               {/* Phone */}
               <div>
-                <h3 className="text-white font-medium mb-3 font-olds">Phone</h3>
-                <p className="text-white text-sm">+66 8x-xxx-xxxx</p>
+                <h3 className="text-center md:text-left text-white font-medium mb-3 font-olds">Phone</h3>
+                <p className="text-center md:text-left text-white text-sm">+66 8x-xxx-xxxx</p>
               </div>
 
               {/* Line */}
               <div>
-                <h3 className="text-white font-medium mb-3 font-olds">Line</h3>
-                <p className="text-white text-sm">@chronoswatch</p>
+                <h3 className="text-center md:text-left text-white font-medium mb-3 font-olds">Line</h3>
+                <p className="text-center md:text-left text-white text-sm">@chronoswatch</p>
               </div>
             </div>
           </div>
 
           {/* Appointment Section */}
           <div className="lg:col-span-1">
-            <div className="text-right">
+            <div className="text-center md:text-right mt-10 md:mt-0">
               <h3
                 className="whitespace-pre-line  text-white md:text-2xl lg:text-3xl xl:text-4xl mb-4 leading-tight font-olds"
                 style={{ fontWeight: 300 }}
@@ -84,15 +84,15 @@ export default function Footer() {
 
         {/* Bottom Section */}
         <div className="border-t border-gray-700 mt-12 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+          <div className="flex flex-col-reverse md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="flex items-center space-x-4">
-              <p className="text-gray-500 text-sm">
+              <p className="text-gray-500 text-[12px] md:text-sm">
                 © 2025 Chronos Watch. All Rights Reserved.
               </p>
               <span className="text-[#B79B76] font-olds">Premium Dealer</span>
             </div>
 
-            <div className="flex items-center space-x-6 text-sm">
+            <div className="flex items-center space-x-6 [12px] md:text-sm">
               <Link
                 href="/privacy"
                 className="text-gray-400 hover:text-white transition-colors"

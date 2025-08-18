@@ -176,7 +176,7 @@ const NewArrival = () => (
         className="absolute top-0 left-1/2 -translate-x-1/2 w-full lg:pt-0 xl:pt-[100px]"
         // style={{ paddingTop: "100px" }}
       >
-        <div className="max-w-[90%] mx-auto ">
+        <div className="max-w-[90%] mx-auto text-center md:text-left">
           <h2 className="font-olds text-2xl md:text-3xl lg:text-3xl font-light text-white mb-4 tracking-wide">
             Luxury Redefined
           </h2>
@@ -201,7 +201,7 @@ const NewArrival = () => (
           </a> */}
           <BrowseButton />
         </div>
-        <div className="flex sm:justify-center md:justify-center  lg:justify-center xl:justify-end mt-10 w-full">
+        <div className="flex justify-center xl:justify-end mt-10 w-full">
           <div className="xl:max-w-[100%]">
             <Slide />
           </div>
@@ -238,13 +238,13 @@ const NewArrival = () => (
 //         <div className="max-w-[90%] mx-auto ">
 //           <h1
 //             style={{ fontWeight: 500 }}
-//             className="text-2xl md:text-3xl  lg:text-8xl font-light text-[#E0D0B9] mb-4 tracking-wide"
+//             className="text-3xl md:text-3xl  lg:text-8xl font-light text-[#E0D0B9] mb-4 tracking-wide"
 //           >
 //             ABOUT
 //           </h1>
 //           <h1
 //             style={{ marginTop: "-20px" }}
-//             className="font-olds text-2xl md:text-3xl lg:text-8xl font-light text-[#B79B76] mb-4 tracking-wide"
+//             className="font-olds text-3xl md:text-3xl lg:text-8xl font-light text-[#B79B76] mb-4 tracking-wide"
 //           >
 //             CHRONOS WATCH
 //           </h1>

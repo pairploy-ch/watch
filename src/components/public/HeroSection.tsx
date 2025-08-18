@@ -9,23 +9,24 @@ const HeroSection = () => {
   return (
     <section>
       <div className="relative min-h-screen pt-[80px] flex flex-col justify-center items-start text-left overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage:
-              "linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.5)), url('/cover.jpg')",
-          }}
-        />
+       <div
+  className="absolute inset-0 bg-cover bg-center h-[60vh] md:h-[100vh]"
+  style={{
+    backgroundImage:
+      "linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.5)), url('/cover.jpg')",
+  }}
+/>
+
       </div>
 
       {/* Content */}
       <div
-        className="relative z-10 max-w-[90%] mx-auto"
-        style={{ marginTop: "-300px" }}
+        className="relative z-10 max-w-[90%] mx-auto -mt-[400px] lg:-mt-[250px]"
+        // style={{ marginTop: "-300px" }}
       >
         <div className="">
           {/* Main heading */}
-          <div className="relative w-full h-[450px]">
+          <div className="relative w-full h-[100px] sm:h-[300px] md:h-[450px]">
             <Image
               src="/title-cover.png"
               alt="Watch"
@@ -81,8 +82,8 @@ const HeroSection = () => {
             </a>
           </div>
 
-          <div className="text-center mt-20 flex justify-between">
-            <div className="flex " style={{ alignItems: "center" }}>
+          <div className="text-center mt-20 flex justify-between flex-col md:flex-row items-center md:items-start ">
+            <div className="flex mt-4" style={{ alignItems: "center" }}>
               <span>
                 <Image
                   src="/icon/icon-time.png"
@@ -96,7 +97,7 @@ const HeroSection = () => {
                 {t("HeroSection.service1")}
               </span>
             </div>
-            <div className="flex " style={{ alignItems: "center" }}>
+            <div className="flex mt-4" style={{ alignItems: "center" }}>
               <span>
                 <Image
                   src="/icon/icon-polish.png"
@@ -110,7 +111,7 @@ const HeroSection = () => {
                 {t("HeroSection.service2")}
               </span>
             </div>
-            <div className="flex " style={{ alignItems: "center" }}>
+            <div className="flex mt-4 " style={{ alignItems: "center" }}>
               <span>
                 <Image
                   src="/icon/icon-film.png"

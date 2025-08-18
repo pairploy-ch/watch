@@ -13,7 +13,7 @@ const StickyBottomBar = () => {
   }
 
   return (
-    <div className="max-h-[250px] fixed bottom-0 left-0 right-0 bg-gradient-to-r from-gray-900 to-black text-white shadow-2xl z-50 animate-slide-up">
+    <div className="max-h-[250px] fixed bottom-0 left-0 right-0 bg-[#000] text-white shadow-2xl z-50 animate-slide-up">
       <div className="relative flex items-center justify-between mx-auto max-w-full">
         {/* Desktop Layout - sm ขึ้นไป */}
         <div className="hidden sm:flex items-center justify-between w-full">
@@ -33,7 +33,7 @@ const StickyBottomBar = () => {
             {/* Left 50% of center content */}
             <div>
               <h1
-                className="whitespace-pre-line sm:text-sm text-xl font-light text-white mb-2 font-olds"
+                className="whitespace-pre-line sm:text-sm md:text-xl lg:text-2xl font-light text-white mb-2 font-olds"
                 style={{ lineHeight: 1.3 }}
               >
                 {t("StickyBanner.buy")}
@@ -50,7 +50,7 @@ const StickyBottomBar = () => {
             {/* Right 50% of center content */}
             <div>
               <h1
-                className="whitespace-pre-line sm:text-sm text-xl font-light text-white mb-2 font-olds"
+                className="whitespace-pre-line sm:text-sm md:text-xl lg:text-2xl font-light text-white mb-2 font-olds"
                 style={{ lineHeight: 1.3 }}
               >
                 {t("StickyBanner.sell")}
@@ -79,32 +79,32 @@ const StickyBottomBar = () => {
           
           {/* Overlay Content */}
           <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-            <div className="grid grid-cols-2 gap-4 w-full px-4">
+            <div className="grid grid-cols-2 gap-4 w-[90%] mx-auto px-4">
               {/* Left Section */}
-              <div className="text-center">
+              <div className="text-left">
                 <h1
-                  className="text-xs font-light text-white mb-2 font-olds"
+                  className="whitespace-pre-line text-xl font-light text-white mb-2 font-olds"
                   style={{ lineHeight: 1.2 }}
                 >
                   {t("StickyBanner.buy")}
                 </h1>
                 <a href="https://line.me/R/ti/p/@939hmulm?ts=05061404&oat_content=url">
-                  <button className="primary-btn text-black px-3 py-1 text-xs font-semibold tracking-wide transition-colors duration-300">
+                  <button className="primary-btn text-black text-xs font-semibold tracking-wide transition-colors duration-300" style={{padding: '10px 20px'}}>
                     SHOP NOW
                   </button>
                 </a>
               </div>
 
               {/* Right Section */}
-              <div className="text-center">
+              <div className="text-left">
                 <h1
-                  className="text-xs font-light text-white mb-2 font-olds"
+                  className="whitespace-pre-line text-xl font-light text-white mb-2 font-olds"
                   style={{ lineHeight: 1.2 }}
                 >
                   {t("StickyBanner.sell")}
                 </h1>
                 <a href="https://line.me/R/ti/p/@939hmulm?ts=05061404&oat_content=url">
-                  <button className="primary-btn text-black px-3 py-1 text-xs font-semibold tracking-wide transition-colors duration-300">
+                   <button className="primary-btn text-black text-xs font-semibold tracking-wide transition-colors duration-300" style={{padding: '10px 20px'}}>
                     APPOINTMENT
                   </button>
                 </a>

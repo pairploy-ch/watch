@@ -51,29 +51,29 @@ export default function LoginPage() {
   return (
     <>
       <ParticlesBackground />
-      <div className="flex items-center justify-center min-h-screen p-4 bg-gradient-to-br from-gray-900 via-black to-gray-900">
+      <div className="flex items-center justify-center min-h-screen p-4 bg-black">
         {/* Login Container */}
         <div className="w-full max-w-md">
           {/* Main Login Card */}
           <div className="relative">
             {/* Background Glow Effect */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#E6C36A]/20 to-[#B8860B]/20 rounded-2xl blur-xl"></div>
+            <div className="absolute inset-0 rounded-2xl blur-xl"></div>
             
             {/* Login Card */}
-            <div className="relative bg-gradient-to-b from-gray-900/95 to-black/95 backdrop-blur-xl border border-gray-700/50 rounded-2xl p-8 shadow-2xl">
+            <div className="relative bg-[#141519] rounded-2xl p-8 ">
               
               {/* Header Section */}
               <div className="text-center mb-8">
                 {/* Logo */}
                 <div className="flex justify-center mb-6">
                   <div className="relative">
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#E6C36A] to-[#B8860B] rounded-full blur-md opacity-60"></div>
-                    <div className="relative bg-gradient-to-br from-[#E6C36A] to-[#B8860B] rounded-full p-4">
+                    <div className="absolute inset-0  rounded-full blur-md opacity-60"></div>
+                    <div className="relative  rounded-full p-4">
                       <Image 
-                        src="/logo.png" 
+                        src="/logo-bg.png" 
                         alt="Luxe Watch Logo" 
-                        width={60} 
-                        height={60} 
+                        width={200} 
+                        height={200} 
                         className="relative z-10"
                       />
                     </div>
@@ -81,16 +81,16 @@ export default function LoginPage() {
                 </div>
                 
                 {/* Title */}
-                <h1 className="text-3xl font-bold bg-gradient-to-r from-[#E6C36A] to-[#B8860B] bg-clip-text text-transparent mb-2">
+                {/* <h1 className="text-3xl font-bold bg-gradient-to-r from-[#E6C36A] to-[#B8860B] bg-clip-text text-transparent mb-2">
                   CHRONOS-DB
-                </h1>
-                <p className="text-gray-400 text-sm">
+                </h1> */}
+                <p className="text-white text-xl font-olds">
                   Admin Portal Access
                 </p>
                 
                 {/* Security Badge */}
-                <div className="flex items-center justify-center space-x-2 mt-4 px-4 py-2 bg-gray-800/50 rounded-full border border-gray-700/50">
-                  <Shield size={16} className="text-green-400" />
+                <div className="flex items-center justify-center space-x-2 mt-4 px-4 py-2 bg-[#232427] rounded-full ">
+                  <Shield size={16} className="text-[#B79B76]" />
                   <span className="text-xs text-gray-300">Secure Authentication</span>
                 </div>
               </div>
@@ -99,12 +99,13 @@ export default function LoginPage() {
               <form onSubmit={handleLogin} className="space-y-6">
                 {/* Email Field */}
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="text-gray-300 font-medium flex items-center space-x-2">
-                    <Mail size={16} className="text-gray-400" />
-                    <span>Email Address</span>
+                  <Label htmlFor="email" className="text-white font-medium flex items-center space-x-2 font-olds">
+                    {/* <Mail size={16} className="text-gray-400" /> */}
+                    <span>EMAIL ADDRESS</span>
                   </Label>
                   <div className="relative">
                     <Input
+                    style={{background: 'none'}}
                       id="email"
                       type="email"
                       placeholder="admin@chronos-db.com"
@@ -114,12 +115,7 @@ export default function LoginPage() {
                       onFocus={() => setEmailFocused(true)}
                       onBlur={() => setEmailFocused(false)}
                       className={`
-                        w-full px-4 py-3 bg-gray-800/50 border-2 rounded-xl text-white placeholder-gray-500 transition-all duration-200
-                        ${emailFocused 
-                          ? 'border-[#E6C36A]/50 bg-gray-800/70 shadow-lg shadow-[#E6C36A]/10' 
-                          : 'border-gray-700/50 hover:border-gray-600/50'
-                        }
-                        focus:outline-none focus:ring-0
+                        w-full px-4 py-3   rounded-sm text-white placeholder-[#3E3E41] transition-all duration-200 focus:outline-none focus:ring-0
                       `}
                     />
                     {emailFocused && (
@@ -133,8 +129,8 @@ export default function LoginPage() {
                 {/* Password Field */}
                 <div className="space-y-2">
                   <Label htmlFor="password" className="text-gray-300 font-medium flex items-center space-x-2">
-                    <Lock size={16} className="text-gray-400" />
-                    <span>Password</span>
+                    {/* <Lock size={16} className="text-gray-400" /> */}
+                    <span>PASSWORD</span>
                   </Label>
                   <div className="relative">
                     <Input
@@ -146,13 +142,8 @@ export default function LoginPage() {
                       onChange={(e) => setPassword(e.target.value)}
                       onFocus={() => setPasswordFocused(true)}
                       onBlur={() => setPasswordFocused(false)}
-                      className={`
-                        w-full px-4 py-3 pr-12 bg-gray-800/50 border-2 rounded-xl text-white placeholder-gray-500 transition-all duration-200
-                        ${passwordFocused 
-                          ? 'border-[#E6C36A]/50 bg-gray-800/70 shadow-lg shadow-[#E6C36A]/10' 
-                          : 'border-gray-700/50 hover:border-gray-600/50'
-                        }
-                        focus:outline-none focus:ring-0
+                        className={`
+                        w-full px-4 py-3   rounded-sm text-white placeholder-[#3E3E41] transition-all duration-200 focus:outline-none focus:ring-0
                       `}
                     />
                     <button
@@ -180,12 +171,7 @@ export default function LoginPage() {
                 <Button 
                   type="submit" 
                   disabled={loading}
-                  className={`
-                    w-full py-3 px-6 bg-gradient-to-r from-[#E6C36A] to-[#B8860B] hover:from-[#B8860B] hover:to-[#E6C36A] 
-                    text-black font-bold rounded-xl transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98]
-                    disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none
-                    shadow-lg hover:shadow-xl hover:shadow-[#E6C36A]/25
-                  `}
+                  className="primary-btn w-full rounded-sm"
                 >
                   {loading ? (
                     <div className="flex items-center justify-center space-x-2">
@@ -194,8 +180,8 @@ export default function LoginPage() {
                     </div>
                   ) : (
                     <div className="flex items-center justify-center space-x-2">
-                      <Shield size={18} />
-                      <span>Sign In to Dashboard</span>
+                      {/* <Shield size={18} /> */}
+                      <span>LOGIN</span>
                     </div>
                   )}
                 </Button>

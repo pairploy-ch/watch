@@ -162,7 +162,9 @@ body {
 :lang(th) {
   font-family: 'Kanit', sans-serif;
 }
-
+.font-olds {
+  font-family: var(--OldStyle);
+}
 /* Typography */
 h1,
 h2,

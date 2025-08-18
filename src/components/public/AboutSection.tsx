@@ -1,16 +1,7 @@
 "use client";
 import { FC, ReactNode } from "react";
 import { useLanguage } from "../../../context/LanguageContext";
-import {
-
-  Star,
-  Shield,
-  Award,
-  Clock,
- 
-} from "lucide-react";
-
-
+import { Star, Shield, Award, Clock } from "lucide-react";
 
 const FeatureCard: FC<{
   icon: ReactNode;
@@ -40,10 +31,10 @@ const FeatureCard: FC<{
 );
 
 const AboutSection = () => {
-    const { t } = useLanguage();
+  const { t } = useLanguage();
   return (
     <section id="about" className="relative" style={{ maxHeight: "1000px" }}>
-      <div className="mt-[150px] h-[900px] relative  pt-[100px] flex flex-col justify-center items-start text-left overflow-hidden">
+      <div className="md:mt-[100px] xl:mt-[150px] h-[900px] relative  pt-[100px] flex flex-col justify-center items-start text-left overflow-hidden">
         {/*      
       <Image
         src="/bg-about.png"
@@ -68,52 +59,48 @@ const AboutSection = () => {
           <div className="max-w-[90%] mx-auto ">
             <h1
               style={{ fontWeight: 500 }}
-              className="text-2xl md:text-5xl  lg:text-8xl font-light text-[#E0D0B9] mb-4 tracking-wide"
+              className="text-5xl md:text-5xl  lg:text-8xl font-light text-[#E0D0B9] mb-4 tracking-wide"
             >
               ABOUT
             </h1>
             <h1
               style={{ marginTop: "-20px" }}
-              className="font-olds text-2xl md:text-5xl lg:text-8xl font-light text-[#B79B76] mb-4 tracking-wide"
+              className="font-olds text-5xl md:text-5xl lg:text-8xl font-light text-[#B79B76] mb-4 tracking-wide"
             >
               CHRONOS WATCH
             </h1>
-            <div  className="mt-10 md:w-[70%] lg:w-[60%] xl:w-[50%]">
-              <p className="text-xl">
-                 {t("AboutSection.p1")}
-              </p>
-              <p className="mt-8 text-xl">
-                 {t("AboutSection.p2")}
-              </p>
+            <div className="mt-10 md:w-[70%] lg:w-[60%] xl:w-[50%]">
+              <p className="text-xl">{t("AboutSection.p1")}</p>
+              <p className="mt-8 text-xl">{t("AboutSection.p2")}</p>
             </div>
-          <div
-  className="mt-10 pb-8 pt-5 px-3 grid grid-cols-2 lg:grid-cols-4 gap-4"
-  style={{
-    backgroundImage: "linear-gradient(to right, #2C2C33, #141519)",
-    marginTop: "80px",
-  }}
->
-  <FeatureCard
-    icon={<Shield className="w-8 h-8 text-white" />}
-    title="Authentic"
-    description={t("AboutSection.feature1")}
-  />
-  <FeatureCard
-    icon={<Award className="w-8 h-8 text-white" />}
-    title="Quality"
-    description={t("AboutSection.feature2")}
-  />
-  <FeatureCard
-    icon={<Star className="w-8 h-8 text-white" />}
-    title="Exclusive"
-    description={t("AboutSection.feature3")}
-  />
-  <FeatureCard
-    icon={<Clock className="w-8 h-8 text-white" />}
-    title="Legacy"
-    description={t("AboutSection.feature4")}
-  />
-</div>
+            <div
+              className="mt-10 pb-8 pt-5 px-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"
+              style={{
+                backgroundImage: "linear-gradient(to right, #2C2C33, #141519)",
+                marginTop: "80px",
+              }}
+            >
+              <FeatureCard
+                icon={<Shield className="w-8 h-8 text-white" />}
+                title="Authentic"
+                description={t("AboutSection.feature1")}
+              />
+              <FeatureCard
+                icon={<Award className="w-8 h-8 text-white" />}
+                title="Quality"
+                description={t("AboutSection.feature2")}
+              />
+              <FeatureCard
+                icon={<Star className="w-8 h-8 text-white" />}
+                title="Exclusive"
+                description={t("AboutSection.feature3")}
+              />
+              <FeatureCard
+                icon={<Clock className="w-8 h-8 text-white" />}
+                title="Legacy"
+                description={t("AboutSection.feature4")}
+              />
+            </div>
           </div>
         </div>
       </div>

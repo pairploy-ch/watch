@@ -373,7 +373,7 @@ const FilterSidebar: React.FC<{
           onClick={onClose}
         />
       )}
-         <h2 className="text-white text-xl mb-4 hidden md:block" style={{ fontWeight: "400" }}>
+         <h2 className="text-white text-xl mb-4 hidden sm:block" style={{ fontWeight: "400" }}>
           Search Filters
         </h2>
       {/* Sidebar */}
