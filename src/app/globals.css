@@ -73,6 +73,15 @@
     background-color: #EACD69;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
+ 
+  a[href^="#"] {
+    scroll-behavior: smooth;
+  }
+
   .gold-btn {
     @apply px-8 py-3 rounded-full font-bold text-black hover:bg-[#EACD69] transition-colors duration-200 shadow-lg;
     background-color: #B99E7A;

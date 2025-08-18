@@ -19,7 +19,7 @@ const Logo = () => (
 
 export default function Footer() {
   return (
-    <footer className="" style={{ backgroundImage: "linear-gradient(to right, #292930, #16171B, #16171B)",}}>
+    <footer id='footer' className="" style={{ backgroundImage: "linear-gradient(to right, #292930, #16171B, #16171B)",}}>
       <div className="container mx-auto py-10 max-w-[90%]">
         {/* Main Footer Content */}
         <div className="flex justify-between">

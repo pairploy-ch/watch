@@ -94,9 +94,9 @@ export default function Header({ watches }: HeaderProps) {
 
   const navLinks = [
     { href: "/", label: "HOME" },
-    { href: "/#inventory", label: "COLLECTION" },
+    { href: "/#product", label: "COLLECTION" },
     { href: "/#about", label: "ABOUT" },
-    { href: "/#contact", label: "CONTACT" },
+    { href: "/#footer", label: "CONTACT" },
   ];
 
   return (
@@ -115,8 +115,8 @@ export default function Header({ watches }: HeaderProps) {
           <Image
             src="/logo-bg.png"
             alt="logo"
-            width={100}
-            height={100}
+            width={200}
+            height={200}
             priority
           />
         </Link>

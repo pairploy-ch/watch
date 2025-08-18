@@ -19,6 +19,8 @@ import Slide from "@/components/public/Slide";
 import WatchProductPage from "@/components/public/WatchProductPage";
 import FAQSection from "@/components/public/FAQSection";
 import Image from "next/image";
+// import Link from "next/link";
+import BrowseButton from "@/components/public/BrowseNewArrival";
 
 // Dynamically import InventorySection as a Client Component
 // const InventorySection = dynamic(
@@ -64,13 +66,16 @@ const Section: FC<{
   </div>
 );
 
-const TestimonialCard: FC<{ name: string; text: string; watch: string; image: string; }> = ({
-  name,
-  text,
-  watch,
-  image
-}) => (
- <div className="overflow-hidden flex flex-col p-10 pb-0" style={{backgroundImage: "linear-gradient(to right, #2C2C33, #141519)",}}>
+const TestimonialCard: FC<{
+  name: string;
+  text: string;
+  watch: string;
+  image: string;
+}> = ({ name, text, watch, image }) => (
+  <div
+    className="overflow-hidden flex flex-col p-10 pb-0"
+    style={{ backgroundImage: "linear-gradient(to right, #2C2C33, #141519)" }}
+  >
     {/* Stars */}
     <div className="flex items-center gap-1pt-6">
       {[...Array(5)].map((_, i) => (
@@ -80,24 +85,21 @@ const TestimonialCard: FC<{ name: string; text: string; watch: string; image: st
 
     {/* Review Text */}
     <div className="py-4">
-   <p className="text-gray-200 italic text-base leading-relaxed line-clamp-3">
-  {text}
-</p>
-
+      <p className="text-gray-200 italic text-base leading-relaxed line-clamp-3">
+        {text}
+      </p>
     </div>
 
     {/* Image */}
     <div className="w-full h-60 relative">
-      <Image
-        src={image}
-        alt={name}
-        fill
-        className="object-cover"
-      />
+      <Image src={image} alt={name} fill className="object-cover" />
     </div>
 
     {/* Reviewer Info */}
-    <div className="flex items-center gap-3 py-4 mt-3" style={{marginBottom: '20px'}}>
+    <div
+      className="flex items-center gap-3 py-4 mt-3"
+      style={{ marginBottom: "20px" }}
+    >
       {/* Avatar Placeholder */}
       <div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center text-white text-sm">
         {name.charAt(0)}
@@ -157,7 +159,10 @@ const HeroSection = () => (
       <div className="">
         {/* Main heading */}
         <div className="mb-8">
-          <h2 className="font-olds text-2xl md:text-3xl lg:text-6xl font-light text-white mb-4 tracking-wide" style={{marginTop: '-300px'}}>
+          <h2
+            className="font-olds text-2xl md:text-3xl lg:text-6xl font-light text-white mb-4 tracking-wide"
+            style={{ marginTop: "-300px" }}
+          >
             Timeless
           </h2>
           <h1
@@ -169,7 +174,10 @@ const HeroSection = () => (
         </div>
 
         {/* Description */}
-        <p className="mt-20 text-center font-olds text-xl md:text-xl lg:text-3xl text-white/90 font-light leading-relaxed mb-12" style={{marginTop: '150px'}}>
+        <p
+          className="mt-20 text-center font-olds text-xl md:text-xl lg:text-3xl text-white/90 font-light leading-relaxed mb-12"
+          style={{ marginTop: "150px" }}
+        >
           Discover our curated collection of the worlds finest
           <br />
           pre-owned luxury watches
@@ -196,7 +204,9 @@ const HeroSection = () => (
 
         {/* CTA Button */}
         <div className="text-center">
-          <button className="primary-btn">BROWSE EXCLUSIVE COLLECTION</button>
+          <a href="#product">
+            <button className="primary-btn">BROWSE EXCLUSIVE COLLECTION</button>
+          </a>
         </div>
 
         <div className="text-center mt-20 flex justify-between">
@@ -245,21 +255,14 @@ const HeroSection = () => (
 );
 
 const NewArrival = () => (
-  <section className="relative">
-    <div className="mt-[150px] relative min-h-screen pt-[100px] flex flex-col justify-center items-start text-left overflow-hidden">
-      {/* <div
-        className="inset-0 w-full"
-        style={{
-          backgroundImage:
-            "url('/bg-newarrival.png')",
-        }}
-      /> */}
+  <section className="relative" style={{ maxHeight: "1000px" }}>
+    <div className="relative w-full h-[900px] mt-[150px] pt-[100px] overflow-hidden">
       <Image
         src="/bg-newarrival.png"
         alt="logo"
-        className="w-full"
         fill
         priority
+        className="object-cover"
       />
     </div>
     <div className="w-full mx-auto top-0 ">
@@ -280,16 +283,23 @@ const NewArrival = () => (
           >
             Timeless Elegance
           </h1>
-          <button className="primary-btn mt-2">Browse more new arrivals</button>
+          {/* <a
+            href="?newArrivals=true#product"
+            className="primary-btn mt-2 inline-block text-center no-underline"
+            style={{
+              scrollBehavior: "smooth",
+              textDecoration: "none",
+            }}
+          >
+            Browse more new arrivals
+          </a> */}
+          <BrowseButton />
         </div>
         <div className="flex justify-end mt-10">
           <Slide />
         </div>
       </div>
     </div>
-    {/* <div className="max-w-7xl mx-auto py-0">
- 
-    </div> */}
   </section>
 );
 
@@ -422,7 +432,10 @@ const AboutSection = () => (
 );
 
 const TestimonialsSection = () => (
-  <section id="testimonials" className="font-olds pt-4 max-w-[90%] mx-auto pb-4">
+  <section
+    id="testimonials"
+    className="font-olds pt-4 max-w-[90%] mx-auto pb-4"
+  >
     <div className="text-left mb-12 ">
       <h1 className="text-5xl font-light text-[#B79B76] mb-4 font-olds">
         What Our Collectors Say
@@ -439,7 +452,7 @@ const TestimonialsSection = () => (
         name="Mr. David"
         text="Absolutely exceptional service and authenticity. The watch exceeded my expectations. Professional, trustworthy, and highly knowledgeable team."
         watch="Patek Philippe Nautilus"
-         image="/review-mock-2.png"
+        image="/review-mock-2.png"
       />
       <TestimonialCard
         name="Wipa"
