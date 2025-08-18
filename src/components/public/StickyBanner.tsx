@@ -31,7 +31,7 @@ const StickyBottomBar = () => {
           {/* Left 50% of center content */}
           <div>
             <h1
-              className="text-xl font-light text-white mb-2 font-olds"
+              className="whitespace-pre-line text-xl font-light text-white mb-2 font-olds"
               style={{ lineHeight: 1.3 }}
             >
               {t("StickyBanner.buy")}

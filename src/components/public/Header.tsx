@@ -149,7 +149,7 @@ export default function Header({ watches }: HeaderProps) {
               className="flex items-center space-x-2 text-white hover:text-gray-300 transition-colors duration-300"
             >
               {/* <Globe className="h-4 w-4" /> */}
-              <span className="text-sm font-medium">{selectedLanguage}</span>
+              <span className="text-sm font-medium">{locale === "en" ? "ENG" : "THAI"}</span>
               <svg
                 className={`h-4 w-4 transition-transform duration-200 ${
                   showLanguageDropdown ? "rotate-180" : ""
