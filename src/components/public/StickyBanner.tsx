@@ -11,42 +11,57 @@ const StickyBottomBar = () => {
   }
 
   return (
-    <div className="h-[200px] fixed bottom-0 left-0 right-0 bg-gradient-to-r from-gray-900 to-black text-white shadow-2xl z-50 animate-slide-up">
-      <div className="relative  flex items-center justify-between  mx-auto">
-        {/* Left Content */}
-        <div className="flex items-center space-x-6">
-          <div className="flex items-center space-x-4">
-            <Image
-              src="/sticky-banner.png"
-              alt="logo"
-            //   width={20}
-            //   height={20}
+    <div className="max-h-[250px] fixed bottom-0 left-0 right-0 bg-gradient-to-r from-gray-900 to-black text-white shadow-2xl z-50 animate-slide-up">
+      <div className="relative flex items-center justify-between mx-auto max-w-full">
+        {/* Left Content - Image 50% */}
+        <div className="w-1/2 flex items-center aspect-[5/1]">
+          <Image
+            src="/sticky-banner.png"
+            alt="logo"
             width={1000}
-            height={200}
-              className="object-cover object-center"
-             
-            />
-          </div>
+            height={250}
+            className="object-cover object-center w-full"
+          />
         </div>
 
-        {/* Center Content */}
-        <div className="hidden md:flex items-center space-x-8 max-w-[90%] mx-auto">
-            <div>
-                ddd
-            </div>
-            <div>
-                dd
-            </div>
-          {/* <button className="bg-amber-500 hover:bg-amber-600 text-black font-semibold px-6 py-2 rounded-lg transition-colors duration-200 transform hover:scale-105">
-            SHOP NOW
-          </button>
-          <div className="text-center">
-            <p className="text-gray-300 text-sm">CONSIGNMENT/SELL</p>
-            <p className="text-white font-medium">A WATCH</p>
+        {/* Center Content - 50% */}
+        <div className="hidden md:grid lg:grid grid-cols-2 gap-8 w-1/2 items-center">
+          {/* Left 50% of center content */}
+          <div>
+            <h1
+              className="text-xl font-light text-white mb-2 font-olds"
+              style={{ lineHeight: 1.3 }}
+            >
+              NEW LUXURY <br />
+              WATCH COLLECTION
+            </h1>
+            <a href="https://line.me/R/ti/p/@939hmulm?ts=05061404&oat_content=url">
+              <button
+                className="primary-btn text-black px-6 py-3 text-sm font-semibold tracking-wide transition-colors duration-300"
+                style={{ padding: "10px 60px" }}
+              >
+                SHOP NOW
+              </button>
+            </a>
           </div>
-          <button className="bg-transparent border border-amber-500 text-amber-400 hover:bg-amber-500 hover:text-black font-semibold px-6 py-2 rounded-lg transition-all duration-200">
-            APPOINTMENT
-          </button> */}
+
+          {/* Right 50% of center content */}
+          <div>
+            <h1
+              className="text-xl font-light text-white mb-2 font-olds"
+              style={{ lineHeight: 1.3 }}
+            >
+              CONSIGNMENT/SELL <br />A WATCH
+            </h1>
+            <a href="https://line.me/R/ti/p/@939hmulm?ts=05061404&oat_content=url">
+              <button
+                className="primary-btn text-black px-6 py-3 text-sm font-semibold tracking-wide transition-colors duration-300"
+                style={{ padding: "10px 60px" }}
+              >
+                APPOINTMENT
+              </button>
+            </a>
+          </div>
         </div>
 
         {/* Mobile Content */}
