@@ -73,7 +73,7 @@ const StickyBottomBar = () => {
             src="/sticky-banner.png"
             alt="logo"
             width={1000}
-            height={250}
+            height={300}
             className="object-cover object-center w-full h-full"
           />
           
@@ -83,13 +83,13 @@ const StickyBottomBar = () => {
               {/* Left Section */}
               <div className="text-left">
                 <h1
-                  className="whitespace-pre-line text-xl font-light text-white mb-2 font-olds"
+                  className="whitespace-pre-line text-[12px] font-light text-white mb-2 font-olds"
                   style={{ lineHeight: 1.2 }}
                 >
                   {t("StickyBanner.buy")}
                 </h1>
                 <a href="https://line.me/R/ti/p/@939hmulm?ts=05061404&oat_content=url">
-                  <button className="primary-btn text-black text-xs font-semibold tracking-wide transition-colors duration-300" style={{padding: '10px 20px'}}>
+                  <button className="primary-btn text-black text-xs font-semibold tracking-wide transition-colors duration-300" style={{padding: '5px 20px'}}>
                     SHOP NOW
                   </button>
                 </a>
@@ -98,13 +98,13 @@ const StickyBottomBar = () => {
               {/* Right Section */}
               <div className="text-left">
                 <h1
-                  className="whitespace-pre-line text-xl font-light text-white mb-2 font-olds"
+                  className="whitespace-pre-line text-[12px] font-light text-white mb-2 font-olds"
                   style={{ lineHeight: 1.2 }}
                 >
                   {t("StickyBanner.sell")}
                 </h1>
                 <a href="https://line.me/R/ti/p/@939hmulm?ts=05061404&oat_content=url">
-                   <button className="primary-btn text-black text-xs font-semibold tracking-wide transition-colors duration-300" style={{padding: '10px 20px'}}>
+                   <button className="primary-btn text-black text-xs font-semibold tracking-wide transition-colors duration-300" style={{padding: '5px 20px'}}>
                     APPOINTMENT
                   </button>
                 </a>
