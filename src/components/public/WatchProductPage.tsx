@@ -971,7 +971,7 @@ const WatchProductPage: React.FC = () => {
               <p className="text-lg">
                 Search results for:{" "}
                 <span className="text-[#B79B76] font-medium">
-                  "{searchTerm}"
+                  &quot;{searchTerm}&quot;
                 </span>
               </p>
               <p className="text-sm text-gray-400">
@@ -1074,10 +1074,10 @@ const WatchProductPage: React.FC = () => {
                   {searchTerm ? (
                     <>
                       <p className="text-gray-400 text-lg mb-2">
-                        No watches found for "{searchTerm}"
+                        No watches found for &quot;{searchTerm}&quot;
                       </p>
                       <p className="text-gray-500 text-sm mb-4">
-                        Try adjusting your search or filters to find what you're
+                        Try adjusting your search or filters to find what you&apos;re
                         looking for.
                       </p>
                       <button
