@@ -884,8 +884,8 @@ const WatchProductPage: React.FC = () => {
 
           {/* Right Content - Products */}
           <div className="flex-1 sm:mt-11">
-            {/* Product Grid - Mobile: 1 column on sm, 2 columns on md+, 3 columns on xl+ */}
-            <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 mb-8">
+            {/* Product Grid - Changed: now shows 2 cards on sm screens */}
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 mb-8">
               {displayedWatches.map((watch, index) => (
                 <WatchCard key={`${watch.id}-${index}`} watch={watch} />
               ))}

@@ -29,7 +29,6 @@ const brands: Brand[] = [
     image: "/brands/brand6.png",
     alt: "franck muller logo",
   },
-
   { name: "Omega", image: "/brands/brand7.png", alt: "Omega logo" },
 ];
 
@@ -51,7 +50,7 @@ export default function BrandLogos() {
   );
 
   return (
-    <div className="flex overflow-x-auto gap-8 py-10 lg:pt-10 max-w-[90%] mx-auto mt-10 scrollbar-none items-center justify-between">
+    <div className="flex flex-wrap md:flex-nowrap md:overflow-x-auto gap-8 py-10 lg:pt-10 max-w-[90%] mx-auto mt-10 scrollbar-none items-center justify-center md:justify-between">
       {brands.map((brand, index) => (
         <div
           key={brand.name}
