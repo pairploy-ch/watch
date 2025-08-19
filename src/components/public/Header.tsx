@@ -6,7 +6,7 @@ import { CircleUser, Menu, X, Search, Globe } from "lucide-react";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { Watch } from "@/lib/types";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useLanguage } from "../../../context/LanguageContext";
 
 interface HeaderProps {
@@ -19,18 +19,65 @@ export default function Header({ watches }: HeaderProps) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
-  const [showMobileLanguageDropdown, setShowMobileLanguageDropdown] = useState(false); // Separate state for mobile
+  const [showMobileLanguageDropdown, setShowMobileLanguageDropdown] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
   const languageRef = useRef<HTMLDivElement>(null);
-  const mobileLanguageRef = useRef<HTMLDivElement>(null); // Separate ref for mobile
+  const mobileLanguageRef = useRef<HTMLDivElement>(null);
   const { t, locale, setLocale } = useLanguage();
 
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  // Initialize search from URL params
+  useEffect(() => {
+    const queryParam = searchParams.get('q');
+    if (queryParam) {
+      setSearch(queryParam);
+      setShowSearch(true);
+    }
+  }, [searchParams]);
+
+  // Function to scroll to product section
+  const scrollToProduct = () => {
+    const productSection = document.getElementById('product');
+    if (productSection) {
+      productSection.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  };
+
+  // Function to update URL with search query (without scrolling)
+  const updateSearchURL = (query: string) => {
+    const params = new URLSearchParams(searchParams);
+    if (query.trim()) {
+      params.set('q', query.trim());
+    } else {
+      params.delete('q');
+    }
+    
+    const newURL = params.toString() ? `/?${params.toString()}` : '/';
+    router.push(newURL, { scroll: false });
+  };
+
+  // Function to handle search submission with scrolling
+  const submitSearch = (query: string) => {
+    updateSearchURL(query);
+    
+    // Only scroll if there's a search query
+    if (query.trim()) {
+      setTimeout(() => {
+        scrollToProduct();
+      }, 100);
+    }
+  };
 
   const handleSelect = (id: number) => {
     setShowDropdown(false);
     setSearch("");
     setShowSearch(false);
+    // Clear search params when navigating to specific watch
     router.push(`/watch/${id}`);
   };
 
@@ -43,6 +90,28 @@ export default function Header({ watches }: HeaderProps) {
     } else {
       setSearch("");
       setShowDropdown(false);
+      // Clear URL params when closing search
+      const params = new URLSearchParams(searchParams);
+      params.delete('q');
+      const newURL = params.toString() ? `/?${params.toString()}` : '/';
+      router.push(newURL, { scroll: false });
+    }
+  };
+
+  // Handle search input change (only update URL, no scrolling)
+  const handleSearchChange = (value: string) => {
+    setSearch(value);
+    setShowDropdown(false); // Don't show dropdown while typing
+    // Update URL without scrolling
+    updateSearchURL(value);
+  };
+
+  // Handle search submit (Enter key) - this will scroll
+  const handleSearchSubmit = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      setShowDropdown(false);
+      submitSearch(search);
     }
   };
 
@@ -77,8 +146,6 @@ export default function Header({ watches }: HeaderProps) {
         searchRef.current &&
         !searchRef.current.contains(event.target as Node)
       ) {
-        setShowSearch(false);
-        setSearch("");
         setShowDropdown(false);
       }
       if (
@@ -238,11 +305,9 @@ export default function Header({ watches }: HeaderProps) {
                     ref={searchRef}
                     type="text"
                     value={search}
-                    onChange={(e) => {
-                      setSearch(e.target.value);
-                      setShowDropdown(true);
-                    }}
-                    onFocus={() => setShowDropdown(true)}
+                    onChange={(e) => handleSearchChange(e.target.value)}
+                    onFocus={() => search.trim() && setShowDropdown(true)}
+                    onKeyDown={handleSearchSubmit}
                     placeholder="Search luxury watches..."
                     className="pl-10 pr-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-sm text-white focus:outline-none focus:ring-1 focus:ring-white/30 focus:border-white/40 w-full transition-all duration-300 placeholder-gray-400"
                     autoComplete="off"
@@ -321,7 +386,7 @@ export default function Header({ watches }: HeaderProps) {
           <div className="flex justify-end p-6 relative z-50">
             <button
               onClick={() => {
-                console.log("Close button clicked"); // Debug log
+                console.log("Close button clicked");
                 setIsMenuOpen(false);
               }}
               className="p-2 text-white hover:text-gray-300 transition-colors duration-300 bg-white/10 rounded-full"
@@ -340,43 +405,25 @@ export default function Header({ watches }: HeaderProps) {
                 type="text"
                 value={search}
                 onChange={(e) => {
-                  setSearch(e.target.value);
+                  handleSearchChange(e.target.value);
                   setShowDropdown(true);
                 }}
                 onFocus={() => setShowDropdown(true)}
                 onBlur={() => setTimeout(() => setShowDropdown(false), 120)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    setShowDropdown(false);
+                    submitSearch(search);
+                    setIsMenuOpen(false);
+                  }
+                }}
                 placeholder="Search luxury watches..."
                 className="pl-10 pr-4 py-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-base text-white focus:outline-none focus:ring-1 focus:ring-white/30 w-full transition-all duration-300 placeholder-gray-400"
                 autoComplete="off"
               />
 
-              {/* Mobile Search Dropdown */}
-              {showDropdown && filtered.length > 0 && (
-                <div className="absolute left-1/2 -translate-x-1/2 mt-2 w-full bg-black/90 backdrop-blur-md border border-white/20 rounded-xl shadow-2xl z-50 max-h-60 overflow-auto">
-                  <div className="p-2">
-                    {filtered.map((watch) => (
-                      <button
-                        key={watch.id}
-                        type="button"
-                        className="block w-full text-left px-4 py-3 text-sm text-white hover:bg-white/10 transition-all duration-300 cursor-pointer rounded-lg"
-                        onMouseDown={() => {
-                          handleSelect(watch.id);
-                          setIsMenuOpen(false);
-                        }}
-                      >
-                        <div>
-                          <span className="font-bold text-white mr-2">
-                            {watch.brand}
-                          </span>
-                          <span className="text-gray-300">
-                            {watch.model || watch.ref}
-                          </span>
-                        </div>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
+              {/* Mobile Search Dropdown - Hidden during typing */}
             </div>
 
             {/* Mobile Navigation Links */}
@@ -433,7 +480,7 @@ export default function Header({ watches }: HeaderProps) {
                         onClick={() => {
                           setLocale("en");
                           setShowMobileLanguageDropdown(false);
-                          setIsMenuOpen(false); // Close the mobile menu
+                          setIsMenuOpen(false);
                         }}
                         className={`block w-full text-left px-3 py-2 text-sm transition-colors duration-200 ${
                           locale === "en"
@@ -447,7 +494,7 @@ export default function Header({ watches }: HeaderProps) {
                         onClick={() => {
                           setLocale("th");
                           setShowMobileLanguageDropdown(false);
-                          setIsMenuOpen(false); // Close the mobile menu
+                          setIsMenuOpen(false);
                         }}
                         className={`block w-full text-left px-3 py-2 text-sm transition-colors duration-200 ${
                           locale === "th"

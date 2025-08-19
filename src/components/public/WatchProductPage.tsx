@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from "react";
 import { ChevronLeft, ChevronRight, Search, Filter } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useLanguage } from "../../../context/LanguageContext";
 
 interface Watch {
@@ -394,10 +394,6 @@ const FilterSidebar: React.FC<{
             ×
           </button>
         </div>
-        
-        {/* <h2 className="text-white text-xl mb-4 hidden sm:block" style={{ fontWeight: "400" }}>
-          Search Filters
-        </h2> */}
 
         {/* Brand Filter */}
         <div className="mb-6">
@@ -576,6 +572,9 @@ const Pagination: React.FC<{
 
 const WatchProductPage: React.FC = () => {
   const { t } = useLanguage();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [selectedModels, setSelectedModels] = useState<string[]>([]);
   const [selectedCaseSizes, setSelectedCaseSizes] = useState<string[]>([]);
@@ -588,7 +587,33 @@ const WatchProductPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-  // Check URL parameters for new arrival filter
+  // Initialize search term from URL parameters
+  React.useEffect(() => {
+    const urlSearchQuery = searchParams.get('q');
+    if (urlSearchQuery && urlSearchQuery !== searchTerm) {
+      setSearchTerm(urlSearchQuery);
+      setCurrentPage(1); // Reset to first page when search changes
+    }
+  }, [searchParams, searchTerm]);
+
+  // Handle search term changes and update URL
+  const handleSearchTermChange = (value: string) => {
+    setSearchTerm(value);
+    setCurrentPage(1);
+    
+    // Update URL with search query
+    const params = new URLSearchParams(searchParams);
+    if (value.trim()) {
+      params.set('q', value.trim());
+    } else {
+      params.delete('q');
+    }
+    
+    const newURL = params.toString() ? `/?${params.toString()}#product` : '/#product';
+    router.push(newURL, { scroll: false });
+  };
+
+  // Check URL parameters for filters
   React.useEffect(() => {
     const checkUrlParams = () => {
       if (typeof window !== "undefined") {
@@ -603,7 +628,6 @@ const WatchProductPage: React.FC = () => {
         // Check for brand parameter
         const brandParam = urlParams.get("brand");
         if (brandParam) {
-          // Find matching brand (case insensitive)
           const brands = [
             "Rolex",
             "Omega",
@@ -625,34 +649,18 @@ const WatchProductPage: React.FC = () => {
       }
     };
 
-    // Check immediately
     checkUrlParams();
 
-    // Check when page becomes visible
     const handleVisibilityChange = () => {
       if (!document.hidden) {
         checkUrlParams();
       }
     };
 
-    // Check when user focuses on window
     const handleFocus = () => {
       checkUrlParams();
     };
 
-    // Check when scrolling to this section
-    const handleScroll = () => {
-      const productSection = document.getElementById("product");
-      if (productSection) {
-        const rect = productSection.getBoundingClientRect();
-        const isVisible = rect.top >= 0 && rect.top <= window.innerHeight;
-        if (isVisible) {
-          checkUrlParams();
-        }
-      }
-    };
-
-    // Set up Intersection Observer for when section becomes visible
     const productSection = document.getElementById("product");
     let observer: IntersectionObserver | null = null;
 
@@ -671,12 +679,9 @@ const WatchProductPage: React.FC = () => {
       observer.observe(productSection);
     }
 
-    // Add event listeners
     document.addEventListener("visibilitychange", handleVisibilityChange);
     window.addEventListener("focus", handleFocus);
-    window.addEventListener("scroll", handleScroll);
 
-    // Check with delays to ensure URL is updated
     const timeoutId1 = setTimeout(checkUrlParams, 100);
     const timeoutId2 = setTimeout(checkUrlParams, 500);
     const timeoutId3 = setTimeout(checkUrlParams, 1000);
@@ -684,7 +689,6 @@ const WatchProductPage: React.FC = () => {
     return () => {
       document.removeEventListener("visibilitychange", handleVisibilityChange);
       window.removeEventListener("focus", handleFocus);
-      window.removeEventListener("scroll", handleScroll);
       if (observer) observer.disconnect();
       clearTimeout(timeoutId1);
       clearTimeout(timeoutId2);
@@ -692,20 +696,18 @@ const WatchProductPage: React.FC = () => {
     };
   }, [selectedBrands]);
 
-  // Update URL when isNewArrivalOnly changes
+  // Update URL when filters change
   React.useEffect(() => {
     if (typeof window !== "undefined") {
       const urlParams = new URLSearchParams(window.location.search);
 
       if (isNewArrivalOnly) {
-        // Add parameter if not already present
         if (urlParams.get("newArrivals") !== "true") {
           urlParams.set("newArrivals", "true");
           const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
           window.history.pushState({}, "", newUrl);
         }
       } else {
-        // Remove parameter if present
         if (urlParams.has("newArrivals")) {
           urlParams.delete("newArrivals");
           const newUrl = urlParams.toString()
@@ -717,18 +719,15 @@ const WatchProductPage: React.FC = () => {
     }
   }, [isNewArrivalOnly]);
 
-  // Update URL when selectedBrands changes
   React.useEffect(() => {
     if (typeof window !== "undefined") {
       const urlParams = new URLSearchParams(window.location.search);
 
       if (selectedBrands.length > 0) {
-        // Add brand parameter
         urlParams.set("brand", selectedBrands[0].toLowerCase());
         const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
         window.history.pushState({}, "", newUrl);
       } else {
-        // Remove brand parameter if present
         if (urlParams.has("brand")) {
           urlParams.delete("brand");
           const newUrl = urlParams.toString()
@@ -742,8 +741,8 @@ const WatchProductPage: React.FC = () => {
 
   const filteredWatches = useMemo(() => {
     return mockWatches.filter((watch) => {
-      // Search term filter
-      if (searchTerm) {
+      // Search term filter - enhanced to search all relevant fields
+      if (searchTerm.trim()) {
         const searchLower = searchTerm.toLowerCase();
         const matchesSearch = 
           watch.brand.toLowerCase().includes(searchLower) ||
@@ -817,6 +816,18 @@ const WatchProductPage: React.FC = () => {
             {t("CollectionSection.title")}
           </h1>
           
+          {/* Search Results Indicator */}
+          {searchTerm && (
+            <div className="mb-4 text-gray-300">
+              <p className="text-lg">
+                Search results for: <span className="text-[#B79B76] font-medium">"{searchTerm}"</span>
+              </p>
+              <p className="text-sm text-gray-400">
+                {filteredWatches.length} {filteredWatches.length === 1 ? 'watch' : 'watches'} found
+              </p>
+            </div>
+          )}
+          
           {/* Mobile Search Bar */}
           <div className="sm:hidden mb-6 flex justify-between">
             <div className="relative w-full">
@@ -825,7 +836,7 @@ const WatchProductPage: React.FC = () => {
                 type="text"
                 placeholder="Search..."
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={(e) => handleSearchTermChange(e.target.value)}
                 className="w-full bg-black border border-white rounded-sm py-3 pl-12 pr-4 text-white placeholder-white focus:outline-none "
               />
             </div>
@@ -836,7 +847,6 @@ const WatchProductPage: React.FC = () => {
               className="ml-3"
             >
               <Filter className="w-5 h-5" />
-              {/* <span>Filters</span> */}
             </button>
           </div>
         </div>
@@ -884,7 +894,22 @@ const WatchProductPage: React.FC = () => {
 
           {/* Right Content - Products */}
           <div className="flex-1 sm:mt-11">
-            {/* Product Grid - Changed: now shows 2 cards on sm screens */}
+            {/* Clear Search Button */}
+            {searchTerm && (
+              <div className="mb-4 flex items-center justify-between">
+                <div className="text-sm text-gray-400">
+                  Showing {filteredWatches.length} results
+                </div>
+                <button
+                  onClick={() => handleSearchTermChange('')}
+                  className="text-sm text-[#B79B76] hover:text-[#D4B896] transition-colors"
+                >
+                  Clear search
+                </button>
+              </div>
+            )}
+
+            {/* Product Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 mb-8">
               {displayedWatches.map((watch, index) => (
                 <WatchCard key={`${watch.id}-${index}`} watch={watch} />
@@ -894,9 +919,37 @@ const WatchProductPage: React.FC = () => {
             {/* No results message */}
             {displayedWatches.length === 0 && (
               <div className="text-center py-12">
-                <p className="text-gray-400 text-lg">
-                  No watches found matching your filters.
-                </p>
+                <div className="mb-4">
+                  <Search className="mx-auto h-16 w-16 text-gray-600 mb-4" />
+                  {searchTerm ? (
+                    <>
+                      <p className="text-gray-400 text-lg mb-2">
+                        No watches found for "{searchTerm}"
+                      </p>
+                      <p className="text-gray-500 text-sm mb-4">
+                        Try adjusting your search or filters to find what you're looking for.
+                      </p>
+                      <button
+                        onClick={() => {
+                          handleSearchTermChange('');
+                          setSelectedBrands([]);
+                          setSelectedModels([]);
+                          setSelectedCaseSizes([]);
+                          setSelectedYears([]);
+                          setPriceRange([50000, 3500000]);
+                          setIsNewArrivalOnly(false);
+                        }}
+                        className="text-[#B79B76] hover:text-[#D4B896] transition-colors underline"
+                      >
+                        Clear all filters
+                      </button>
+                    </>
+                  ) : (
+                    <p className="text-gray-400 text-lg">
+                      No watches found matching your filters.
+                    </p>
+                  )}
+                </div>
               </div>
             )}
 
