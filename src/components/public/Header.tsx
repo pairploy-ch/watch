@@ -19,9 +19,10 @@ export default function Header({ watches }: HeaderProps) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState("ENG");
+  const [showMobileLanguageDropdown, setShowMobileLanguageDropdown] = useState(false); // Separate state for mobile
   const searchRef = useRef<HTMLInputElement>(null);
   const languageRef = useRef<HTMLDivElement>(null);
+  const mobileLanguageRef = useRef<HTMLDivElement>(null); // Separate ref for mobile
   const { t, locale, setLocale } = useLanguage();
 
   const router = useRouter();
@@ -86,6 +87,12 @@ export default function Header({ watches }: HeaderProps) {
       ) {
         setShowLanguageDropdown(false);
       }
+      if (
+        mobileLanguageRef.current &&
+        !mobileLanguageRef.current.contains(event.target as Node)
+      ) {
+        setShowMobileLanguageDropdown(false);
+      }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
@@ -113,7 +120,6 @@ export default function Header({ watches }: HeaderProps) {
     >
       <nav className="container mx-auto px-6 py-6 flex justify-between items-center min-h-[80px] max-w-[90%]">
         {/* Logo */}
-        {/* <li>{t("Header.home")}</li> */}
         <Link href="/" className="flex items-center">
           <Image
             src="/logo-bg.png"
@@ -148,7 +154,6 @@ export default function Header({ watches }: HeaderProps) {
               onClick={() => setShowLanguageDropdown(!showLanguageDropdown)}
               className="flex items-center space-x-2 text-white hover:text-gray-300 transition-colors duration-300"
             >
-              {/* <Globe className="h-4 w-4" /> */}
               <span className="text-sm font-medium">{locale === "en" ? "ENG" : "THAI"}</span>
               <svg
                 className={`h-4 w-4 transition-transform duration-200 ${
@@ -168,7 +173,6 @@ export default function Header({ watches }: HeaderProps) {
             </button>
 
             {/* Language Dropdown */}
-
             {showLanguageDropdown && (
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
@@ -180,7 +184,7 @@ export default function Header({ watches }: HeaderProps) {
                 <div className="py-1">
                   <button
                     onClick={() => {
-                      setLocale("en"); // ✅ เปลี่ยน locale เป็นอังกฤษ
+                      setLocale("en");
                       setShowLanguageDropdown(false);
                     }}
                     className={`block w-full text-left px-3 py-2 text-sm transition-colors duration-200 ${
@@ -193,7 +197,7 @@ export default function Header({ watches }: HeaderProps) {
                   </button>
                   <button
                     onClick={() => {
-                      setLocale("th"); // ✅ เปลี่ยน locale เป็นไทย
+                      setLocale("th");
                       setShowLanguageDropdown(false);
                     }}
                     className={`block w-full text-left px-3 py-2 text-sm transition-colors duration-200 ${
@@ -313,7 +317,20 @@ export default function Header({ watches }: HeaderProps) {
           transition={{ duration: 0.3 }}
           className="lg:hidden fixed inset-0 bg-black/95 backdrop-blur-md z-40 flex flex-col"
         >
-          <div className="flex-1 flex flex-col items-center justify-center px-6 space-y-8">
+          {/* Close Button */}
+          <div className="flex justify-end p-6 relative z-50">
+            <button
+              onClick={() => {
+                console.log("Close button clicked"); // Debug log
+                setIsMenuOpen(false);
+              }}
+              className="p-2 text-white hover:text-gray-300 transition-colors duration-300 bg-white/10 rounded-full"
+            >
+              <X size={24} />
+            </button>
+          </div>
+          
+          <div className="flex-1 flex flex-col items-center justify-center px-6 space-y-8 -mt-16">
             {/* Mobile Search Bar */}
             <div className="w-full max-w-sm relative">
               <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
@@ -378,16 +395,16 @@ export default function Header({ watches }: HeaderProps) {
 
             {/* Mobile Language & User */}
             <div className="flex items-center space-x-8">
-              <div className="relative">
+              <div className="relative" ref={mobileLanguageRef}>
                 <button
-                  onClick={() => setShowLanguageDropdown(!showLanguageDropdown)}
+                  onClick={() => setShowMobileLanguageDropdown(!showMobileLanguageDropdown)}
                   className="flex items-center space-x-2 text-white hover:text-gray-300 transition-colors duration-300"
                 >
                   <Globe className="h-5 w-5" />
-                  <span className="font-medium">{selectedLanguage}</span>
+                  <span className="font-medium">{locale === "en" ? "ENG" : "THAI"}</span>
                   <svg
                     className={`h-4 w-4 transition-transform duration-200 ${
-                      showLanguageDropdown ? "rotate-180" : ""
+                      showMobileLanguageDropdown ? "rotate-180" : ""
                     }`}
                     fill="none"
                     stroke="currentColor"
@@ -403,7 +420,7 @@ export default function Header({ watches }: HeaderProps) {
                 </button>
 
                 {/* Mobile Language Dropdown */}
-                {showLanguageDropdown && (
+                {showMobileLanguageDropdown && (
                   <motion.div
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -414,11 +431,12 @@ export default function Header({ watches }: HeaderProps) {
                     <div className="py-1">
                       <button
                         onClick={() => {
-                          setSelectedLanguage("ENG");
-                          setShowLanguageDropdown(false);
+                          setLocale("en");
+                          setShowMobileLanguageDropdown(false);
+                          setIsMenuOpen(false); // Close the mobile menu
                         }}
                         className={`block w-full text-left px-3 py-2 text-sm transition-colors duration-200 ${
-                          selectedLanguage === "ENG"
+                          locale === "en"
                             ? "bg-white/20 text-white"
                             : "text-gray-300 hover:bg-white/10 hover:text-white"
                         }`}
@@ -427,11 +445,12 @@ export default function Header({ watches }: HeaderProps) {
                       </button>
                       <button
                         onClick={() => {
-                          setSelectedLanguage("THAI");
-                          setShowLanguageDropdown(false);
+                          setLocale("th");
+                          setShowMobileLanguageDropdown(false);
+                          setIsMenuOpen(false); // Close the mobile menu
                         }}
                         className={`block w-full text-left px-3 py-2 text-sm transition-colors duration-200 ${
-                          selectedLanguage === "THAI"
+                          locale === "th"
                             ? "bg-white/20 text-white"
                             : "text-gray-300 hover:bg-white/10 hover:text-white"
                         }`}
