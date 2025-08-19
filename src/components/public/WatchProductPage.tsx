@@ -13,7 +13,7 @@ interface Watch {
   refNo: string;
   year: string;
   price: number;
-  image: string;
+  images: string[]; // Changed from single image to array of images
   isPremium: boolean;
   caseSize: string;
   isNewArrival: boolean;
@@ -28,7 +28,12 @@ const mockWatches: Watch[] = [
     refNo: "126234",
     year: "2024",
     price: 420000,
-    image: "/newArrival/watch.png",
+    images: [
+      "/newArrival/watch.png",
+      "/product/product1.webp",
+      "/product/product2.jpeg",
+      "/product/product3.webp",
+    ],
     isPremium: true,
     caseSize: "36mm",
     isNewArrival: true,
@@ -41,7 +46,11 @@ const mockWatches: Watch[] = [
     refNo: "310.30.42.50.01.001",
     year: "2023",
     price: 285000,
-    image: "/newArrival/watch.png",
+    images: [
+      "/newArrival/watch.png",
+      "/newArrival/watch.png",
+      "/newArrival/watch.png",
+    ],
     isPremium: false,
     caseSize: "42mm",
     isNewArrival: false,
@@ -54,7 +63,7 @@ const mockWatches: Watch[] = [
     refNo: "WSTA0041",
     year: "2022",
     price: 178000,
-    image: "/newArrival/watch.png",
+    images: ["/newArrival/watch.png", "/newArrival/watch.png"],
     isPremium: true,
     caseSize: "35mm",
     isNewArrival: false,
@@ -67,7 +76,13 @@ const mockWatches: Watch[] = [
     refNo: "RM35-02",
     year: "2024",
     price: 1850000,
-    image: "/newArrival/watch.png",
+    images: [
+      "/newArrival/watch.png",
+      "/newArrival/watch.png",
+      "/newArrival/watch.png",
+      "/newArrival/watch.png",
+      "/newArrival/watch.png",
+    ],
     isPremium: true,
     caseSize: "49mm",
     isNewArrival: true,
@@ -80,7 +95,7 @@ const mockWatches: Watch[] = [
     refNo: "79012M",
     year: "2023",
     price: 145000,
-    image: "/newArrival/watch.png",
+    images: ["/newArrival/watch.png"],
     isPremium: false,
     caseSize: "39mm",
     isNewArrival: false,
@@ -93,7 +108,11 @@ const mockWatches: Watch[] = [
     refNo: "5711/1A-010",
     year: "2024",
     price: 3200000,
-    image: "/newArrival/watch.png",
+    images: [
+      "/newArrival/watch.png",
+      "/newArrival/watch.png",
+      "/newArrival/watch.png",
+    ],
     isPremium: true,
     caseSize: "40mm",
     isNewArrival: true,
@@ -106,7 +125,7 @@ const mockWatches: Watch[] = [
     refNo: "126610LN",
     year: "2023",
     price: 485000,
-    image: "/newArrival/watch.png",
+    images: ["/newArrival/watch.png", "/newArrival/watch.png"],
     isPremium: true,
     caseSize: "41mm",
     isNewArrival: false,
@@ -119,7 +138,12 @@ const mockWatches: Watch[] = [
     refNo: "215.30.44.21.01.001",
     year: "2022",
     price: 198000,
-    image: "/newArrival/watch.png",
+    images: [
+      "/newArrival/watch.png",
+      "/newArrival/watch.png",
+      "/newArrival/watch.png",
+      "/newArrival/watch.png",
+    ],
     isPremium: false,
     caseSize: "43mm",
     isNewArrival: false,
@@ -132,7 +156,7 @@ const mockWatches: Watch[] = [
     refNo: "WSSA0009",
     year: "2021",
     price: 325000,
-    image: "/newArrival/watch.png",
+    images: ["/newArrival/watch.png", "/newArrival/watch.png"],
     isPremium: true,
     caseSize: "39mm",
     isNewArrival: false,
@@ -145,7 +169,11 @@ const mockWatches: Watch[] = [
     refNo: "25407N",
     year: "2023",
     price: 168000,
-    image: "/newArrival/watch.png",
+    images: [
+      "/newArrival/watch.png",
+      "/newArrival/watch.png",
+      "/newArrival/watch.png",
+    ],
     isPremium: false,
     caseSize: "39mm",
     isNewArrival: true,
@@ -158,7 +186,7 @@ const mockWatches: Watch[] = [
     refNo: "5196G-001",
     year: "2022",
     price: 890000,
-    image: "/newArrival/watch.png",
+    images: ["/newArrival/watch.png"],
     isPremium: true,
     caseSize: "37mm",
     isNewArrival: false,
@@ -171,7 +199,14 @@ const mockWatches: Watch[] = [
     refNo: "RM11-03",
     year: "2021",
     price: 2100000,
-    image: "/newArrival/watch.png",
+    images: [
+      "/newArrival/watch.png",
+      "/newArrival/watch.png",
+      "/newArrival/watch.png",
+      "/newArrival/watch.png",
+      "/newArrival/watch.png",
+      "/newArrival/watch.png",
+    ],
     isPremium: true,
     caseSize: "50mm",
     isNewArrival: true,
@@ -180,17 +215,38 @@ const mockWatches: Watch[] = [
 
 const WatchCard: React.FC<{ watch: Watch }> = ({ watch }) => {
   const router = useRouter();
-  
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const handlePrevImage = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent card click
+    setCurrentImageIndex((prev) =>
+      prev === 0 ? watch.images.length - 1 : prev - 1
+    );
+  };
+
+  const handleNextImage = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent card click
+    setCurrentImageIndex((prev) =>
+      prev === watch.images.length - 1 ? 0 : prev + 1
+    );
+  };
+
+  const handleDotClick = (e: React.MouseEvent, index: number) => {
+    e.stopPropagation(); // Prevent card click
+    setCurrentImageIndex(index);
+  };
+
   const handleClick = () => {
     router.push(`/watch/1`);
   };
 
   return (
     <div
-      className="bg-gradient p-4 hover:bg-gray-750 transition-colors cursor-pointer"
+      className="bg-gradient p-4 hover:bg-gray-750 transition-colors cursor-pointer group"
       onClick={handleClick}
     >
       <div className="relative aspect-square mb-4 flex items-center justify-center overflow-hidden">
+        {/* Premium Badge */}
         {watch.isPremium && (
           <div className="absolute top-2 left-2 z-10">
             <span className="badge-gradient text-black text-xs font-medium px-3 py-1 truncate">
@@ -198,6 +254,8 @@ const WatchCard: React.FC<{ watch: Watch }> = ({ watch }) => {
             </span>
           </div>
         )}
+
+        {/* New Arrival Badge */}
         {watch.isNewArrival && (
           <div className="absolute top-2 right-2 z-10">
             <span className="text-white text-lg font-medium px-3 py-1 font-olds truncate">
@@ -205,13 +263,92 @@ const WatchCard: React.FC<{ watch: Watch }> = ({ watch }) => {
             </span>
           </div>
         )}
-        <div className="flex items-center justify-center">
-          <div>
-            <img src={watch.image} alt={watch.refNo} className="max-w-full max-h-full object-contain" />
-          </div>
+
+        {/* Image Carousel */}
+        <div className="relative w-full h-full flex items-center justify-center">
+          <img
+            src={watch.images[currentImageIndex]}
+            alt={`${watch.refNo} - ${currentImageIndex + 1}`}
+            className="max-w-full max-h-full object-contain transition-opacity duration-300"
+          />
+
+          {/* Navigation Arrows - Only show if multiple images */}
+          {watch.images.length > 1 && (
+            <>
+              <button
+                onClick={handlePrevImage}
+                className="absolute left-2 top-1/2 transform -translate-y-1/2 
+                         bg-black bg-opacity-70 hover:bg-opacity-90 
+                         text-white p-2 rounded-full transition-all duration-200
+                         z-20 shadow-lg"
+                style={{
+                  minWidth: "32px",
+                  minHeight: "32px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+
+              <button
+                onClick={handleNextImage}
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 
+                         bg-black bg-opacity-70 hover:bg-opacity-90 
+                         text-white p-2 rounded-full transition-all duration-200
+                         z-20 shadow-lg"
+                style={{
+                  minWidth: "32px",
+                  minHeight: "32px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </>
+          )}
         </div>
+
+        {/* Image Indicators/Dots - Only show if multiple images and ≤5 images */}
+        {watch.images.length > 1 && watch.images.length <= 5 && (
+          <div
+            className="absolute bottom-3 left-1/2 transform -translate-x-1/2 
+                        flex space-x-2 z-20"
+          >
+            {watch.images.map((_, index) => (
+              <button
+                key={index}
+                onClick={(e) => handleDotClick(e, index)}
+                className={`w-3 h-3 rounded-full transition-all duration-200 border-2 ${
+                  index === currentImageIndex
+                    ? "bg-white border-white"
+                    : "bg-transparent border-white border-opacity-60 hover:border-opacity-100"
+                }`}
+                style={{
+                  minWidth: "12px",
+                  minHeight: "12px",
+                }}
+              />
+            ))}
+          </div>
+        )}
+
+        {/* Image Counter - For many images */}
+        {watch.images.length > 5 && (
+          <div
+            className="absolute bottom-3 right-3 
+                        bg-black bg-opacity-80 text-white text-sm font-medium
+                        px-3 py-1 rounded-full z-20"
+          >
+            {currentImageIndex + 1}/{watch.images.length}
+          </div>
+        )}
       </div>
 
+      {/* Product Information */}
       <div className="space-y-2">
         <h3 className="text-[#B79B76] font-semibold text-xl font-olds truncate">
           {watch.brand}
@@ -368,36 +505,40 @@ const FilterSidebar: React.FC<{
     <>
       {/* Mobile Backdrop */}
       {isOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-black bg-opacity-50 z-40 sm:hidden"
           onClick={onClose}
         />
       )}
-         <h2 className="text-white text-xl mb-4 hidden sm:block" style={{ fontWeight: "400" }}>
-          Search Filters
-        </h2>
+      <h2
+        className="text-white text-xl mb-4 hidden sm:block"
+        style={{ fontWeight: "400" }}
+      >
+        Search Filters
+      </h2>
       {/* Sidebar */}
-      <div className={`
+      <div
+        className={`
         fixed sm:sticky top-0 left-0 h-full sm:h-fit z-50 sm:z-auto
         w-80 sm:w-72 bg-[#141519] p-6 
         transform transition-transform duration-300 ease-in-out
-        ${isOpen ? 'translate-x-0' : '-translate-x-full'} 
+        ${isOpen ? "translate-x-0" : "-translate-x-full"} 
         sm:translate-x-0 sm:block
         overflow-y-auto
-      `}>
+      `}
+      >
         <div className="flex justify-between items-center sm:hidden mb-4">
           <h2 className="text-white text-xl font-medium">Search Filters</h2>
-          <button 
-            onClick={onClose}
-            className="text-white text-2xl"
-          >
+          <button onClick={onClose} className="text-white text-2xl">
             ×
           </button>
         </div>
 
         {/* Brand Filter */}
         <div className="mb-6">
-          <h3 className="text-[#E0D0B9] font-medium mb-3 font-olds text-left">Brand</h3>
+          <h3 className="text-[#E0D0B9] font-medium mb-3 font-olds text-left">
+            Brand
+          </h3>
           <div className="space-y-3">
             <div className="space-y-2">
               {brands.map((brand) => (
@@ -420,7 +561,9 @@ const FilterSidebar: React.FC<{
 
         {/* Price Filter */}
         <div className="mb-6">
-          <h3 className="text-[#E0D0B9] font-medium mb-3 font-olds text-left">Max Price</h3>
+          <h3 className="text-[#E0D0B9] font-medium mb-3 font-olds text-left">
+            Max Price
+          </h3>
           <div className="px-2">
             <div className="mb-3">
               <input
@@ -444,7 +587,9 @@ const FilterSidebar: React.FC<{
 
         {/* Model Filter */}
         <div className="mb-6">
-          <h3 className="text-[#E0D0B9] font-medium mb-3 font-olds text-left">Model</h3>
+          <h3 className="text-[#E0D0B9] font-medium mb-3 font-olds text-left">
+            Model
+          </h3>
           <div className="space-y-2 max-h-32 overflow-y-auto">
             {models.map((model) => (
               <label
@@ -488,7 +633,9 @@ const FilterSidebar: React.FC<{
 
         {/* Year Filter */}
         <div className="mb-6">
-          <h3 className="text-[#E0D0B9] font-medium mb-3 font-olds text-left">Year</h3>
+          <h3 className="text-[#E0D0B9] font-medium mb-3 font-olds text-left">
+            Year
+          </h3>
           <div className="space-y-2">
             {years.map((year) => (
               <label
@@ -574,7 +721,7 @@ const WatchProductPage: React.FC = () => {
   const { t } = useLanguage();
   const searchParams = useSearchParams();
   const router = useRouter();
-  
+
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [selectedModels, setSelectedModels] = useState<string[]>([]);
   const [selectedCaseSizes, setSelectedCaseSizes] = useState<string[]>([]);
@@ -589,7 +736,7 @@ const WatchProductPage: React.FC = () => {
 
   // Initialize search term from URL parameters
   React.useEffect(() => {
-    const urlSearchQuery = searchParams.get('q');
+    const urlSearchQuery = searchParams.get("q");
     if (urlSearchQuery && urlSearchQuery !== searchTerm) {
       setSearchTerm(urlSearchQuery);
       setCurrentPage(1); // Reset to first page when search changes
@@ -600,16 +747,18 @@ const WatchProductPage: React.FC = () => {
   const handleSearchTermChange = (value: string) => {
     setSearchTerm(value);
     setCurrentPage(1);
-    
+
     // Update URL with search query
     const params = new URLSearchParams(searchParams);
     if (value.trim()) {
-      params.set('q', value.trim());
+      params.set("q", value.trim());
     } else {
-      params.delete('q');
+      params.delete("q");
     }
-    
-    const newURL = params.toString() ? `/?${params.toString()}#product` : '/#product';
+
+    const newURL = params.toString()
+      ? `/?${params.toString()}#product`
+      : "/#product";
     router.push(newURL, { scroll: false });
   };
 
@@ -744,12 +893,12 @@ const WatchProductPage: React.FC = () => {
       // Search term filter - enhanced to search all relevant fields
       if (searchTerm.trim()) {
         const searchLower = searchTerm.toLowerCase();
-        const matchesSearch = 
+        const matchesSearch =
           watch.brand.toLowerCase().includes(searchLower) ||
           watch.model.toLowerCase().includes(searchLower) ||
           watch.description.toLowerCase().includes(searchLower) ||
           watch.refNo.toLowerCase().includes(searchLower);
-        
+
         if (!matchesSearch) return false;
       }
 
@@ -815,19 +964,23 @@ const WatchProductPage: React.FC = () => {
           <h1 className="text-3xl sm:text-5xl font-light text-[#B79B76] mb-6 font-olds">
             {t("CollectionSection.title")}
           </h1>
-          
+
           {/* Search Results Indicator */}
           {searchTerm && (
             <div className="mb-4 text-gray-300">
               <p className="text-lg">
-                Search results for: <span className="text-[#B79B76] font-medium">"{searchTerm}"</span>
+                Search results for:{" "}
+                <span className="text-[#B79B76] font-medium">
+                  "{searchTerm}"
+                </span>
               </p>
               <p className="text-sm text-gray-400">
-                {filteredWatches.length} {filteredWatches.length === 1 ? 'watch' : 'watches'} found
+                {filteredWatches.length}{" "}
+                {filteredWatches.length === 1 ? "watch" : "watches"} found
               </p>
             </div>
           )}
-          
+
           {/* Mobile Search Bar */}
           <div className="sm:hidden mb-6 flex justify-between">
             <div className="relative w-full">
@@ -840,12 +993,9 @@ const WatchProductPage: React.FC = () => {
                 className="w-full bg-black border border-white rounded-sm py-3 pl-12 pr-4 text-white placeholder-white focus:outline-none "
               />
             </div>
-            
+
             {/* Mobile Filter Button */}
-            <button
-              onClick={() => setIsFilterOpen(true)}
-              className="ml-3"
-            >
+            <button onClick={() => setIsFilterOpen(true)} className="ml-3">
               <Filter className="w-5 h-5" />
             </button>
           </div>
@@ -901,7 +1051,7 @@ const WatchProductPage: React.FC = () => {
                   Showing {filteredWatches.length} results
                 </div>
                 <button
-                  onClick={() => handleSearchTermChange('')}
+                  onClick={() => handleSearchTermChange("")}
                   className="text-sm text-[#B79B76] hover:text-[#D4B896] transition-colors"
                 >
                   Clear search
@@ -909,8 +1059,8 @@ const WatchProductPage: React.FC = () => {
               </div>
             )}
 
-            {/* Product Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 mb-8">
+            {/* Product Grid - CHANGED: Mobile shows 1 column only */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 mb-8">
               {displayedWatches.map((watch, index) => (
                 <WatchCard key={`${watch.id}-${index}`} watch={watch} />
               ))}
@@ -927,11 +1077,12 @@ const WatchProductPage: React.FC = () => {
                         No watches found for "{searchTerm}"
                       </p>
                       <p className="text-gray-500 text-sm mb-4">
-                        Try adjusting your search or filters to find what you're looking for.
+                        Try adjusting your search or filters to find what you're
+                        looking for.
                       </p>
                       <button
                         onClick={() => {
-                          handleSearchTermChange('');
+                          handleSearchTermChange("");
                           setSelectedBrands([]);
                           setSelectedModels([]);
                           setSelectedCaseSizes([]);

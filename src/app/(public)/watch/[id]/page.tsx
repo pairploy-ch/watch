@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Play, Pause } from "lucide-react";
 import Header from "@/components/public/Header";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -18,6 +18,13 @@ interface Watch {
   isPremium: boolean;
   caseSize: string;
   isNewArrival: boolean;
+}
+
+interface MediaItem {
+  type: 'image' | 'video';
+  src: string;
+  thumbnail?: string; // สำหรับวิดีโอ
+  alt?: string;
 }
 
 const mockRelatedWatches: Watch[] = [
@@ -85,13 +92,36 @@ const mockWatch = {
   equipment: "Watch only",
   status: "Available",
   remark: "Perpetual 36 Mint Green Fluted Jubilee, hot model.",
-  images: [
-    // ใช้ placeholder images แทน
-    "/product/product.png",
-    "/product/product1.webp",
-    "/product/product2.jpeg",
-    "/product/product3.webp",
-  ],
+  media: [
+    {
+      type: 'image' as const,
+      src: "/product/product.png",
+      alt: "Rolex front view"
+    },
+
+    {
+      type: 'image' as const,
+      src: "/product/product1.webp",
+      alt: "Rolex side view"
+    },
+ 
+    {
+      type: 'image' as const,
+      src: "/product/product2.jpeg",
+      alt: "Rolex back view"
+    },
+    {
+      type: 'image' as const,
+      src: "/product/product3.webp",
+      alt: "Rolex close-up"
+    },
+       {
+      type: 'video' as const,
+      src: "/product/vdo-test.mp4",
+      thumbnail: "/product/product.png",
+      alt: "Watch detail video"
+    },
+  ] as MediaItem[]
 };
 
 const WatchCard: React.FC<{ watch: Watch }> = ({ watch }) => {
@@ -181,22 +211,45 @@ const WatchCard: React.FC<{ watch: Watch }> = ({ watch }) => {
 
 const MockWatchDetailPage = () => {
   const { t } = useLanguage();
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+  const [videoRef, setVideoRef] = useState<HTMLVideoElement | null>(null);
 
-  const nextImage = () => {
-    setCurrentImageIndex((prev) =>
-      prev === mockWatch.images.length - 1 ? 0 : prev + 1
+  const currentMedia = mockWatch.media[currentMediaIndex];
+
+  const nextMedia = () => {
+    setCurrentMediaIndex((prev) =>
+      prev === mockWatch.media.length - 1 ? 0 : prev + 1
     );
+    setIsVideoPlaying(false);
   };
 
-  const prevImage = () => {
-    setCurrentImageIndex((prev) =>
-      prev === 0 ? mockWatch.images.length - 1 : prev - 1
+  const prevMedia = () => {
+    setCurrentMediaIndex((prev) =>
+      prev === 0 ? mockWatch.media.length - 1 : prev - 1
     );
+    setIsVideoPlaying(false);
   };
 
-  const selectImage = (index: number) => {
-    setCurrentImageIndex(index);
+  const selectMedia = (index: number) => {
+    setCurrentMediaIndex(index);
+    setIsVideoPlaying(false);
+  };
+
+  const toggleVideoPlay = () => {
+    if (videoRef) {
+      if (isVideoPlaying) {
+        videoRef.pause();
+        setIsVideoPlaying(false);
+      } else {
+        videoRef.play();
+        setIsVideoPlaying(true);
+      }
+    }
+  };
+
+  const handleVideoEnded = () => {
+    setIsVideoPlaying(false);
   };
 
   return (
@@ -204,10 +257,10 @@ const MockWatchDetailPage = () => {
       {/* Back to Collection */}
       <Header watches={[]} />
       <div
-        className="px-6 py-4 w-full bg-[#141519]"
+        className="px-4 lg:px-6 py-4 w-full bg-[#141519]"
         style={{ marginTop: "140px" }}
       >
-        <div className="max-w-[90%] mx-auto">
+        <div className="max-w-[95%] lg:max-w-[90%] mx-auto">
           <Link
             href="/#product"
             className="text-white hover:text-white flex items-center gap-2 transition-colors text-sm"
@@ -218,126 +271,179 @@ const MockWatchDetailPage = () => {
       </div>
 
       {/* Main Content */}
-      <div className="grid grid-cols-[60%_40%] gap-0  max-w-[90%] mx-auto py-5">
-        {/* Left Side - Image Gallery */}
-        <div className="bg-black flex items-center justify-center relative h-full">
-          {/* Main Image */}
-          <div className="relative mx-auto max-w-[70%]">
-            <img
-              style={{ aspectRatio: "1/1" }}
-              src={mockWatch.images[currentImageIndex]}
-              alt={`${mockWatch.brand} ${mockWatch.ref}`}
-              className="w-full h-auto object-cover"
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.src = `https://via.placeholder.com/400x300/1a1a1a/666666?text=Watch+Image`;
-              }}
-            />
+      <div className="grid lg:grid-cols-[60%_40%] grid-cols-1 gap-0 max-w-[95%] lg:max-w-[90%] mx-auto py-5">
+        {/* Left Side - Media Gallery */}
+        <div className="bg-black flex items-center justify-center relative h-full min-h-[400px] lg:min-h-[600px]">
+          {/* Main Media Display */}
+          <div className="relative mx-auto w-full max-w-[90%] lg:max-w-[70%]">
+            {currentMedia.type === 'image' ? (
+              <img
+                style={{ aspectRatio: "1/1" }}
+                src={currentMedia.src}
+                alt={currentMedia.alt || `${mockWatch.brand} ${mockWatch.ref}`}
+                className="w-full h-auto object-cover rounded-lg"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.src = `https://via.placeholder.com/400x400/1a1a1a/666666?text=Watch+Image`;
+                }}
+              />
+            ) : (
+              <div className="relative" style={{ aspectRatio: "1/1" }}>
+                <video
+                  ref={setVideoRef}
+                  className="w-full h-full object-cover rounded-lg"
+                  poster={currentMedia.thumbnail}
+                  onEnded={handleVideoEnded}
+                  controls={false}
+                  playsInline
+                  muted
+                  onError={(e) => {
+                    console.error('Video error:', e);
+                  }}
+                >
+                  <source src={currentMedia.src} type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+                
+                {/* Video Play/Pause Overlay */}
+                <div 
+                  className="absolute inset-0 flex items-center justify-center cursor-pointer bg-black/20 hover:bg-black/30 transition-colors rounded-lg"
+                  onClick={toggleVideoPlay}
+                >
+                  <div className="w-12 h-12 lg:w-16 lg:h-16 bg-black/70 rounded-full flex items-center justify-center hover:bg-black/80 transition-colors">
+                    {isVideoPlaying ? (
+                      <Pause className="w-6 h-6 lg:w-8 lg:h-8 text-white ml-0" />
+                    ) : (
+                      <Play className="w-6 h-6 lg:w-8 lg:h-8 text-white ml-1" />
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* Navigation Arrows */}
             <button
-              onClick={prevImage}
-              className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center transition-colors"
+              onClick={prevMedia}
+              className="absolute left-2 lg:left-4 top-1/2 -translate-y-1/2 w-8 h-8 lg:w-10 lg:h-10 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center transition-colors"
             >
-              <ChevronLeft className="w-6 h-6 text-white" />
+              <ChevronLeft className="w-4 h-4 lg:w-6 lg:h-6 text-white" />
             </button>
 
             <button
-              onClick={nextImage}
-              className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center transition-colors"
+              onClick={nextMedia}
+              className="absolute right-2 lg:right-4 top-1/2 -translate-y-1/2 w-8 h-8 lg:w-10 lg:h-10 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center transition-colors"
             >
-              <ChevronRight className="w-6 h-6 text-white" />
+              <ChevronRight className="w-4 h-4 lg:w-6 lg:h-6 text-white" />
             </button>
           </div>
 
           {/* Thumbnail Gallery */}
-          <div className="absolute left-6 top-1/2 -translate-y-1/2 flex flex-col space-y-3">
-            {mockWatch.images.map((image, index) => (
+          <div className="absolute left-2 lg:left-6 top-1/2 -translate-y-1/2 flex flex-col space-y-2 lg:space-y-3">
+            {mockWatch.media.map((media, index) => (
               <button
                 key={index}
-                onClick={() => selectImage(index)}
-                className={`w-16 h-16 border-2 rounded overflow-hidden transition-all ${
-                  index === currentImageIndex
+                onClick={() => selectMedia(index)}
+                className={`relative w-12 h-12 lg:w-16 lg:h-16 border-2 rounded overflow-hidden transition-all ${
+                  index === currentMediaIndex
                     ? "border-[#B79B76]"
                     : "border-gray-600 hover:border-gray-400"
                 }`}
               >
-                <img
-                  src={image}
-                  alt={`Thumbnail ${index + 1}`}
-                  className="w-full h-full object-cover"
-                />
+                {media.type === 'video' ? (
+                  <>
+                    <img
+                      src={media.thumbnail || `https://via.placeholder.com/64x64/1a1a1a/666666?text=Video`}
+                      alt={media.alt || `Video thumbnail ${index + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                      <Play className="w-3 h-3 lg:w-4 lg:h-4 text-white" />
+                    </div>
+                  </>
+                ) : (
+                  <img
+                    src={media.src}
+                    alt={media.alt || `Thumbnail ${index + 1}`}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = `https://via.placeholder.com/64x64/1a1a1a/666666?text=Image`;
+                    }}
+                  />
+                )}
               </button>
             ))}
           </div>
         </div>
 
         {/* Right Side - Details */}
-        <div className="bg-black px-8 py-12 flex flex-col justify-center h-full">
-          <div className="max-w-md">
+        <div className="bg-black px-4 lg:px-8 py-6 lg:py-12 flex flex-col justify-center h-full">
+          <div className="max-w-full lg:max-w-md">
             {/* Brand */}
-            <h2 className="text-[#B79B76] text-lg font-medium tracking-wider mb-2 font-olds">
+            <h2 className="text-[#B79B76] text-base lg:text-lg font-medium tracking-wider mb-2 font-olds">
               {mockWatch.brand}
             </h2>
 
             {/* Model */}
-            <h1 className="text-white text-4xl font-bold mb-6">
+            <h1 className="text-white text-2xl lg:text-4xl font-bold mb-4 lg:mb-6">
               {mockWatch.ref}
             </h1>
 
             {/* Price */}
-            <div className="text-white text-2xl mb-8 border-b pb-5 border-[#808080]">
+            <div className="text-white text-xl lg:text-2xl mb-6 lg:mb-8 border-b pb-4 lg:pb-5 border-[#808080]">
               ฿{mockWatch.price.toLocaleString()}
             </div>
 
             {/* Details Section */}
-            <div className="mb-8 border-b pb-5 border-[#808080]">
-              <h3 className="text-white text-lg font-medium mb-4">Detail</h3>
+            <div className="mb-6 lg:mb-8 border-b pb-4 lg:pb-5 border-[#808080]">
+              <h3 className="text-white text-base lg:text-lg font-medium mb-3 lg:mb-4">Detail</h3>
 
-              <div className="space-y-3 text-sm">
+              <div className="space-y-2 lg:space-y-3 text-xs lg:text-sm">
                 <div className="flex justify-between">
                   <span className="text-[#BFBFBF] font-bold">Brand</span>
                   <span className="text-white">{mockWatch.brand}</span>
                 </div>
 
                 <div className="flex justify-between">
-                  <span className="text-[#BFBFBF]  font-bold">Ref No.</span>
+                  <span className="text-[#BFBFBF] font-bold">Ref No.</span>
                   <span className="text-white">{mockWatch.ref}</span>
                 </div>
 
                 <div className="flex justify-between">
-                  <span className="text-[#BFBFBF]  font-bold">Year</span>
+                  <span className="text-[#BFBFBF] font-bold">Year</span>
                   <span className="text-white">{mockWatch.watch_year}</span>
                 </div>
 
                 <div className="flex justify-between">
-                  <span className="text-[#BFBFBF]  font-bold">Type</span>
+                  <span className="text-[#BFBFBF] font-bold">Type</span>
                   <span className="text-white">{mockWatch.product_type}</span>
                 </div>
 
                 <div className="flex justify-between">
-                  <span className="text-[#BFBFBF]  font-bold">Equipment</span>
+                  <span className="text-[#BFBFBF] font-bold">Equipment</span>
                   <span className="text-white">{mockWatch.equipment}</span>
                 </div>
 
                 <div className="flex justify-between">
-                  <span className="text-[#BFBFBF]  font-bold">Status</span>
+                  <span className="text-[#BFBFBF] font-bold">Status</span>
                   <span className="text-white">{mockWatch.status}</span>
                 </div>
               </div>
             </div>
 
+          
+
             {/* Remark */}
-            <div className="mb-8">
-              <h3 className="text-white text-lg font-medium mb-3">Remark</h3>
-              <p className="text-gray-400 text-sm leading-relaxed">
+            <div className="mb-6 lg:mb-8">
+              <h3 className="text-white text-base lg:text-lg font-medium mb-2 lg:mb-3">Remark</h3>
+              <p className="text-gray-400 text-xs lg:text-sm leading-relaxed">
                 {mockWatch.remark}
               </p>
             </div>
 
             {/* Get More Details Button */}
             <a href="https://line.me/R/ti/p/@939hmulm?ts=05061404&oat_content=url">
-              <button className="w-full primary-btn text-black font-medium py-3 px-6 transition-colors">
+              <button className="w-full primary-btn text-black font-medium py-2 lg:py-3 px-4 lg:px-6 transition-colors text-sm lg:text-base">
                 {t("WatchDetailPage.button")}
               </button>
             </a>
@@ -346,13 +452,13 @@ const MockWatchDetailPage = () => {
       </div>
 
       {/* Related Product */}
-      <div className="max-w-[90%] mx-auto">
-        <div className="text-left mb-12">
-          <h1 className="text-5xl font-light text-[#B79B76] mb-4 font-olds">
+      <div className="max-w-[95%] lg:max-w-[90%] mx-auto mt-8 lg:mt-12">
+        <div className="text-left mb-8 lg:mb-12">
+          <h1 className="text-3xl lg:text-5xl font-light text-[#B79B76] mb-4 font-olds">
             {t("WatchDetailPage.related-title")}
           </h1>
         </div>
-        <div className="grid grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-8">
           {mockRelatedWatches.map((watch, index) => (
             <WatchCard key={`${watch.id}-${index}`} watch={watch} />
           ))}
