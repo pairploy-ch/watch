@@ -158,12 +158,17 @@ body {
   color: #e5e7eb;
   line-height: 1.6;
 }
-
 :lang(th) {
   font-family: 'Kanit', sans-serif;
 }
+
 .font-olds {
   font-family: var(--OldStyle);
+}
+
+/* Override font-olds to use Kanit when language is Thai */
+:lang(th) .font-olds {
+  font-family: 'Kanit', sans-serif;
 }
 /* Typography */
 h1,
