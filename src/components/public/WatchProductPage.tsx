@@ -4,7 +4,7 @@ import React, { useState, useMemo } from "react";
 import { ChevronLeft, ChevronRight, Search, Filter } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useLanguage } from "../../../context/LanguageContext";
-import { Watch, WatchMedia } from "@/lib/types";
+import { Watch } from "@/lib/types";
 
 // Props interface for the component
 interface WatchProductPageProps {
