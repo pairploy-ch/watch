@@ -163,13 +163,13 @@ body {
 }
 
 .font-olds {
-  font-family: var(--OldStyle);
+  font-family: var(--OldStyle, 'OldStyle', serif);
 }
 
-/* Override font-olds to use Kanit when language is Thai */
-:lang(th) .font-olds {
+
+/* :lang(th) .font-olds {
   font-family: 'Kanit', sans-serif;
-}
+} */
 /* Typography */
 h1,
 h2,
@@ -401,6 +401,7 @@ body {
   font-style: normal;
   font-weight: normal;
   src: url('/font/bitstream-iowan-old-style-bt-586c36a8d7712.woff') format('woff');
+  font-display: swap;
 }
 
 

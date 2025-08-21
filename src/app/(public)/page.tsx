@@ -613,7 +613,7 @@ export default async function HomePage() {
       <HeroSection />
       <NewArrival />
       <BrandFilter />
-      <WatchProductPage />
+      <WatchProductPage watches={watches} />
 
       {/* <Suspense
         fallback={

@@ -4,240 +4,57 @@ import React, { useState, useMemo } from "react";
 import { ChevronLeft, ChevronRight, Search, Filter } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useLanguage } from "../../../context/LanguageContext";
+import { Watch, WatchMedia } from "@/lib/types";
 
-interface Watch {
-  id: string;
-  brand: string;
-  model: string;
-  description: string;
-  refNo: string;
-  year: string;
-  price: number;
-  images: string[]; // Changed from single image to array of images
-  isPremium: boolean;
-  caseSize: string;
-  isNewArrival: boolean;
+// Props interface for the component
+interface WatchProductPageProps {
+  watches?: Watch[];
 }
-
-const mockWatches: Watch[] = [
-  {
-    id: "1",
-    brand: "ROLEX",
-    model: "Datejust 36",
-    description: "Datejust 36 Mini Green Fluted Jubilee, Not Include",
-    refNo: "126234",
-    year: "2024",
-    price: 420000,
-    images: [
-      "/newArrival/watch.png",
-      "/product/product1.webp",
-      "/product/product2.jpeg",
-      "/product/product3.webp",
-    ],
-    isPremium: true,
-    caseSize: "36mm",
-    isNewArrival: true,
-  },
-  {
-    id: "2",
-    brand: "OMEGA",
-    model: "Speedmaster",
-    description: "Speedmaster Professional Moonwatch Co-Axial Master",
-    refNo: "310.30.42.50.01.001",
-    year: "2023",
-    price: 285000,
-    images: [
-      "/newArrival/watch.png",
-      "/newArrival/watch.png",
-      "/newArrival/watch.png",
-    ],
-    isPremium: false,
-    caseSize: "42mm",
-    isNewArrival: false,
-  },
-  {
-    id: "3",
-    brand: "CARTIER",
-    model: "Tank Must",
-    description: "Tank Must Large Model Steel Case Solar Blue",
-    refNo: "WSTA0041",
-    year: "2022",
-    price: 178000,
-    images: ["/newArrival/watch.png", "/newArrival/watch.png"],
-    isPremium: true,
-    caseSize: "35mm",
-    isNewArrival: false,
-  },
-  {
-    id: "4",
-    brand: "RICHARD MILLE",
-    model: "RM 35-02",
-    description: "RM 35-02 Rafael Nadal NTPT Carbon Limited",
-    refNo: "RM35-02",
-    year: "2024",
-    price: 1850000,
-    images: [
-      "/newArrival/watch.png",
-      "/newArrival/watch.png",
-      "/newArrival/watch.png",
-      "/newArrival/watch.png",
-      "/newArrival/watch.png",
-    ],
-    isPremium: true,
-    caseSize: "49mm",
-    isNewArrival: true,
-  },
-  {
-    id: "5",
-    brand: "FRANCK MULLER",
-    model: "Black Bay 58",
-    description: "Black Bay 58 Bronze Brown Dial Fabric Strap",
-    refNo: "79012M",
-    year: "2023",
-    price: 145000,
-    images: ["/newArrival/watch.png"],
-    isPremium: false,
-    caseSize: "39mm",
-    isNewArrival: false,
-  },
-  {
-    id: "6",
-    brand: "PATEK",
-    model: "Nautilus",
-    description: "Nautilus Blue Dial Steel Bracelet Annual Calendar",
-    refNo: "5711/1A-010",
-    year: "2024",
-    price: 3200000,
-    images: [
-      "/newArrival/watch.png",
-      "/newArrival/watch.png",
-      "/newArrival/watch.png",
-    ],
-    isPremium: true,
-    caseSize: "40mm",
-    isNewArrival: true,
-  },
-  {
-    id: "7",
-    brand: "ROLEX",
-    model: "Submariner",
-    description: "Submariner Date Black Dial Ceramic Bezel Steel",
-    refNo: "126610LN",
-    year: "2023",
-    price: 485000,
-    images: ["/newArrival/watch.png", "/newArrival/watch.png"],
-    isPremium: true,
-    caseSize: "41mm",
-    isNewArrival: false,
-  },
-  {
-    id: "8",
-    brand: "OMEGA",
-    model: "Seamaster",
-    description: "Seamaster Planet Ocean 600M Co-Axial Master",
-    refNo: "215.30.44.21.01.001",
-    year: "2022",
-    price: 198000,
-    images: [
-      "/newArrival/watch.png",
-      "/newArrival/watch.png",
-      "/newArrival/watch.png",
-      "/newArrival/watch.png",
-    ],
-    isPremium: false,
-    caseSize: "43mm",
-    isNewArrival: false,
-  },
-  {
-    id: "9",
-    brand: "CARTIER",
-    model: "Santos",
-    description: "Santos de Cartier Large Model Steel Gold Bezel",
-    refNo: "WSSA0009",
-    year: "2021",
-    price: 325000,
-    images: ["/newArrival/watch.png", "/newArrival/watch.png"],
-    isPremium: true,
-    caseSize: "39mm",
-    isNewArrival: false,
-  },
-  {
-    id: "10",
-    brand: "FRANCK MULLER",
-    model: "Pelagos 39",
-    description: "Pelagos 39 Titanium Blue Dial Rubber Strap",
-    refNo: "25407N",
-    year: "2023",
-    price: 168000,
-    images: [
-      "/newArrival/watch.png",
-      "/newArrival/watch.png",
-      "/newArrival/watch.png",
-    ],
-    isPremium: false,
-    caseSize: "39mm",
-    isNewArrival: true,
-  },
-  {
-    id: "11",
-    brand: "PATEK",
-    model: "Calatrava",
-    description: "Calatrava White Gold Silver Dial Leather Strap",
-    refNo: "5196G-001",
-    year: "2022",
-    price: 890000,
-    images: ["/newArrival/watch.png"],
-    isPremium: true,
-    caseSize: "37mm",
-    isNewArrival: false,
-  },
-  {
-    id: "12",
-    brand: "RICHARD MILLE",
-    model: "RM 11-03",
-    description: "RM 11-03 Titanium Flyback Chrono McLaren Edition",
-    refNo: "RM11-03",
-    year: "2021",
-    price: 2100000,
-    images: [
-      "/newArrival/watch.png",
-      "/newArrival/watch.png",
-      "/newArrival/watch.png",
-      "/newArrival/watch.png",
-      "/newArrival/watch.png",
-      "/newArrival/watch.png",
-    ],
-    isPremium: true,
-    caseSize: "50mm",
-    isNewArrival: true,
-  },
-];
 
 const WatchCard: React.FC<{ watch: Watch }> = ({ watch }) => {
   const router = useRouter();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
+  // Filter only images from media
+  const images = watch.media?.filter(m => m.type === "image")?.map(m => m.url) || [];
+  
+  // Use first image if no images available, or a placeholder
+  const displayImages = images.length > 0 ? images : ["/placeholder-watch.png"];
+
   const handlePrevImage = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent card click
+    e.stopPropagation();
     setCurrentImageIndex((prev) =>
-      prev === 0 ? watch.images.length - 1 : prev - 1
+      prev === 0 ? displayImages.length - 1 : prev - 1
     );
   };
 
   const handleNextImage = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent card click
+    e.stopPropagation();
     setCurrentImageIndex((prev) =>
-      prev === watch.images.length - 1 ? 0 : prev + 1
+      prev === displayImages.length - 1 ? 0 : prev + 1
     );
   };
 
   const handleDotClick = (e: React.MouseEvent, index: number) => {
-    e.stopPropagation(); // Prevent card click
+    e.stopPropagation();
     setCurrentImageIndex(index);
   };
 
   const handleClick = () => {
-    router.push(`/watch/1`);
+    router.push(`/watch/${watch.id}`);
+  };
+
+  // Check if it's a new arrival (within last 30 days)
+  const isNewArrival = () => {
+    const createdDate = new Date(watch.created_at);
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    return createdDate > thirtyDaysAgo;
+  };
+
+  // Determine if premium based on price
+  const isPremium = () => {
+    return watch.selling_price && watch.selling_price > 500000;
   };
 
   return (
@@ -247,7 +64,7 @@ const WatchCard: React.FC<{ watch: Watch }> = ({ watch }) => {
     >
       <div className="relative aspect-square mb-4 flex items-center justify-center overflow-hidden">
         {/* Premium Badge */}
-        {watch.isPremium && (
+        {isPremium() && (
           <div className="absolute top-2 left-2 z-10">
             <span className="badge-gradient text-black text-xs font-medium px-3 py-1 truncate">
               Premium
@@ -256,7 +73,7 @@ const WatchCard: React.FC<{ watch: Watch }> = ({ watch }) => {
         )}
 
         {/* New Arrival Badge */}
-        {watch.isNewArrival && (
+        {isNewArrival() && (
           <div className="absolute top-2 right-2 z-10">
             <span className="text-white text-lg font-medium px-3 py-1 font-olds truncate">
               New
@@ -267,13 +84,16 @@ const WatchCard: React.FC<{ watch: Watch }> = ({ watch }) => {
         {/* Image Carousel */}
         <div className="relative w-full h-full flex items-center justify-center">
           <img
-            src={watch.images[currentImageIndex]}
-            alt={`${watch.refNo} - ${currentImageIndex + 1}`}
+            src={displayImages[currentImageIndex]}
+            alt={`${watch.ref} - ${currentImageIndex + 1}`}
             className="max-w-full max-h-full object-contain transition-opacity duration-300"
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = "/placeholder-watch.png";
+            }}
           />
 
           {/* Navigation Arrows - Only show if multiple images */}
-          {watch.images.length > 1 && (
+          {displayImages.length > 1 && (
             <>
               <button
                 onClick={handlePrevImage}
@@ -313,12 +133,9 @@ const WatchCard: React.FC<{ watch: Watch }> = ({ watch }) => {
         </div>
 
         {/* Image Indicators/Dots - Only show if multiple images and ≤5 images */}
-        {watch.images.length > 1 && watch.images.length <= 5 && (
-          <div
-            className="absolute bottom-3 left-1/2 transform -translate-x-1/2 
-                        flex space-x-2 z-20"
-          >
-            {watch.images.map((_, index) => (
+        {displayImages.length > 1 && displayImages.length <= 5 && (
+          <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
+            {displayImages.map((_, index) => (
               <button
                 key={index}
                 onClick={(e) => handleDotClick(e, index)}
@@ -337,13 +154,9 @@ const WatchCard: React.FC<{ watch: Watch }> = ({ watch }) => {
         )}
 
         {/* Image Counter - For many images */}
-        {watch.images.length > 5 && (
-          <div
-            className="absolute bottom-3 right-3 
-                        bg-black bg-opacity-80 text-white text-sm font-medium
-                        px-3 py-1 rounded-full z-20"
-          >
-            {currentImageIndex + 1}/{watch.images.length}
+        {displayImages.length > 5 && (
+          <div className="absolute bottom-3 right-3 bg-black bg-opacity-80 text-white text-sm font-medium px-3 py-1 rounded-full z-20">
+            {currentImageIndex + 1}/{displayImages.length}
           </div>
         )}
       </div>
@@ -354,46 +167,32 @@ const WatchCard: React.FC<{ watch: Watch }> = ({ watch }) => {
           {watch.brand}
         </h3>
         <p className="text-[#6E6E6E] text-sm leading-relaxed line-clamp-3">
-          {watch.description}
+          {watch.model || watch.notes || "Luxury timepiece"}
         </p>
 
-        <div
-          className="grid grid-cols-2 gap-4 text-xs text-gray-400"
-          style={{ marginTop: "20px" }}
-        >
+        <div className="grid grid-cols-2 gap-4 text-xs text-gray-400" style={{ marginTop: "20px" }}>
           <div>
-            <span
-              className="text-[#BFBFBF] block truncate"
-              style={{ fontWeight: 500, fontSize: "14px" }}
-            >
+            <span className="text-[#BFBFBF] block truncate" style={{ fontWeight: 500, fontSize: "14px" }}>
               Ref No.
             </span>
-            <div
-              className="text-[#BFBFBF] mt-2 truncate"
-              style={{ fontWeight: 500, fontSize: "14px" }}
-            >
+            <div className="text-[#BFBFBF] mt-2 truncate" style={{ fontWeight: 500, fontSize: "14px" }}>
               Year
             </div>
           </div>
           <div style={{ textAlign: "right" }}>
-            <span
-              className="text-[#BFBFBF] block truncate"
-              style={{ fontWeight: 500, fontSize: "14px" }}
-            >
-              {watch.refNo}
+            <span className="text-[#BFBFBF] block truncate" style={{ fontWeight: 500, fontSize: "14px" }}>
+              {watch.ref}
             </span>
-            <div
-              className="text-[#BFBFBF] mt-2 truncate"
-              style={{ fontWeight: 500, fontSize: "14px" }}
-            >
-              {watch.year}
+            <div className="text-[#BFBFBF] mt-2 truncate" style={{ fontWeight: 500, fontSize: "14px" }}>
+              {watch.watch_year || "N/A"}
             </div>
           </div>
         </div>
 
         <div className="pt-3 pb-2">
-          <span className="text-white md:text-xl lg:text-2xl xl:text-3xl font-bold block truncate">
-            ฿{watch.price.toLocaleString()}
+          <span className="text-white md:text-xl lg:text-2xl xl:text-3xl block truncate">
+            {watch.currency === "THB" ? "฿" : watch.currency === "USD" ? "$" : "€"}
+            {watch.selling_price?.toLocaleString() || "Contact for price"}
           </span>
         </div>
       </div>
@@ -406,8 +205,6 @@ const FilterSidebar: React.FC<{
   setSelectedBrands: (brands: string[]) => void;
   selectedModels: string[];
   setSelectedModels: (models: string[]) => void;
-  selectedCaseSizes: string[];
-  setSelectedCaseSizes: (sizes: string[]) => void;
   selectedYears: string[];
   setSelectedYears: (years: string[]) => void;
   priceRange: [number, number];
@@ -416,13 +213,12 @@ const FilterSidebar: React.FC<{
   setIsNewArrivalOnly: (value: boolean) => void;
   isOpen: boolean;
   onClose: () => void;
+  watches: Watch[];
 }> = ({
   selectedBrands,
   setSelectedBrands,
   selectedModels,
   setSelectedModels,
-  selectedCaseSizes,
-  setSelectedCaseSizes,
   selectedYears,
   setSelectedYears,
   priceRange,
@@ -431,43 +227,29 @@ const FilterSidebar: React.FC<{
   setIsNewArrivalOnly,
   isOpen,
   onClose,
+  watches,
 }) => {
-  const brands = [
-    "Rolex",
-    "Omega",
-    "Cartier",
-    "Richard Mille",
-    "franck muller",
-    "Patek",
-    "Audemars Piguet",
-  ];
-  const models = [
-    "Datejust 36",
-    "Speedmaster",
-    "Tank Must",
-    "RM 35-02",
-    "Black Bay 58",
-    "Nautilus",
-    "Submariner",
-    "Seamaster",
-    "Santos",
-    "Pelagos 39",
-    "Calatrava",
-    "RM 11-03",
-  ];
-  const caseSizes = [
-    "35mm",
-    "36mm",
-    "37mm",
-    "39mm",
-    "40mm",
-    "41mm",
-    "42mm",
-    "43mm",
-    "49mm",
-    "50mm",
-  ];
-  const years = ["2021", "2022", "2023", "2024"];
+  // Extract unique brands, models, and years from actual data
+  const brands = useMemo(() => 
+    [...new Set(watches.map(w => w.brand))].sort(), 
+    [watches]
+  );
+  
+  const models = useMemo(() => 
+    [...new Set(watches.map(w => w.model).filter((model): model is string => Boolean(model)))].sort(), 
+    [watches]
+  );
+  
+  const years = useMemo(() => 
+    [...new Set(watches.map(w => w.watch_year).filter((year): year is number => Boolean(year)))].sort((a, b) => b - a), 
+    [watches]
+  );
+
+  // Get max price from actual data
+  const maxPrice = useMemo(() => {
+    const prices = watches.map(w => w.selling_price).filter(Boolean);
+    return prices.length > 0 ? Math.max(...prices as number[]) : 3500000;
+  }, [watches]);
 
   const toggleBrand = (brand: string) => {
     setSelectedBrands(
@@ -485,19 +267,12 @@ const FilterSidebar: React.FC<{
     );
   };
 
-  const toggleCaseSize = (size: string) => {
-    setSelectedCaseSizes(
-      selectedCaseSizes.includes(size)
-        ? selectedCaseSizes.filter((s) => s !== size)
-        : [...selectedCaseSizes, size]
-    );
-  };
-
-  const toggleYear = (year: string) => {
+  const toggleYear = (year: number) => {
+    const yearString = year.toString();
     setSelectedYears(
-      selectedYears.includes(year)
-        ? selectedYears.filter((y) => y !== year)
-        : [...selectedYears, year]
+      selectedYears.includes(yearString)
+        ? selectedYears.filter((y) => y !== yearString)
+        : [...selectedYears, yearString]
     );
   };
 
@@ -510,10 +285,7 @@ const FilterSidebar: React.FC<{
           onClick={onClose}
         />
       )}
-      <h2
-        className="text-white text-xl mb-4 hidden sm:block"
-        style={{ fontWeight: "400" }}
-      >
+      <h2 className="text-white text-xl mb-4 hidden sm:block font-olds" style={{ fontWeight: "400" }}>
         Search Filters
       </h2>
       {/* Sidebar */}
@@ -528,36 +300,38 @@ const FilterSidebar: React.FC<{
       `}
       >
         <div className="flex justify-between items-center sm:hidden mb-4">
-          <h2 className="text-white text-xl font-medium">Search Filters</h2>
+          <h2 className="text-white text-xl font-medium font-olds">Search Filters</h2>
           <button onClick={onClose} className="text-white text-2xl">
             ×
           </button>
         </div>
 
         {/* Brand Filter */}
-        <div className="mb-6">
-          <h3 className="text-[#E0D0B9] font-medium mb-3 font-olds text-left">
-            Brand
-          </h3>
-          <div className="space-y-3">
-            <div className="space-y-2">
-              {brands.map((brand) => (
-                <label
-                  key={brand}
-                  className="flex items-center space-x-3 cursor-pointer hover:bg-gray-800 p-2 rounded"
-                >
-                  <input
-                    type="checkbox"
-                    className="w-4 h-4 text-amber-500 bg-gray-800 border-gray-600 rounded focus:ring-amber-500 focus:ring-2"
-                    checked={selectedBrands.includes(brand)}
-                    onChange={() => toggleBrand(brand)}
-                  />
-                  <span className="text-gray-300 text-sm">{brand}</span>
-                </label>
-              ))}
+        {brands.length > 0 && (
+          <div className="mb-6">
+            <h3 className="text-[#E0D0B9] font-medium mb-3 font-olds text-left">
+              Brand
+            </h3>
+            <div className="space-y-3">
+              <div className="space-y-2">
+                {brands.map((brand) => (
+                  <label
+                    key={brand}
+                    className="flex items-center space-x-3 cursor-pointer hover:bg-gray-800 p-2 rounded"
+                  >
+                    <input
+                      type="checkbox"
+                      className="w-4 h-4 text-amber-500 bg-gray-800 border-gray-600 rounded focus:ring-amber-500 focus:ring-2"
+                      checked={selectedBrands.includes(brand)}
+                      onChange={() => toggleBrand(brand)}
+                    />
+                    <span className="text-gray-300 text-sm">{brand}</span>
+                  </label>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         {/* Price Filter */}
         <div className="mb-6">
@@ -569,7 +343,7 @@ const FilterSidebar: React.FC<{
               <input
                 type="range"
                 min="50000"
-                max="3500000"
+                max={maxPrice}
                 step="10000"
                 value={priceRange[1]}
                 onChange={(e) =>
@@ -586,73 +360,54 @@ const FilterSidebar: React.FC<{
         </div>
 
         {/* Model Filter */}
-        <div className="mb-6">
-          <h3 className="text-[#E0D0B9] font-medium mb-3 font-olds text-left">
-            Model
-          </h3>
-          <div className="space-y-2 max-h-32 overflow-y-auto">
-            {models.map((model) => (
-              <label
-                key={model}
-                className="flex items-center space-x-3 cursor-pointer hover:bg-gray-800 p-2 rounded"
-              >
-                <input
-                  type="checkbox"
-                  className="w-4 h-4 text-amber-500 bg-gray-800 border-gray-600 rounded focus:ring-amber-500 focus:ring-2"
-                  checked={selectedModels.includes(model)}
-                  onChange={() => toggleModel(model)}
-                />
-                <span className="text-gray-300 text-sm">{model}</span>
-              </label>
-            ))}
+        {models.length > 0 && (
+          <div className="mb-6">
+            <h3 className="text-[#E0D0B9] font-medium mb-3 font-olds text-left">
+              Model
+            </h3>
+            <div className="space-y-2 max-h-32 overflow-y-auto">
+              {models.map((model) => (
+                <label
+                  key={model}
+                  className="flex items-center space-x-3 cursor-pointer hover:bg-gray-800 p-2 rounded"
+                >
+                  <input
+                    type="checkbox"
+                    className="w-4 h-4 text-amber-500 bg-gray-800 border-gray-600 rounded focus:ring-amber-500 focus:ring-2"
+                    checked={selectedModels.includes(model)}
+                    onChange={() => toggleModel(model)}
+                  />
+                  <span className="text-gray-300 text-sm">{model}</span>
+                </label>
+              ))}
+            </div>
           </div>
-        </div>
-
-        {/* Case Size Filter */}
-        <div className="mb-6">
-          <h3 className="text-[#E0D0B9] font-medium mb-3 font-olds text-left">
-            Case Size
-          </h3>
-          <div className="space-y-2 max-h-32 overflow-y-auto">
-            {caseSizes.map((size) => (
-              <label
-                key={size}
-                className="flex items-center space-x-3 cursor-pointer hover:bg-gray-800 p-2 rounded"
-              >
-                <input
-                  type="checkbox"
-                  className="w-4 h-4 text-amber-500 bg-gray-800 border-gray-600 rounded focus:ring-amber-500 focus:ring-2"
-                  checked={selectedCaseSizes.includes(size)}
-                  onChange={() => toggleCaseSize(size)}
-                />
-                <span className="text-gray-300 text-sm">{size}</span>
-              </label>
-            ))}
-          </div>
-        </div>
+        )}
 
         {/* Year Filter */}
-        <div className="mb-6">
-          <h3 className="text-[#E0D0B9] font-medium mb-3 font-olds text-left">
-            Year
-          </h3>
-          <div className="space-y-2">
-            {years.map((year) => (
-              <label
-                key={year}
-                className="flex items-center space-x-3 cursor-pointer hover:bg-gray-800 p-2 rounded"
-              >
-                <input
-                  type="checkbox"
-                  className="w-4 h-4 text-amber-500 bg-gray-800 border-gray-600 rounded focus:ring-amber-500 focus:ring-2"
-                  checked={selectedYears.includes(year)}
-                  onChange={() => toggleYear(year)}
-                />
-                <span className="text-gray-300 text-sm">{year}</span>
-              </label>
-            ))}
+        {years.length > 0 && (
+          <div className="mb-6">
+            <h3 className="text-[#E0D0B9] font-medium mb-3 font-olds text-left">
+              Year
+            </h3>
+            <div className="space-y-2">
+              {years.map((year) => (
+                <label
+                  key={year}
+                  className="flex items-center space-x-3 cursor-pointer hover:bg-gray-800 p-2 rounded"
+                >
+                  <input
+                    type="checkbox"
+                    className="w-4 h-4 text-amber-500 bg-gray-800 border-gray-600 rounded focus:ring-amber-500 focus:ring-2"
+                    checked={selectedYears.includes(year.toString())}
+                    onChange={() => toggleYear(year)}
+                  />
+                  <span className="text-gray-300 text-sm">{year}</span>
+                </label>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* New Arrival Filter */}
         <div className="mb-6">
@@ -717,29 +472,37 @@ const Pagination: React.FC<{
   );
 };
 
-const WatchProductPage: React.FC = () => {
+const WatchProductPage: React.FC<WatchProductPageProps> = ({ watches = [] }) => {
   const { t } = useLanguage();
   const searchParams = useSearchParams();
   const router = useRouter();
 
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [selectedModels, setSelectedModels] = useState<string[]>([]);
-  const [selectedCaseSizes, setSelectedCaseSizes] = useState<string[]>([]);
   const [selectedYears, setSelectedYears] = useState<string[]>([]);
-  const [priceRange, setPriceRange] = useState<[number, number]>([
-    50000, 3500000,
-  ]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([50000, 3500000]);
   const [isNewArrivalOnly, setIsNewArrivalOnly] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  // Initialize price range based on actual data
+  React.useEffect(() => {
+    if (watches.length > 0) {
+      const prices = watches.map(w => w.selling_price).filter(Boolean) as number[];
+      if (prices.length > 0) {
+        const maxPrice = Math.max(...prices);
+        setPriceRange([50000, maxPrice]);
+      }
+    }
+  }, [watches]);
 
   // Initialize search term from URL parameters
   React.useEffect(() => {
     const urlSearchQuery = searchParams.get("q");
     if (urlSearchQuery && urlSearchQuery !== searchTerm) {
       setSearchTerm(urlSearchQuery);
-      setCurrentPage(1); // Reset to first page when search changes
+      setCurrentPage(1);
     }
   }, [searchParams, searchTerm]);
 
@@ -748,7 +511,6 @@ const WatchProductPage: React.FC = () => {
     setSearchTerm(value);
     setCurrentPage(1);
 
-    // Update URL with search query
     const params = new URLSearchParams(searchParams);
     if (value.trim()) {
       params.set("q", value.trim());
@@ -776,17 +538,9 @@ const WatchProductPage: React.FC = () => {
 
         // Check for brand parameter
         const brandParam = urlParams.get("brand");
-        if (brandParam) {
-          const brands = [
-            "Rolex",
-            "Omega",
-            "Cartier",
-            "Richard Mille",
-            "franck muller",
-            "Patek",
-            "Audemars Piguet",
-          ];
-          const matchingBrand = brands.find(
+        if (brandParam && watches.length > 0) {
+          const availableBrands = [...new Set(watches.map(w => w.brand))];
+          const matchingBrand = availableBrands.find(
             (brand) => brand.toLowerCase() === brandParam.toLowerCase()
           );
 
@@ -799,153 +553,66 @@ const WatchProductPage: React.FC = () => {
     };
 
     checkUrlParams();
+  }, [selectedBrands, watches]);
 
-    const handleVisibilityChange = () => {
-      if (!document.hidden) {
-        checkUrlParams();
-      }
-    };
-
-    const handleFocus = () => {
-      checkUrlParams();
-    };
-
-    const productSection = document.getElementById("product");
-    let observer: IntersectionObserver | null = null;
-
-    if (productSection) {
-      observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              checkUrlParams();
-            }
-          });
-        },
-        { threshold: 0.1 }
-      );
-
-      observer.observe(productSection);
-    }
-
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-    window.addEventListener("focus", handleFocus);
-
-    const timeoutId1 = setTimeout(checkUrlParams, 100);
-    const timeoutId2 = setTimeout(checkUrlParams, 500);
-    const timeoutId3 = setTimeout(checkUrlParams, 1000);
-
-    return () => {
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-      window.removeEventListener("focus", handleFocus);
-      if (observer) observer.disconnect();
-      clearTimeout(timeoutId1);
-      clearTimeout(timeoutId2);
-      clearTimeout(timeoutId3);
-    };
-  }, [selectedBrands]);
-
-  // Update URL when filters change
-  React.useEffect(() => {
-    if (typeof window !== "undefined") {
-      const urlParams = new URLSearchParams(window.location.search);
-
-      if (isNewArrivalOnly) {
-        if (urlParams.get("newArrivals") !== "true") {
-          urlParams.set("newArrivals", "true");
-          const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
-          window.history.pushState({}, "", newUrl);
-        }
-      } else {
-        if (urlParams.has("newArrivals")) {
-          urlParams.delete("newArrivals");
-          const newUrl = urlParams.toString()
-            ? `${window.location.pathname}?${urlParams.toString()}`
-            : window.location.pathname;
-          window.history.pushState({}, "", newUrl);
-        }
-      }
-    }
-  }, [isNewArrivalOnly]);
-
-  React.useEffect(() => {
-    if (typeof window !== "undefined") {
-      const urlParams = new URLSearchParams(window.location.search);
-
-      if (selectedBrands.length > 0) {
-        urlParams.set("brand", selectedBrands[0].toLowerCase());
-        const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
-        window.history.pushState({}, "", newUrl);
-      } else {
-        if (urlParams.has("brand")) {
-          urlParams.delete("brand");
-          const newUrl = urlParams.toString()
-            ? `${window.location.pathname}?${urlParams.toString()}`
-            : window.location.pathname;
-          window.history.pushState({}, "", newUrl);
-        }
-      }
-    }
-  }, [selectedBrands]);
+  // Helper function to check if watch is new arrival
+  const isNewArrival = (watch: Watch) => {
+    const createdDate = new Date(watch.created_at);
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    return createdDate > thirtyDaysAgo;
+  };
 
   const filteredWatches = useMemo(() => {
-    return mockWatches.filter((watch) => {
-      // Search term filter - enhanced to search all relevant fields
+    return watches.filter((watch) => {
+      // Only show public watches that are available (not sold or hidden)
+      if (!watch.is_public || watch.status === "Sold" || watch.status === "Hidden") {
+        return false;
+      }
+
+      // Search term filter
       if (searchTerm.trim()) {
         const searchLower = searchTerm.toLowerCase();
         const matchesSearch =
           watch.brand.toLowerCase().includes(searchLower) ||
-          watch.model.toLowerCase().includes(searchLower) ||
-          watch.description.toLowerCase().includes(searchLower) ||
-          watch.refNo.toLowerCase().includes(searchLower);
+          (watch.model && watch.model.toLowerCase().includes(searchLower)) ||
+          watch.ref.toLowerCase().includes(searchLower) ||
+          (watch.notes && watch.notes.toLowerCase().includes(searchLower));
 
         if (!matchesSearch) return false;
       }
 
-      // Brand filter - case insensitive comparison
-      if (
-        selectedBrands.length > 0 &&
-        !selectedBrands.some(
-          (brand) => brand.toUpperCase() === watch.brand.toUpperCase()
-        )
-      ) {
+      // Brand filter
+      if (selectedBrands.length > 0 && !selectedBrands.includes(watch.brand)) {
         return false;
       }
 
       // Model filter
-      if (selectedModels.length > 0 && !selectedModels.includes(watch.model)) {
-        return false;
-      }
-
-      // Case size filter
-      if (
-        selectedCaseSizes.length > 0 &&
-        !selectedCaseSizes.includes(watch.caseSize)
-      ) {
+      if (selectedModels.length > 0 && (!watch.model || !selectedModels.includes(watch.model))) {
         return false;
       }
 
       // Year filter
-      if (selectedYears.length > 0 && !selectedYears.includes(watch.year)) {
+      if (selectedYears.length > 0 && (!watch.watch_year || !selectedYears.includes(watch.watch_year.toString()))) {
         return false;
       }
 
       // Price filter
-      if (watch.price > priceRange[1]) {
+      if (watch.selling_price && watch.selling_price > priceRange[1]) {
         return false;
       }
 
       // New arrival filter
-      if (isNewArrivalOnly && !watch.isNewArrival) {
+      if (isNewArrivalOnly && !isNewArrival(watch)) {
         return false;
       }
 
       return true;
     });
   }, [
+    watches,
     selectedBrands,
     selectedModels,
-    selectedCaseSizes,
     selectedYears,
     priceRange,
     isNewArrivalOnly,
@@ -990,7 +657,7 @@ const WatchProductPage: React.FC = () => {
                 placeholder="Search..."
                 value={searchTerm}
                 onChange={(e) => handleSearchTermChange(e.target.value)}
-                className="w-full bg-black border border-white rounded-sm py-3 pl-12 pr-4 text-white placeholder-white focus:outline-none "
+                className="w-full bg-black border border-white rounded-sm py-3 pl-12 pr-4 text-white placeholder-white focus:outline-none"
               />
             </div>
 
@@ -1002,15 +669,13 @@ const WatchProductPage: React.FC = () => {
         </div>
 
         <div className="flex sm:gap-0 md:gap-8">
-          {/* Left Sidebar - Filters (Hidden on mobile) */}
+          {/* Left Sidebar - Filters */}
           <div className="hidden sm:block">
             <FilterSidebar
               selectedBrands={selectedBrands}
               setSelectedBrands={setSelectedBrands}
               selectedModels={selectedModels}
               setSelectedModels={setSelectedModels}
-              selectedCaseSizes={selectedCaseSizes}
-              setSelectedCaseSizes={setSelectedCaseSizes}
               selectedYears={selectedYears}
               setSelectedYears={setSelectedYears}
               priceRange={priceRange}
@@ -1019,6 +684,7 @@ const WatchProductPage: React.FC = () => {
               setIsNewArrivalOnly={setIsNewArrivalOnly}
               isOpen={isFilterOpen}
               onClose={() => setIsFilterOpen(false)}
+              watches={watches}
             />
           </div>
 
@@ -1029,8 +695,6 @@ const WatchProductPage: React.FC = () => {
               setSelectedBrands={setSelectedBrands}
               selectedModels={selectedModels}
               setSelectedModels={setSelectedModels}
-              selectedCaseSizes={selectedCaseSizes}
-              setSelectedCaseSizes={setSelectedCaseSizes}
               selectedYears={selectedYears}
               setSelectedYears={setSelectedYears}
               priceRange={priceRange}
@@ -1039,6 +703,7 @@ const WatchProductPage: React.FC = () => {
               setIsNewArrivalOnly={setIsNewArrivalOnly}
               isOpen={isFilterOpen}
               onClose={() => setIsFilterOpen(false)}
+              watches={watches}
             />
           </div>
 
@@ -1059,10 +724,10 @@ const WatchProductPage: React.FC = () => {
               </div>
             )}
 
-            {/* Product Grid - CHANGED: Mobile shows 1 column only */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 mb-8">
-              {displayedWatches.map((watch, index) => (
-                <WatchCard key={`${watch.id}-${index}`} watch={watch} />
+            {/* Product Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 mb-8">
+              {displayedWatches.map((watch) => (
+                <WatchCard key={watch.id} watch={watch} />
               ))}
             </div>
 
@@ -1085,9 +750,8 @@ const WatchProductPage: React.FC = () => {
                           handleSearchTermChange("");
                           setSelectedBrands([]);
                           setSelectedModels([]);
-                          setSelectedCaseSizes([]);
                           setSelectedYears([]);
-                          setPriceRange([50000, 3500000]);
+                          setPriceRange([50000, Math.max(...watches.map(w => w.selling_price).filter(Boolean) as number[]) || 3500000]);
                           setIsNewArrivalOnly(false);
                         }}
                         className="text-[#B79B76] hover:text-[#D4B896] transition-colors underline"

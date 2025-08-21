@@ -13,7 +13,7 @@ const HeroSection = () => {
   className="absolute inset-0 bg-cover bg-center h-[60vh] md:h-[100vh]"
   style={{
     backgroundImage:
-      "linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.5)), url('/cover.jpg')",
+      "linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.5)), url('/cover.png')",
   }}
 />
 
