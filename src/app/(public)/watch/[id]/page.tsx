@@ -1,149 +1,54 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight, Play, Pause } from "lucide-react";
 import Header from "@/components/public/Header";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
 import { useLanguage } from "../../../../../context/LanguageContext";
+import { createClient } from "@/lib/supabase/client";
+import { Watch, WatchMedia } from "@/lib/types";
 
-interface Watch {
-  id: string;
-  brand: string;
-  model: string;
-  description: string;
-  refNo: string;
-  year: string;
-  price: number;
-  image: string;
-  isPremium: boolean;
-  caseSize: string;
-  isNewArrival: boolean;
+interface WatchCardProps {
+  watch: Watch;
 }
 
-interface MediaItem {
-  type: 'image' | 'video';
-  src: string;
-  thumbnail?: string; // สำหรับวิดีโอ
-  alt?: string;
-}
-
-const mockRelatedWatches: Watch[] = [
-  {
-    id: "1",
-    brand: "ROLEX",
-    model: "Datejust 36",
-    description: "Datejust 36 Mini Green Fluted Jubilee, Not Include",
-    refNo: "126234",
-    year: "2024",
-    price: 420000,
-    image: "/newArrival/watch.png",
-    isPremium: true,
-    caseSize: "36mm",
-    isNewArrival: true,
-  },
-  {
-    id: "2",
-    brand: "OMEGA",
-    model: "Speedmaster",
-    description: "Speedmaster Professional Moonwatch Co-Axial Master",
-    refNo: "310.30.42.50.01.001",
-    year: "2023",
-    price: 285000,
-    image: "/newArrival/watch.png",
-    isPremium: false,
-    caseSize: "42mm",
-    isNewArrival: false,
-  },
-  {
-    id: "3",
-    brand: "CARTIER",
-    model: "Tank Must",
-    description: "Tank Must Large Model Steel Case Solar Blue",
-    refNo: "WSTA0041",
-    year: "2022",
-    price: 178000,
-    image: "/newArrival/watch.png",
-    isPremium: true,
-    caseSize: "35mm",
-    isNewArrival: false,
-  },
-  {
-    id: "4",
-    brand: "RICHARD MILLE",
-    model: "RM 35-02",
-    description: "RM 35-02 Rafael Nadal NTPT Carbon Limited",
-    refNo: "RM35-02",
-    year: "2024",
-    price: 1850000,
-    image: "/newArrival/watch.png",
-    isPremium: true,
-    caseSize: "49mm",
-    isNewArrival: true,
-  },
-];
-
-const mockWatch = {
-  id: "1",
-  brand: "ROLEX",
-  ref: "126234",
-  price: 420000,
-  watch_year: "2024",
-  product_type: "Datejust",
-  equipment: "Watch only",
-  status: "Available",
-  remark: "Perpetual 36 Mint Green Fluted Jubilee, hot model.",
-  media: [
-    {
-      type: 'image' as const,
-      src: "/product/product.png",
-      alt: "Rolex front view"
-    },
-
-    {
-      type: 'image' as const,
-      src: "/product/product1.webp",
-      alt: "Rolex side view"
-    },
- 
-    {
-      type: 'image' as const,
-      src: "/product/product2.jpeg",
-      alt: "Rolex back view"
-    },
-    {
-      type: 'image' as const,
-      src: "/product/product3.webp",
-      alt: "Rolex close-up"
-    },
-       {
-      type: 'video' as const,
-      src: "/product/vdo-test.mp4",
-      thumbnail: "/product/product.png",
-      alt: "Watch detail video"
-    },
-  ] as MediaItem[]
-};
-
-const WatchCard: React.FC<{ watch: Watch }> = ({ watch }) => {
+const WatchCard: React.FC<WatchCardProps> = ({ watch }) => {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push(`/watch/1`);
+    router.push(`/watch/${watch.id}`);
   };
+
+  // Check if it's a new arrival (within last 30 days)
+  const isNewArrival = () => {
+    const createdDate = new Date(watch.created_at);
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    return createdDate > thirtyDaysAgo;
+  };
+
+  // Determine if premium based on price
+  const isPremium = () => {
+    return watch.selling_price && watch.selling_price > 500000;
+  };
+
+  // Get first image from media
+  const firstImage = watch.media?.find(m => m.type === "image")?.url || "/placeholder-watch.png";
+
   return (
     <div
-      className=" p-4 hover:bg-gray-750 transition-colors cursor-pointer"
+      className="p-4 hover:bg-gray-750 transition-colors cursor-pointer"
       onClick={handleClick}
     >
-      <div className=" bg-gradient relative aspect-square mb-4 flex items-center justify-center overflow-hidden p-2">
-        {watch.isPremium && (
+      <div className="bg-gradient relative aspect-square mb-4 flex items-center justify-center overflow-hidden p-2">
+        {isPremium() && (
           <div className="absolute top-2 left-2 z-10">
             <span className="badge-gradient text-black text-xs font-medium px-3 py-1">
               Premium
             </span>
           </div>
         )}
-        {watch.isNewArrival && (
+        {isNewArrival() && (
           <div className="absolute top-2 right-2 z-10">
             <span className="text-white text-lg font-medium px-3 py-1 font-olds">
               New
@@ -152,7 +57,13 @@ const WatchCard: React.FC<{ watch: Watch }> = ({ watch }) => {
         )}
         <div className="flex items-center justify-center">
           <div>
-            <img src={watch.image} alt={watch.refNo} />
+            <img 
+              src={firstImage} 
+              alt={watch.ref} 
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = "/placeholder-watch.png";
+              }}
+            />
           </div>
         </div>
       </div>
@@ -162,7 +73,7 @@ const WatchCard: React.FC<{ watch: Watch }> = ({ watch }) => {
           {watch.brand}
         </h3>
         <p className="text-[#6E6E6E] text-sm leading-relaxed">
-          {watch.description}
+          {watch.model || watch.notes || "Luxury timepiece"}
         </p>
 
         <div
@@ -188,20 +99,21 @@ const WatchCard: React.FC<{ watch: Watch }> = ({ watch }) => {
               className="text-[#BFBFBF]"
               style={{ fontWeight: 500, fontSize: "14px" }}
             >
-              {watch.refNo}
+              {watch.ref}
             </span>
             <div
               className="text-[#BFBFBF] mt-2"
               style={{ fontWeight: 500, fontSize: "14px" }}
             >
-              {watch.year}
+              {watch.watch_year || "N/A"}
             </div>
           </div>
         </div>
 
         <div className="pt-3 pb-2">
           <span className="text-white text-3xl font-bold">
-            ฿{watch.price.toLocaleString()}
+            {watch.currency === "THB" ? "฿" : watch.currency === "USD" ? "$" : "€"}
+            {watch.selling_price?.toLocaleString() || "Contact for price"}
           </span>
         </div>
       </div>
@@ -209,24 +121,215 @@ const WatchCard: React.FC<{ watch: Watch }> = ({ watch }) => {
   );
 };
 
-const MockWatchDetailPage = () => {
+const WatchDetailPage: React.FC = () => {
   const { t } = useLanguage();
+  const router = useRouter();
+  const params = useParams();
+  const watchId = params.id as string;
+  
   const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [videoRef, setVideoRef] = useState<HTMLVideoElement | null>(null);
+  const [watch, setWatch] = useState<Watch | null>(null);
+  const [relatedWatches, setRelatedWatches] = useState<Watch[]>([]);
+  const [allWatches, setAllWatches] = useState<Watch[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const currentMedia = mockWatch.media[currentMediaIndex];
+  // Fetch watch data from database
+  useEffect(() => {
+    const fetchWatchData = async () => {
+      if (!watchId) {
+        setError("Watch ID not found");
+        setLoading(false);
+        return;
+      }
+
+      try {
+        setLoading(true);
+        const supabase = createClient();
+
+        // Fetch specific watch
+        const { data: watchData, error: watchError } = await supabase
+          .from("watches")
+          .select("*, watch_media(*)")
+          .eq("id", parseInt(watchId))
+          .eq("is_public", true)
+          .single();
+
+        if (watchError) {
+          throw new Error(watchError.message);
+        }
+
+        // Fetch related watches (same brand, different id)
+        const { data: relatedData, error: relatedError } = await supabase
+          .from("watches")
+          .select("*, watch_media(*)")
+          .eq("brand", watchData.brand)
+          .neq("id", parseInt(watchId))
+          .eq("is_public", true)
+          .neq("status", "Sold")
+          .limit(4);
+
+        if (relatedError) {
+          console.error("Error fetching related watches:", relatedError.message);
+        }
+
+        // Fetch all watches for header
+        const { data: allWatchesData, error: allWatchesError } = await supabase
+          .from("watches")
+          .select("*, watch_media(*)")
+          .eq("is_public", true)
+          .neq("status", "Sold")
+          .limit(50);
+
+        if (allWatchesError) {
+          console.error("Error fetching all watches:", allWatchesError.message);
+        }
+
+        // Transform data
+        const transformWatchData = (watchRaw: any): Watch => {
+          const newMedia = Array.isArray(watchRaw?.watch_media)
+            ? [...(watchRaw.watch_media as WatchMedia[])].sort(
+                (a, b) => (a.position ?? 0) - (b.position ?? 0)
+              )
+            : [];
+
+          // Handle legacy media fields
+          const legacyMedia: WatchMedia[] = [];
+
+          if (Array.isArray(watchRaw.images_url)) {
+            watchRaw.images_url.forEach((url: string, index: number) => {
+              legacyMedia.push({
+                id: index,
+                watch_id: watchRaw.id,
+                url: url,
+                type: "image",
+                position: index,
+                created_at: watchRaw.created_at,
+              });
+            });
+          }
+
+          if (watchRaw.video_url) {
+            legacyMedia.push({
+              id: Array.isArray(watchRaw.images_url) ? watchRaw.images_url.length : 0,
+              watch_id: watchRaw.id,
+              url: watchRaw.video_url,
+              type: "video",
+              position: legacyMedia.length,
+              created_at: watchRaw.created_at,
+            });
+          }
+
+          const combinedMedia: WatchMedia[] = [...newMedia, ...legacyMedia];
+
+          return {
+            id: watchRaw.id,
+            ref: watchRaw.ref || "",
+            brand: watchRaw.brand || "",
+            model: watchRaw.model,
+            watch_year: watchRaw.watch_year,
+            serial_no: watchRaw.serial_no,
+            product_type: watchRaw.product_type,
+            set_type: watchRaw.set_type,
+            size_mm: watchRaw.size_mm,
+            material: watchRaw.material,
+            cost_price: watchRaw.cost_price,
+            selling_price: watchRaw.selling_price,
+            currency: watchRaw.currency || "THB",
+            status: watchRaw.status || "Available",
+            is_public: watchRaw.is_public || false,
+            notes: watchRaw.notes,
+            supplier_id: watchRaw.supplier_id,
+            created_at: watchRaw.created_at || "",
+            updated_at: watchRaw.updated_at || "",
+            view_count: watchRaw.view_count || 0,
+            media: combinedMedia,
+            ownership_type: watchRaw.ownership_type || "stock",
+            commission_rate: watchRaw.commission_rate,
+            commission_amount: watchRaw.commission_amount,
+            owner_name: watchRaw.owner_name,
+            owner_contact: watchRaw.owner_contact,
+            profit: watchRaw.profit || 0,
+            margin_percent: watchRaw.margin_percent || 0,
+            profit_status: watchRaw.profit_status || "unknown",
+          };
+        };
+
+        setWatch(transformWatchData(watchData));
+        
+        if (relatedData) {
+          setRelatedWatches(relatedData.map(transformWatchData));
+        }
+
+        if (allWatchesData) {
+          setAllWatches(allWatchesData.map(transformWatchData));
+        }
+
+        setError(null);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Failed to fetch watch data");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (watchId) {
+      fetchWatchData();
+    }
+  }, [watchId]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-black text-white flex items-center justify-center">
+        <div className="text-center space-y-6">
+          <div className="relative">
+            <div className="w-16 h-16 mx-auto border-4 border-amber-200 border-t-transparent rounded-full animate-spin"></div>
+            <div className="absolute inset-0 w-16 h-16 mx-auto border-4 border-amber-500/30 rounded-full animate-pulse"></div>
+          </div>
+          <p className="text-amber-200 font-semibold text-xl tracking-wide">
+            Loading Watch Details...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !watch) {
+    return (
+      <div className="min-h-screen bg-black text-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-red-400 text-6xl mb-4">⚠</div>
+          <h3 className="text-xl text-amber-200 font-bold mb-4">
+            Watch Not Found
+          </h3>
+          <p className="text-gray-400 mb-6">
+            {error || "The watch you're looking for could not be found."}
+          </p>
+          <Link
+            href="/#product"
+            className="primary-btn inline-block text-center no-underline"
+          >
+            Browse Other Watches
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  const currentMedia = watch.media[currentMediaIndex];
 
   const nextMedia = () => {
     setCurrentMediaIndex((prev) =>
-      prev === mockWatch.media.length - 1 ? 0 : prev + 1
+      prev === watch.media.length - 1 ? 0 : prev + 1
     );
     setIsVideoPlaying(false);
   };
 
   const prevMedia = () => {
     setCurrentMediaIndex((prev) =>
-      prev === 0 ? mockWatch.media.length - 1 : prev - 1
+      prev === 0 ? watch.media.length - 1 : prev - 1
     );
     setIsVideoPlaying(false);
   };
@@ -252,10 +355,25 @@ const MockWatchDetailPage = () => {
     setIsVideoPlaying(false);
   };
 
+  // Helper function to get equipment description
+  const getEquipmentDescription = () => {
+    if (watch.set_type) {
+      const setTypes = [];
+      if (watch.set_type.box) setTypes.push("Box");
+      if (watch.set_type.papers) setTypes.push("Papers");
+      if (watch.set_type.accessories) setTypes.push("Accessories");
+      
+      return setTypes.length > 0 ? setTypes.join(", ") : "Watch only";
+    }
+    return "Watch only";
+  };
+
   return (
     <div className="bg-black text-white mx-auto pb-3">
+      {/* Header */}
+      <Header watches={allWatches} />
+      
       {/* Back to Collection */}
-      <Header watches={[]} />
       <div
         className="px-4 lg:px-6 py-4 w-full bg-[#141519]"
         style={{ marginTop: "140px" }}
@@ -265,7 +383,7 @@ const MockWatchDetailPage = () => {
             href="/#product"
             className="text-white hover:text-white flex items-center gap-2 transition-colors text-sm"
           >
-            ←  {t("WatchDetailPage.btn-back")}
+            ← {t("WatchDetailPage.btn-back")}
           </Link>
         </div>
       </div>
@@ -276,23 +394,23 @@ const MockWatchDetailPage = () => {
         <div className="bg-black flex items-center justify-center relative h-full min-h-[400px] lg:min-h-[600px]">
           {/* Main Media Display */}
           <div className="relative mx-auto w-full max-w-[90%] lg:max-w-[70%]">
-            {currentMedia.type === 'image' ? (
+            {currentMedia && currentMedia.type === 'image' ? (
               <img
                 style={{ aspectRatio: "1/1" }}
-                src={currentMedia.src}
-                alt={currentMedia.alt || `${mockWatch.brand} ${mockWatch.ref}`}
+                src={currentMedia.url}
+                alt={`${watch.brand} ${watch.ref}`}
                 className="w-full h-auto object-cover rounded-lg"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
-                  target.src = `https://via.placeholder.com/400x400/1a1a1a/666666?text=Watch+Image`;
+                  target.src = "/placeholder-watch.png";
                 }}
               />
-            ) : (
+            ) : currentMedia && currentMedia.type === 'video' ? (
               <div className="relative" style={{ aspectRatio: "1/1" }}>
                 <video
                   ref={setVideoRef}
                   className="w-full h-full object-cover rounded-lg"
-                  poster={currentMedia.thumbnail}
+                  poster={watch.media.find(m => m.type === 'image')?.url}
                   onEnded={handleVideoEnded}
                   controls={false}
                   playsInline
@@ -301,7 +419,7 @@ const MockWatchDetailPage = () => {
                     console.error('Video error:', e);
                   }}
                 >
-                  <source src={currentMedia.src} type="video/mp4" />
+                  <source src={currentMedia.url} type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
                 
@@ -319,61 +437,74 @@ const MockWatchDetailPage = () => {
                   </div>
                 </div>
               </div>
+            ) : (
+              <img
+                style={{ aspectRatio: "1/1" }}
+                src="/placeholder-watch.png"
+                alt="Watch placeholder"
+                className="w-full h-auto object-cover rounded-lg"
+              />
             )}
 
             {/* Navigation Arrows */}
-            <button
-              onClick={prevMedia}
-              className="absolute left-2 lg:left-4 top-1/2 -translate-y-1/2 w-8 h-8 lg:w-10 lg:h-10 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center transition-colors"
-            >
-              <ChevronLeft className="w-4 h-4 lg:w-6 lg:h-6 text-white" />
-            </button>
+            {watch.media.length > 1 && (
+              <>
+                <button
+                  onClick={prevMedia}
+                  className="absolute left-2 lg:left-4 top-1/2 -translate-y-1/2 w-8 h-8 lg:w-10 lg:h-10 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center transition-colors"
+                >
+                  <ChevronLeft className="w-4 h-4 lg:w-6 lg:h-6 text-white" />
+                </button>
 
-            <button
-              onClick={nextMedia}
-              className="absolute right-2 lg:right-4 top-1/2 -translate-y-1/2 w-8 h-8 lg:w-10 lg:h-10 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center transition-colors"
-            >
-              <ChevronRight className="w-4 h-4 lg:w-6 lg:h-6 text-white" />
-            </button>
+                <button
+                  onClick={nextMedia}
+                  className="absolute right-2 lg:right-4 top-1/2 -translate-y-1/2 w-8 h-8 lg:w-10 lg:h-10 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center transition-colors"
+                >
+                  <ChevronRight className="w-4 h-4 lg:w-6 lg:h-6 text-white" />
+                </button>
+              </>
+            )}
           </div>
 
           {/* Thumbnail Gallery */}
-          <div className="absolute left-2 lg:left-6 top-1/2 -translate-y-1/2 flex flex-col space-y-2 lg:space-y-3">
-            {mockWatch.media.map((media, index) => (
-              <button
-                key={index}
-                onClick={() => selectMedia(index)}
-                className={`relative w-12 h-12 lg:w-16 lg:h-16 border-2 rounded overflow-hidden transition-all ${
-                  index === currentMediaIndex
-                    ? "border-[#B79B76]"
-                    : "border-gray-600 hover:border-gray-400"
-                }`}
-              >
-                {media.type === 'video' ? (
-                  <>
+          {watch.media.length > 1 && (
+            <div className="absolute left-2 lg:left-6 top-1/2 -translate-y-1/2 flex flex-col space-y-2 lg:space-y-3">
+              {watch.media.map((media, index) => (
+                <button
+                  key={index}
+                  onClick={() => selectMedia(index)}
+                  className={`relative w-12 h-12 lg:w-16 lg:h-16 border-2 rounded overflow-hidden transition-all ${
+                    index === currentMediaIndex
+                      ? "border-[#B79B76]"
+                      : "border-gray-600 hover:border-gray-400"
+                  }`}
+                >
+                  {media.type === 'video' ? (
+                    <>
+                      <img
+                        src={watch.media.find(m => m.type === 'image')?.url || "/placeholder-watch.png"}
+                        alt={`Video thumbnail ${index + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                        <Play className="w-3 h-3 lg:w-4 lg:h-4 text-white" />
+                      </div>
+                    </>
+                  ) : (
                     <img
-                      src={media.thumbnail || `https://via.placeholder.com/64x64/1a1a1a/666666?text=Video`}
-                      alt={media.alt || `Video thumbnail ${index + 1}`}
+                      src={media.url}
+                      alt={`Thumbnail ${index + 1}`}
                       className="w-full h-full object-cover"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = "/placeholder-watch.png";
+                      }}
                     />
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-                      <Play className="w-3 h-3 lg:w-4 lg:h-4 text-white" />
-                    </div>
-                  </>
-                ) : (
-                  <img
-                    src={media.src}
-                    alt={media.alt || `Thumbnail ${index + 1}`}
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.src = `https://via.placeholder.com/64x64/1a1a1a/666666?text=Image`;
-                    }}
-                  />
-                )}
-              </button>
-            ))}
-          </div>
+                  )}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Right Side - Details */}
@@ -381,17 +512,18 @@ const MockWatchDetailPage = () => {
           <div className="max-w-full lg:max-w-md">
             {/* Brand */}
             <h2 className="text-[#B79B76] text-base lg:text-lg font-medium tracking-wider mb-2 font-olds">
-              {mockWatch.brand}
+              {watch.brand}
             </h2>
 
             {/* Model */}
             <h1 className="text-white text-2xl lg:text-4xl font-bold mb-4 lg:mb-6">
-              {mockWatch.ref}
+              {watch.ref}
             </h1>
 
             {/* Price */}
             <div className="text-white text-xl lg:text-2xl mb-6 lg:mb-8 border-b pb-4 lg:pb-5 border-[#808080]">
-              ฿{mockWatch.price.toLocaleString()}
+              {watch.currency === "THB" ? "฿" : watch.currency === "USD" ? "$" : "€"}
+              {watch.selling_price?.toLocaleString() || "Contact for price"}
             </div>
 
             {/* Details Section */}
@@ -401,45 +533,59 @@ const MockWatchDetailPage = () => {
               <div className="space-y-2 lg:space-y-3 text-xs lg:text-sm">
                 <div className="flex justify-between">
                   <span className="text-[#BFBFBF] font-bold">Brand</span>
-                  <span className="text-white">{mockWatch.brand}</span>
+                  <span className="text-white">{watch.brand}</span>
                 </div>
 
                 <div className="flex justify-between">
                   <span className="text-[#BFBFBF] font-bold">Ref No.</span>
-                  <span className="text-white">{mockWatch.ref}</span>
+                  <span className="text-white">{watch.ref}</span>
                 </div>
 
                 <div className="flex justify-between">
                   <span className="text-[#BFBFBF] font-bold">Year</span>
-                  <span className="text-white">{mockWatch.watch_year}</span>
+                  <span className="text-white">{watch.watch_year || "N/A"}</span>
                 </div>
 
                 <div className="flex justify-between">
                   <span className="text-[#BFBFBF] font-bold">Type</span>
-                  <span className="text-white">{mockWatch.product_type}</span>
+                  <span className="text-white">{watch.product_type || "N/A"}</span>
                 </div>
 
                 <div className="flex justify-between">
                   <span className="text-[#BFBFBF] font-bold">Equipment</span>
-                  <span className="text-white">{mockWatch.equipment}</span>
+                  <span className="text-white">{getEquipmentDescription()}</span>
                 </div>
 
                 <div className="flex justify-between">
                   <span className="text-[#BFBFBF] font-bold">Status</span>
-                  <span className="text-white">{mockWatch.status}</span>
+                  <span className="text-white">{watch.status}</span>
                 </div>
+
+                {watch.size_mm && (
+                  <div className="flex justify-between">
+                    <span className="text-[#BFBFBF] font-bold">Size</span>
+                    <span className="text-white">{watch.size_mm}mm</span>
+                  </div>
+                )}
+
+                {watch.material && (
+                  <div className="flex justify-between">
+                    <span className="text-[#BFBFBF] font-bold">Material</span>
+                    <span className="text-white">{watch.material}</span>
+                  </div>
+                )}
               </div>
             </div>
 
-          
-
             {/* Remark */}
-            <div className="mb-6 lg:mb-8">
-              <h3 className="text-white text-base lg:text-lg font-medium mb-2 lg:mb-3">Remark</h3>
-              <p className="text-gray-400 text-xs lg:text-sm leading-relaxed">
-                {mockWatch.remark}
-              </p>
-            </div>
+            {watch.notes && (
+              <div className="mb-6 lg:mb-8">
+                <h3 className="text-white text-base lg:text-lg font-medium mb-2 lg:mb-3">Remark</h3>
+                <p className="text-gray-400 text-xs lg:text-sm leading-relaxed">
+                  {watch.notes}
+                </p>
+              </div>
+            )}
 
             {/* Get More Details Button */}
             <a href="https://line.me/R/ti/p/@939hmulm?ts=05061404&oat_content=url">
@@ -451,21 +597,23 @@ const MockWatchDetailPage = () => {
         </div>
       </div>
 
-      {/* Related Product */}
-      <div className="max-w-[95%] lg:max-w-[90%] mx-auto mt-8 lg:mt-12">
-        <div className="text-left mb-8 lg:mb-12">
-          <h1 className="text-3xl lg:text-5xl font-light text-[#B79B76] mb-4 font-olds">
-            {t("WatchDetailPage.related-title")}
-          </h1>
+      {/* Related Products */}
+      {relatedWatches.length > 0 && (
+        <div className="max-w-[95%] lg:max-w-[90%] mx-auto mt-8 lg:mt-12">
+          <div className="text-left mb-8 lg:mb-12">
+            <h1 className="text-3xl lg:text-5xl font-light text-[#B79B76] mb-4 font-olds">
+              {t("WatchDetailPage.related-title")}
+            </h1>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-8">
+            {relatedWatches.map((relatedWatch) => (
+              <WatchCard key={relatedWatch.id} watch={relatedWatch} />
+            ))}
+          </div>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-8">
-          {mockRelatedWatches.map((watch, index) => (
-            <WatchCard key={`${watch.id}-${index}`} watch={watch} />
-          ))}
-        </div>
-      </div>
+      )}
     </div>
   );
 };
 
-export default MockWatchDetailPage;
+export default WatchDetailPage;
