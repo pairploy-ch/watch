@@ -123,7 +123,7 @@ const WatchCard: React.FC<WatchCardProps> = ({ watch }) => {
 
 const WatchDetailPage: React.FC = () => {
   const { t } = useLanguage();
-  const router = useRouter();
+  // const router = useRouter();
   const params = useParams();
   const watchId = params.id as string;
   
@@ -188,74 +188,78 @@ const WatchDetailPage: React.FC = () => {
         }
 
         // Transform data
-        const transformWatchData = (watchRaw: any): Watch => {
-          const newMedia = Array.isArray(watchRaw?.watch_media)
-            ? [...(watchRaw.watch_media as WatchMedia[])].sort(
-                (a, b) => (a.position ?? 0) - (b.position ?? 0)
-              )
-            : [];
+      const transformWatchData = (watchRaw: WatchRaw): Watch => {
+  // Media จากตาราง watch_media
+  const newMedia = Array.isArray(watchRaw.watch_media)
+    ? [...watchRaw.watch_media].sort(
+        (a, b) => (a.position ?? 0) - (b.position ?? 0)
+      )
+    : [];
 
-          // Handle legacy media fields
-          const legacyMedia: WatchMedia[] = [];
+  // Media แบบ legacy (images_url, video_url)
+  const legacyMedia: WatchMedia[] = [];
 
-          if (Array.isArray(watchRaw.images_url)) {
-            watchRaw.images_url.forEach((url: string, index: number) => {
-              legacyMedia.push({
-                id: index,
-                watch_id: watchRaw.id,
-                url: url,
-                type: "image",
-                position: index,
-                created_at: watchRaw.created_at,
-              });
-            });
-          }
+  if (Array.isArray(watchRaw.images_url)) {
+    watchRaw.images_url.forEach((url, index) => {
+      legacyMedia.push({
+        id: index,
+        watch_id: watchRaw.id,
+        url,
+        type: "image",
+        position: index,
+        created_at: watchRaw.created_at ?? "",
+      });
+    });
+  }
 
-          if (watchRaw.video_url) {
-            legacyMedia.push({
-              id: Array.isArray(watchRaw.images_url) ? watchRaw.images_url.length : 0,
-              watch_id: watchRaw.id,
-              url: watchRaw.video_url,
-              type: "video",
-              position: legacyMedia.length,
-              created_at: watchRaw.created_at,
-            });
-          }
+  if (watchRaw.video_url) {
+    legacyMedia.push({
+      id: Array.isArray(watchRaw.images_url)
+        ? watchRaw.images_url.length
+        : 0,
+      watch_id: watchRaw.id,
+      url: watchRaw.video_url,
+      type: "video",
+      position: legacyMedia.length,
+      created_at: watchRaw.created_at ?? "",
+    });
+  }
 
-          const combinedMedia: WatchMedia[] = [...newMedia, ...legacyMedia];
+  const combinedMedia: WatchMedia[] = [...newMedia, ...legacyMedia];
 
-          return {
-            id: watchRaw.id,
-            ref: watchRaw.ref || "",
-            brand: watchRaw.brand || "",
-            model: watchRaw.model,
-            watch_year: watchRaw.watch_year,
-            serial_no: watchRaw.serial_no,
-            product_type: watchRaw.product_type,
-            set_type: watchRaw.set_type,
-            size_mm: watchRaw.size_mm,
-            material: watchRaw.material,
-            cost_price: watchRaw.cost_price,
-            selling_price: watchRaw.selling_price,
-            currency: watchRaw.currency || "THB",
-            status: watchRaw.status || "Available",
-            is_public: watchRaw.is_public || false,
-            notes: watchRaw.notes,
-            supplier_id: watchRaw.supplier_id,
-            created_at: watchRaw.created_at || "",
-            updated_at: watchRaw.updated_at || "",
-            view_count: watchRaw.view_count || 0,
-            media: combinedMedia,
-            ownership_type: watchRaw.ownership_type || "stock",
-            commission_rate: watchRaw.commission_rate,
-            commission_amount: watchRaw.commission_amount,
-            owner_name: watchRaw.owner_name,
-            owner_contact: watchRaw.owner_contact,
-            profit: watchRaw.profit || 0,
-            margin_percent: watchRaw.margin_percent || 0,
-            profit_status: watchRaw.profit_status || "unknown",
-          };
-        };
+  // Return ในรูปแบบ Watch ที่คุณ define ไว้
+  return {
+    id: watchRaw.id,
+    ref: watchRaw.ref || "",
+    brand: watchRaw.brand || "",
+    model: watchRaw.model,
+    watch_year: watchRaw.watch_year,
+    serial_no: watchRaw.serial_no,
+    product_type: watchRaw.product_type,
+    set_type: watchRaw.set_type,
+    size_mm: watchRaw.size_mm,
+    material: watchRaw.material,
+    cost_price: watchRaw.cost_price,
+    selling_price: watchRaw.selling_price,
+    currency: watchRaw.currency || "THB",
+    status: watchRaw.status || "Available",
+    is_public: watchRaw.is_public || false,
+    notes: watchRaw.notes,
+    supplier_id: watchRaw.supplier_id,
+    created_at: watchRaw.created_at || "",
+    updated_at: watchRaw.updated_at || "",
+    view_count: watchRaw.view_count || 0,
+    media: combinedMedia,
+    ownership_type: watchRaw.ownership_type || "stock",
+    commission_rate: watchRaw.commission_rate,
+    commission_amount: watchRaw.commission_amount,
+    owner_name: watchRaw.owner_name,
+    owner_contact: watchRaw.owner_contact,
+    profit: watchRaw.profit || 0,
+    margin_percent: watchRaw.margin_percent || 0,
+    profit_status: watchRaw.profit_status || "unknown",
+  };
+};
 
         setWatch(transformWatchData(watchData));
         
