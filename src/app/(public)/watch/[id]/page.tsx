@@ -8,6 +8,45 @@ import { useLanguage } from "../../../../../context/LanguageContext";
 import { createClient } from "@/lib/supabase/client";
 import { Watch, WatchMedia } from "@/lib/types";
 
+// Add the missing WatchRaw interface
+interface WatchRaw {
+  id: number;
+  ref: string | null;
+  brand: string | null;
+  model: string | null;
+  watch_year: number | null;
+  serial_no: string | null;
+  product_type: string | null;
+  set_type: {
+    box?: boolean;
+    papers?: boolean;
+    accessories?: boolean;
+  } | null;
+  size_mm: number | null;
+  material: string | null;
+  cost_price: number | null;
+  selling_price: number | null;
+  currency: string | null;
+  status: string | null;
+  is_public: boolean | null;
+  notes: string | null;
+  supplier_id: number | null;
+  created_at: string | null;
+  updated_at: string | null;
+  view_count: number | null;
+  ownership_type: string | null;
+  commission_rate: number | null;
+  commission_amount: number | null;
+  owner_name: string | null;
+  owner_contact: string | null;
+  profit: number | null;
+  margin_percent: number | null;
+  profit_status: string | null;
+  watch_media: WatchMedia[];
+  images_url?: string[];
+  video_url?: string;
+}
+
 interface WatchCardProps {
   watch: Watch;
 }
@@ -188,78 +227,78 @@ const WatchDetailPage: React.FC = () => {
         }
 
         // Transform data
-      const transformWatchData = (watchRaw: WatchRaw): Watch => {
-  // Media จากตาราง watch_media
-  const newMedia = Array.isArray(watchRaw.watch_media)
-    ? [...watchRaw.watch_media].sort(
-        (a, b) => (a.position ?? 0) - (b.position ?? 0)
-      )
-    : [];
+        const transformWatchData = (watchRaw: WatchRaw): Watch => {
+          // Media จากตาราง watch_media
+          const newMedia = Array.isArray(watchRaw.watch_media)
+            ? [...watchRaw.watch_media].sort(
+                (a, b) => (a.position ?? 0) - (b.position ?? 0)
+              )
+            : [];
 
-  // Media แบบ legacy (images_url, video_url)
-  const legacyMedia: WatchMedia[] = [];
+          // Media แบบ legacy (images_url, video_url)
+          const legacyMedia: WatchMedia[] = [];
 
-  if (Array.isArray(watchRaw.images_url)) {
-    watchRaw.images_url.forEach((url, index) => {
-      legacyMedia.push({
-        id: index,
-        watch_id: watchRaw.id,
-        url,
-        type: "image",
-        position: index,
-        created_at: watchRaw.created_at ?? "",
-      });
-    });
-  }
+          if (Array.isArray(watchRaw.images_url)) {
+            watchRaw.images_url.forEach((url: string, index: number) => {
+              legacyMedia.push({
+                id: index,
+                watch_id: watchRaw.id,
+                url,
+                type: "image",
+                position: index,
+                created_at: watchRaw.created_at ?? "",
+              });
+            });
+          }
 
-  if (watchRaw.video_url) {
-    legacyMedia.push({
-      id: Array.isArray(watchRaw.images_url)
-        ? watchRaw.images_url.length
-        : 0,
-      watch_id: watchRaw.id,
-      url: watchRaw.video_url,
-      type: "video",
-      position: legacyMedia.length,
-      created_at: watchRaw.created_at ?? "",
-    });
-  }
+          if (watchRaw.video_url) {
+            legacyMedia.push({
+              id: Array.isArray(watchRaw.images_url)
+                ? watchRaw.images_url.length
+                : 0,
+              watch_id: watchRaw.id,
+              url: watchRaw.video_url,
+              type: "video",
+              position: legacyMedia.length,
+              created_at: watchRaw.created_at ?? "",
+            });
+          }
 
-  const combinedMedia: WatchMedia[] = [...newMedia, ...legacyMedia];
+          const combinedMedia: WatchMedia[] = [...newMedia, ...legacyMedia];
 
-  // Return ในรูปแบบ Watch ที่คุณ define ไว้
-  return {
-    id: watchRaw.id,
-    ref: watchRaw.ref || "",
-    brand: watchRaw.brand || "",
-    model: watchRaw.model,
-    watch_year: watchRaw.watch_year,
-    serial_no: watchRaw.serial_no,
-    product_type: watchRaw.product_type,
-    set_type: watchRaw.set_type,
-    size_mm: watchRaw.size_mm,
-    material: watchRaw.material,
-    cost_price: watchRaw.cost_price,
-    selling_price: watchRaw.selling_price,
-    currency: watchRaw.currency || "THB",
-    status: watchRaw.status || "Available",
-    is_public: watchRaw.is_public || false,
-    notes: watchRaw.notes,
-    supplier_id: watchRaw.supplier_id,
-    created_at: watchRaw.created_at || "",
-    updated_at: watchRaw.updated_at || "",
-    view_count: watchRaw.view_count || 0,
-    media: combinedMedia,
-    ownership_type: watchRaw.ownership_type || "stock",
-    commission_rate: watchRaw.commission_rate,
-    commission_amount: watchRaw.commission_amount,
-    owner_name: watchRaw.owner_name,
-    owner_contact: watchRaw.owner_contact,
-    profit: watchRaw.profit || 0,
-    margin_percent: watchRaw.margin_percent || 0,
-    profit_status: watchRaw.profit_status || "unknown",
-  };
-};
+          // Return ในรูปแบบ Watch ที่คุณ define ไว้
+          return {
+            id: watchRaw.id,
+            ref: watchRaw.ref || "",
+            brand: watchRaw.brand || "",
+            model: watchRaw.model,
+            watch_year: watchRaw.watch_year,
+            serial_no: watchRaw.serial_no,
+            product_type: watchRaw.product_type,
+            set_type: watchRaw.set_type,
+            size_mm: watchRaw.size_mm,
+            material: watchRaw.material,
+            cost_price: watchRaw.cost_price,
+            selling_price: watchRaw.selling_price,
+            currency: watchRaw.currency || "THB",
+            status: watchRaw.status || "Available",
+            is_public: watchRaw.is_public || false,
+            notes: watchRaw.notes,
+            supplier_id: watchRaw.supplier_id,
+            created_at: watchRaw.created_at || "",
+            updated_at: watchRaw.updated_at || "",
+            view_count: watchRaw.view_count || 0,
+            media: combinedMedia,
+            ownership_type: watchRaw.ownership_type || "stock",
+            commission_rate: watchRaw.commission_rate,
+            commission_amount: watchRaw.commission_amount,
+            owner_name: watchRaw.owner_name,
+            owner_contact: watchRaw.owner_contact,
+            profit: watchRaw.profit || 0,
+            margin_percent: watchRaw.margin_percent || 0,
+            profit_status: watchRaw.profit_status || "unknown",
+          };
+        };
 
         setWatch(transformWatchData(watchData));
         
@@ -322,18 +361,20 @@ const WatchDetailPage: React.FC = () => {
     );
   }
 
-  const currentMedia = watch.media[currentMediaIndex];
+  // Add safe guard for media access
+  const watchMedia = watch.media || [];
+  const currentMedia = watchMedia[currentMediaIndex];
 
   const nextMedia = () => {
     setCurrentMediaIndex((prev) =>
-      prev === watch.media.length - 1 ? 0 : prev + 1
+      prev === watchMedia.length - 1 ? 0 : prev + 1
     );
     setIsVideoPlaying(false);
   };
 
   const prevMedia = () => {
     setCurrentMediaIndex((prev) =>
-      prev === 0 ? watch.media.length - 1 : prev - 1
+      prev === 0 ? watchMedia.length - 1 : prev - 1
     );
     setIsVideoPlaying(false);
   };
@@ -414,7 +455,7 @@ const WatchDetailPage: React.FC = () => {
                 <video
                   ref={setVideoRef}
                   className="w-full h-full object-cover rounded-lg"
-                  poster={watch.media.find(m => m.type === 'image')?.url}
+                  poster={watchMedia.find(m => m.type === 'image')?.url}
                   onEnded={handleVideoEnded}
                   controls={false}
                   playsInline
@@ -451,7 +492,7 @@ const WatchDetailPage: React.FC = () => {
             )}
 
             {/* Navigation Arrows */}
-            {watch.media.length > 1 && (
+            {watchMedia.length > 1 && (
               <>
                 <button
                   onClick={prevMedia}
@@ -471,9 +512,9 @@ const WatchDetailPage: React.FC = () => {
           </div>
 
           {/* Thumbnail Gallery */}
-          {watch.media.length > 1 && (
+          {watchMedia.length > 1 && (
             <div className="absolute left-2 lg:left-6 top-1/2 -translate-y-1/2 flex flex-col space-y-2 lg:space-y-3">
-              {watch.media.map((media, index) => (
+              {watchMedia.map((media, index) => (
                 <button
                   key={index}
                   onClick={() => selectMedia(index)}
@@ -486,7 +527,7 @@ const WatchDetailPage: React.FC = () => {
                   {media.type === 'video' ? (
                     <>
                       <img
-                        src={watch.media.find(m => m.type === 'image')?.url || "/placeholder-watch.png"}
+                        src={watchMedia.find(m => m.type === 'image')?.url || "/placeholder-watch.png"}
                         alt={`Video thumbnail ${index + 1}`}
                         className="w-full h-full object-cover"
                       />
