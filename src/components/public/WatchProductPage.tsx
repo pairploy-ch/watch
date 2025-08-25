@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import { ChevronLeft, ChevronRight, Search, Filter } from "lucide-react";
+import { ChevronLeft, ChevronRight, Search, Filter, Play, Pause } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useLanguage } from "../../../context/LanguageContext";
 import { Watch } from "@/lib/types";
@@ -13,31 +13,67 @@ interface WatchProductPageProps {
 
 const WatchCard: React.FC<{ watch: Watch }> = ({ watch }) => {
   const router = useRouter();
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+  const [videoRef, setVideoRef] = useState<HTMLVideoElement | null>(null);
 
-  // Filter only images from media
-  const images = watch.media?.filter(m => m.type === "image")?.map(m => m.url) || [];
+  // Get all media (images and videos)
+  const media = watch.media || [];
   
-  // Use first image if no images available, or a placeholder
-  const displayImages = images.length > 0 ? images : ["/placeholder-watch.png"];
+  // Use placeholder if no media available
+  const displayMedia = media.length > 0 ? media : [{ type: "image", url: "/placeholder-watch.png" }];
 
-  const handlePrevImage = (e: React.MouseEvent) => {
+  const handlePrevMedia = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setCurrentImageIndex((prev) =>
-      prev === 0 ? displayImages.length - 1 : prev - 1
+    if (videoRef && !videoRef.paused) {
+      videoRef.pause();
+      setIsVideoPlaying(false);
+    }
+    setCurrentMediaIndex((prev) =>
+      prev === 0 ? displayMedia.length - 1 : prev - 1
     );
   };
 
-  const handleNextImage = (e: React.MouseEvent) => {
+  const handleNextMedia = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setCurrentImageIndex((prev) =>
-      prev === displayImages.length - 1 ? 0 : prev + 1
+    if (videoRef && !videoRef.paused) {
+      videoRef.pause();
+      setIsVideoPlaying(false);
+    }
+    setCurrentMediaIndex((prev) =>
+      prev === displayMedia.length - 1 ? 0 : prev + 1
     );
   };
 
   const handleDotClick = (e: React.MouseEvent, index: number) => {
     e.stopPropagation();
-    setCurrentImageIndex(index);
+    if (videoRef && !videoRef.paused) {
+      videoRef.pause();
+      setIsVideoPlaying(false);
+    }
+    setCurrentMediaIndex(index);
+  };
+
+  const handleVideoPlayPause = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (videoRef) {
+      if (videoRef.paused) {
+        videoRef.play();
+        setIsVideoPlaying(true);
+      } else {
+        videoRef.pause();
+        setIsVideoPlaying(false);
+      }
+    }
+  };
+
+  const handleVideoRef = (el: HTMLVideoElement | null) => {
+    setVideoRef(el);
+    if (el) {
+      el.addEventListener('ended', () => {
+        setIsVideoPlaying(false);
+      });
+    }
   };
 
   const handleClick = () => {
@@ -57,16 +93,18 @@ const WatchCard: React.FC<{ watch: Watch }> = ({ watch }) => {
     return watch.selling_price && watch.selling_price > 500000;
   };
 
+  const currentMedia = displayMedia[currentMediaIndex];
+
   return (
     <div
-      className="bg-gradient p-4 hover:bg-gray-750 transition-colors cursor-pointer group"
+      className="bg-gradient p-2 sm:p-4 hover:bg-gray-750 transition-colors cursor-pointer group"
       onClick={handleClick}
     >
-      <div className="relative aspect-square mb-4 flex items-center justify-center overflow-hidden">
+      <div className="relative aspect-square mb-2 sm:mb-4 flex items-center justify-center overflow-hidden">
         {/* Premium Badge */}
         {isPremium() && (
-          <div className="absolute top-2 left-2 z-10">
-            <span className="badge-gradient text-black text-xs font-medium px-3 py-1 truncate">
+          <div className="absolute top-1 left-1 sm:top-2 sm:left-2 z-10">
+            <span className="badge-gradient text-black text-xs font-medium px-2 py-1 sm:px-3 sm:py-1 truncate">
               Premium
             </span>
           </div>
@@ -74,123 +112,174 @@ const WatchCard: React.FC<{ watch: Watch }> = ({ watch }) => {
 
         {/* New Arrival Badge */}
         {isNewArrival() && (
-          <div className="absolute top-2 right-2 z-10">
-            <span className="text-white text-lg font-medium px-3 py-1 font-olds truncate">
+          <div className="absolute top-1 right-1 sm:top-2 sm:right-2 z-10">
+            <span className="text-white text-sm sm:text-lg font-medium px-2 py-1 sm:px-3 sm:py-1 font-olds truncate">
               New
             </span>
           </div>
         )}
 
-        {/* Image Carousel */}
+        {/* Media Carousel */}
         <div className="relative w-full h-full flex items-center justify-center">
-          <img
-            src={displayImages[currentImageIndex]}
-            alt={`${watch.ref} - ${currentImageIndex + 1}`}
-            className="max-w-full max-h-full object-contain transition-opacity duration-300"
-            onError={(e) => {
-              (e.target as HTMLImageElement).src = "/placeholder-watch.png";
-            }}
-          />
+          {currentMedia.type === "video" ? (
+            <div className="relative w-full h-full">
+              <video
+                ref={handleVideoRef}
+                src={currentMedia.url}
+                className="max-w-full max-h-full object-contain"
+                muted
+                loop
+                playsInline
+                onError={(e) => {
+                  // Fallback to placeholder if video fails to load
+                  console.error("Video failed to load:", currentMedia.url);
+                }}
+              />
+              
+              {/* Video Play/Pause Button */}
+              <button
+                onClick={handleVideoPlayPause}
+                className="absolute inset-0 flex items-center justify-center 
+                         bg-black bg-opacity-30 hover:bg-opacity-50 
+                         text-white transition-all duration-200 z-10"
+              >
+                <div className="bg-black bg-opacity-70 p-3 rounded-full">
+                  {isVideoPlaying ? (
+                    <Pause className="w-6 h-6" />
+                  ) : (
+                    <Play className="w-6 h-6 ml-1" />
+                  )}
+                </div>
+              </button>
+            </div>
+          ) : (
+            <img
+              src={currentMedia.url}
+              alt={`${watch.ref} - ${currentMediaIndex + 1}`}
+              className="max-w-full max-h-full object-contain transition-opacity duration-300"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = "/placeholder-watch.png";
+              }}
+            />
+          )}
 
-          {/* Navigation Arrows - Only show if multiple images */}
-          {displayImages.length > 1 && (
+          {/* Navigation Arrows - Only show if multiple media */}
+          {displayMedia.length > 1 && (
             <>
               <button
-                onClick={handlePrevImage}
-                className="absolute left-2 top-1/2 transform -translate-y-1/2 
+                onClick={handlePrevMedia}
+                className="absolute left-1 sm:left-2 top-1/2 transform -translate-y-1/2 
                          bg-black bg-opacity-70 hover:bg-opacity-90 
-                         text-white p-2 rounded-full transition-all duration-200
+                         text-white p-1.5 sm:p-2 rounded-full transition-all duration-200
                          z-20 shadow-lg"
                 style={{
-                  minWidth: "32px",
-                  minHeight: "32px",
+                  minWidth: "28px",
+                  minHeight: "28px",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                 }}
               >
-                <ChevronLeft className="w-5 h-5" />
+                <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
               </button>
 
               <button
-                onClick={handleNextImage}
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 
+                onClick={handleNextMedia}
+                className="absolute right-1 sm:right-2 top-1/2 transform -translate-y-1/2 
                          bg-black bg-opacity-70 hover:bg-opacity-90 
-                         text-white p-2 rounded-full transition-all duration-200
+                         text-white p-1.5 sm:p-2 rounded-full transition-all duration-200
                          z-20 shadow-lg"
                 style={{
-                  minWidth: "32px",
-                  minHeight: "32px",
+                  minWidth: "28px",
+                  minHeight: "28px",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                 }}
               >
-                <ChevronRight className="w-5 h-5" />
+                <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
               </button>
             </>
           )}
         </div>
 
-        {/* Image Indicators/Dots - Only show if multiple images and ≤5 images */}
-        {displayImages.length > 1 && displayImages.length <= 5 && (
-          <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
-            {displayImages.map((_, index) => (
+        {/* Media Indicators/Dots - Only show if multiple media and ≤5 items */}
+        {displayMedia.length > 1 && displayMedia.length <= 5 && (
+          <div className="absolute bottom-2 sm:bottom-3 left-1/2 transform -translate-x-1/2 flex space-x-1.5 sm:space-x-2 z-20">
+            {displayMedia.map((mediaItem, index) => (
               <button
                 key={index}
                 onClick={(e) => handleDotClick(e, index)}
-                className={`w-3 h-3 rounded-full transition-all duration-200 border-2 ${
-                  index === currentImageIndex
+                className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full transition-all duration-200 border-2 ${
+                  index === currentMediaIndex
                     ? "bg-white border-white"
                     : "bg-transparent border-white border-opacity-60 hover:border-opacity-100"
                 }`}
                 style={{
-                  minWidth: "12px",
-                  minHeight: "12px",
+                  minWidth: "10px",
+                  minHeight: "10px",
                 }}
-              />
+              >
+                {/* Add a small indicator for video type */}
+                {mediaItem.type === "video" && (
+                  <div className="absolute -top-0.5 -right-0.5 sm:-top-1 sm:-right-1 w-1.5 h-1.5 sm:w-2 sm:h-2 bg-red-500 rounded-full border border-white opacity-80" />
+                )}
+              </button>
             ))}
           </div>
         )}
 
-        {/* Image Counter - For many images */}
-        {displayImages.length > 5 && (
-          <div className="absolute bottom-3 right-3 bg-black bg-opacity-80 text-white text-sm font-medium px-3 py-1 rounded-full z-20">
-            {currentImageIndex + 1}/{displayImages.length}
+        {/* Media Counter - For many media items */}
+        {displayMedia.length > 5 && (
+          <div className="absolute bottom-2 right-2 sm:bottom-3 sm:right-3 bg-black bg-opacity-80 text-white text-xs sm:text-sm font-medium px-2 py-1 sm:px-3 sm:py-1 rounded-full z-20 flex items-center space-x-1">
+            <span>{currentMediaIndex + 1}/{displayMedia.length}</span>
+            {currentMedia.type === "video" && (
+              <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-red-500 rounded-full" />
+            )}
+          </div>
+        )}
+
+        {/* Media Type Indicator */}
+        {currentMedia.type === "video" && (
+          <div className="absolute top-1 sm:top-2 left-1/2 transform -translate-x-1/2 z-10">
+            <div className="bg-red-600 text-white text-xs font-medium px-1.5 py-0.5 sm:px-2 sm:py-1 rounded-full flex items-center space-x-1">
+              <Play className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
+              <span>VIDEO</span>
+            </div>
           </div>
         )}
       </div>
 
       {/* Product Information */}
-      <div className="space-y-2">
-        <h3 className="text-[#B79B76] font-semibold text-xl font-olds truncate">
+      <div className="space-y-1 sm:space-y-2">
+        <h3 className="text-[#B79B76] font-semibold text-lg sm:text-xl font-olds truncate">
           {watch.brand}
         </h3>
-        <p className="text-[#6E6E6E] text-sm leading-relaxed line-clamp-3">
+        <p className="text-[#6E6E6E] text-xs sm:text-sm leading-relaxed line-clamp-3">
           {watch.model || watch.notes || "Luxury timepiece"}
         </p>
 
-        <div className="grid grid-cols-2 gap-4 text-xs text-gray-400" style={{ marginTop: "20px" }}>
+        <div className="grid grid-cols-2 gap-2 sm:gap-4 text-xs text-gray-400" style={{ marginTop: "16px" }}>
           <div>
-            <span className="text-[#BFBFBF] block truncate" style={{ fontWeight: 500, fontSize: "14px" }}>
+            <span className="text-[#BFBFBF] block truncate" style={{ fontWeight: 500, fontSize: "12px" }}>
               Ref No.
             </span>
-            <div className="text-[#BFBFBF] mt-2 truncate" style={{ fontWeight: 500, fontSize: "14px" }}>
+            <div className="text-[#BFBFBF] mt-1 sm:mt-2 truncate" style={{ fontWeight: 500, fontSize: "12px" }}>
               Year
             </div>
           </div>
           <div style={{ textAlign: "right" }}>
-            <span className="text-[#BFBFBF] block truncate" style={{ fontWeight: 500, fontSize: "14px" }}>
+            <span className="text-[#BFBFBF] block truncate" style={{ fontWeight: 500, fontSize: "12px" }}>
               {watch.ref}
             </span>
-            <div className="text-[#BFBFBF] mt-2 truncate" style={{ fontWeight: 500, fontSize: "14px" }}>
+            <div className="text-[#BFBFBF] mt-1 sm:mt-2 truncate" style={{ fontWeight: 500, fontSize: "12px" }}>
               {watch.watch_year || "N/A"}
             </div>
           </div>
         </div>
 
-        <div className="pt-3 pb-2">
-          <span className="text-white md:text-xl lg:text-2xl xl:text-3xl block truncate">
+        <div className="pt-2 sm:pt-3 pb-1 sm:pb-2">
+          <span className="text-white text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-3xl block truncate">
             {watch.currency === "THB" ? "฿" : watch.currency === "USD" ? "$" : "€"}
             {watch.selling_price?.toLocaleString() || "Contact for price"}
           </span>

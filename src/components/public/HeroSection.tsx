@@ -9,82 +9,74 @@ const HeroSection = () => {
   return (
     <section>
       <div className="relative min-h-screen pt-[80px] flex flex-col justify-center items-start text-left overflow-hidden">
-       <div
-  className="absolute inset-0 bg-cover bg-center h-[60vh] md:h-[100vh]"
-  style={{
-    backgroundImage:
-      "linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.5)), url('/cover.png')",
-  }}
-/>
+        {/* Background */}
+        <div
+          className="absolute inset-0 bg-cover bg-center h-full w-full"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.5)), url('/cover.png')",
+          }}
+        />
 
-      </div>
-
-      {/* Content */}
-      <div
-        className="relative z-10 max-w-[90%] mx-auto -mt-[400px] lg:-mt-[250px]"
-        // style={{ marginTop: "-300px" }}
-      >
-        <div className="">
-          {/* Main heading */}
-          <div className="relative w-full h-[100px] sm:h-[300px] md:h-[450px]">
-            <Image
-              src="/title-cover.png"
-              alt="Watch"
-              width={1000}
-              height={500}
-              className="w-full h-auto object-cover"
-            />
-          </div>
-
-          {/* Description */}
-          <p
-            className="whitespace-pre-line mt-20 text-center font-olds text-xl md:text-xl lg:text-3xl text-white/90 font-light leading-relaxed mb-12
-           sm:-mt-[100px] md:mt-[0px] lg:mt-[0px] xl:mt-[0px] 2xl:mt-[120px]"
-            // style={{ marginTop: "120px" }}
-          >
-            {t("HeroSection.description")}
-          </p>
-
-          {/* Features */}
-          <div className="flex flex-wrap items-center justify-center gap-8 mb-12 text-white/80">
-            <div className="flex items-center space-x-2">
-              <div className="w-5 h-5 bg-[#E0D0B9] rounded-full flex items-center justify-center">
-                <Check className="w-3 h-3 text-black" />
-              </div>
-              <span className=" text-xl font-medium tracking-wide">
-                {t("HeroSection.list1")}
-              </span>
+        {/* Content - Left aligned and centered vertically */}
+        <div className="relative z-10 max-w-[90%] mx-auto flex flex-col items-start justify-center min-h-[calc(100vh-80px)] pl-4 md:pl-8 lg:pl-12">
+          <div className="flex flex-col items-start justify-center space-y-8">
+            {/* Main heading */}
+            <div className="relative w-full max-w-4xl h-auto">
+              <Image
+                src="/title-cover.png"
+                alt="Watch"
+                width={1000}
+                height={500}
+                className="w-full h-auto object-contain"
+              />
             </div>
 
-            <div className="flex items-center space-x-2">
-              <div className="w-5 h-5 bg-[#E0D0B9] rounded-full flex items-center justify-center">
-                <Check className="w-3 h-3 text-black" />
+            {/* Description */}
+            <p className="whitespace-pre-line text-left font-olds text-xl md:text-2xl lg:text-3xl text-white/90 font-light leading-relaxed max-w-4xl">
+              {t("HeroSection.description")}
+            </p>
+
+            {/* Features */}
+            <div className="flex flex-wrap items-start justify-start gap-6 md:gap-8 text-white/80">
+              <div className="flex items-center space-x-2">
+                <div className="w-5 h-5 bg-[#E0D0B9] rounded-full flex items-center justify-center">
+                  <Check className="w-3 h-3 text-black" />
+                </div>
+                <span className="text-lg md:text-xl font-medium tracking-wide">
+                  {t("HeroSection.list1")}
+                </span>
               </div>
-              <span className="text-xl font-medium tracking-wide">
-                {t("HeroSection.list2")}
-              </span>
+
+              <div className="flex items-center space-x-2">
+                <div className="w-5 h-5 bg-[#E0D0B9] rounded-full flex items-center justify-center">
+                  <Check className="w-3 h-3 text-black" />
+                </div>
+                <span className="text-lg md:text-xl font-medium tracking-wide">
+                  {t("HeroSection.list2")}
+                </span>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <div className="w-5 h-5 bg-[#E0D0B9] rounded-full flex items-center justify-center">
+                  <Check className="w-3 h-3 text-black" />
+                </div>
+                <span className="text-lg md:text-xl font-medium tracking-wide">
+                  {t("HeroSection.list3")}
+                </span>
+              </div>
             </div>
 
-            <div className="flex items-center space-x-2">
-              <div className="w-5 h-5 bg-[#E0D0B9] rounded-full flex items-center justify-center">
-                <Check className="w-3 h-3 text-black" />
-              </div>
-              <span className="text-xl font-medium tracking-wide">
-                {t("HeroSection.list3")}
-              </span>
+            {/* CTA Button */}
+            <div className="text-left">
+              <a href="#product">
+                <button className="primary-btn">{t("HeroSection.button")}</button>
+              </a>
             </div>
-          </div>
 
-          {/* CTA Button */}
-          <div className="text-center">
-            <a href="#product">
-              <button className="primary-btn">{t("HeroSection.button")}</button>
-            </a>
-          </div>
-
-          <div className="text-center mt-20 flex justify-between flex-col md:flex-row items-center md:items-start ">
-            <div className="flex mt-4" style={{ alignItems: "center" }}>
-              <span>
+            {/* Services */}
+            <div className="flex flex-col md:flex-row items-start justify-start gap-6 md:gap-12 mt-8">
+              <div className="flex items-center space-x-3">
                 <Image
                   src="/icon/icon-time.png"
                   alt="logo"
@@ -92,13 +84,12 @@ const HeroSection = () => {
                   height={20}
                   priority
                 />
-              </span>
-              <span className="ml-4 font-olds text-3xl sm:text-xl">
-                {t("HeroSection.service1")}
-              </span>
-            </div>
-            <div className="flex mt-4" style={{ alignItems: "center" }}>
-              <span>
+                <span className="font-olds text-lg md:text-xl text-white">
+                  {t("HeroSection.service1")}
+                </span>
+              </div>
+              
+              <div className="flex items-center space-x-3">
                 <Image
                   src="/icon/icon-polish.png"
                   alt="logo"
@@ -106,13 +97,12 @@ const HeroSection = () => {
                   height={30}
                   priority
                 />
-              </span>
-              <span className="ml-4 font-olds text-3xl sm:text-xl">
-                {t("HeroSection.service2")}
-              </span>
-            </div>
-            <div className="flex mt-4 " style={{ alignItems: "center" }}>
-              <span>
+                <span className="font-olds text-lg md:text-xl text-white">
+                  {t("HeroSection.service2")}
+                </span>
+              </div>
+              
+              <div className="flex items-center space-x-3">
                 <Image
                   src="/icon/icon-film.png"
                   alt="logo"
@@ -120,10 +110,10 @@ const HeroSection = () => {
                   height={20}
                   priority
                 />
-              </span>
-              <span className="ml-4 font-olds text-3xl sm:text-xl">
-                {t("HeroSection.service3")}
-              </span>
+                <span className="font-olds text-lg md:text-xl text-white">
+                  {t("HeroSection.service3")}
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -131,4 +121,5 @@ const HeroSection = () => {
     </section>
   );
 };
+
 export default HeroSection;

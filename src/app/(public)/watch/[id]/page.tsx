@@ -47,6 +47,27 @@ interface WatchRaw {
   video_url?: string;
 }
 
+// Type guard functions
+const isValidProductType = (type: string | null): type is "New" | "Used" | "Vintage" | "NOS" | null => {
+  return type === null || ["New", "Used", "Vintage", "NOS"].includes(type);
+};
+
+const isValidCurrency = (currency: string | null): currency is "THB" | "USD" | "EUR" => {
+  return currency === "THB" || currency === "USD" || currency === "EUR";
+};
+
+const isValidStatus = (status: string | null): status is "Available" | "Reserved" | "Sold" | "Hidden" => {
+  return status === "Available" || status === "Reserved" || status === "Sold" || status === "Hidden";
+};
+
+const isValidOwnershipType = (type: string | null): type is "stock" | "commission" => {
+  return type === "stock" || type === "commission";
+};
+
+const isValidProfitStatus = (status: string | null): status is "commission" | "positive" | "negative" | "break_even" | "unknown" | null => {
+  return status === null || ["commission", "positive", "negative", "break_even", "unknown"].includes(status);
+};
+
 interface WatchCardProps {
   watch: Watch;
 }
@@ -266,7 +287,7 @@ const WatchDetailPage: React.FC = () => {
 
           const combinedMedia: WatchMedia[] = [...newMedia, ...legacyMedia];
 
-          // Return ในรูปแบบ Watch ที่คุณ define ไว้
+          // Return ในรูปแบบ Watch ที่คุณ define ไว้ - with proper type validation
           return {
             id: watchRaw.id,
             ref: watchRaw.ref || "",
@@ -274,14 +295,14 @@ const WatchDetailPage: React.FC = () => {
             model: watchRaw.model,
             watch_year: watchRaw.watch_year,
             serial_no: watchRaw.serial_no,
-            product_type: watchRaw.product_type,
+            product_type: isValidProductType(watchRaw.product_type) ? watchRaw.product_type : null,
             set_type: watchRaw.set_type,
             size_mm: watchRaw.size_mm,
             material: watchRaw.material,
             cost_price: watchRaw.cost_price,
             selling_price: watchRaw.selling_price,
-            currency: watchRaw.currency || "THB",
-            status: watchRaw.status || "Available",
+            currency: isValidCurrency(watchRaw.currency) ? watchRaw.currency : "THB",
+            status: isValidStatus(watchRaw.status) ? watchRaw.status : "Available",
             is_public: watchRaw.is_public || false,
             notes: watchRaw.notes,
             supplier_id: watchRaw.supplier_id,
@@ -289,14 +310,14 @@ const WatchDetailPage: React.FC = () => {
             updated_at: watchRaw.updated_at || "",
             view_count: watchRaw.view_count || 0,
             media: combinedMedia,
-            ownership_type: watchRaw.ownership_type || "stock",
+            ownership_type: isValidOwnershipType(watchRaw.ownership_type) ? watchRaw.ownership_type : "stock",
             commission_rate: watchRaw.commission_rate,
             commission_amount: watchRaw.commission_amount,
             owner_name: watchRaw.owner_name,
             owner_contact: watchRaw.owner_contact,
             profit: watchRaw.profit || 0,
             margin_percent: watchRaw.margin_percent || 0,
-            profit_status: watchRaw.profit_status || "unknown",
+            profit_status: isValidProfitStatus(watchRaw.profit_status) ? watchRaw.profit_status || "unknown" : "unknown",
           };
         };
 
